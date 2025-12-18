@@ -25,7 +25,6 @@ function Search() {
   );
 }
 
-
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,7 +55,7 @@ function Navigation() {
           />
 
           <div className="hidden self-center px-5 py-1 rounded-[45px] w-25 h-8.5 outline-2 -outline-offset-2 outline-Grey-2 hover:text-white hover:bg-black hover:cursor-pointer transform ease-in duration-150 lg:inline-flex justify-center items-center gap-2.5">
-            <div className="text-center justify-center text-Grey-2 text-base font-medium leading-5">Home</div>
+            <div className="text-center justify-center text-base font-medium leading-5">Home</div>
           </div>
           <div className="hidden self-center px-5 py-1 rounded-[45px] w-25 h-8.5 outline-2 -outline-offset-2 outline-Grey-2 hover:text-white hover:bg-black hover:cursor-pointer transform ease-in duration-150 lg:inline-flex justify-center items-center gap-2.5">
             <div className="text-center justify-center text-Grey-2 text-base font-medium leading-5">Products</div>
@@ -116,10 +115,31 @@ function Navigation() {
   );
 }
 
+function HeroSection() {
+  return (
+    <>
+    <div className="lg:bg-[url(/homepage/background.png)]">
+      <div className="self-stretch h-50 lg:h-[90vh] items-center flex justify-center bg-white opacity-90">
+        <div className="p-3 inline-flex flex-col justify-start items-center gap-2.5">
+            <div className="self-stretch flex flex-col justify-start items-center gap-0.75 md:gap-3">
+              <div className="self-stretch text-center justify-start text-xl md:text-3xl lg:text-5xl font-bold leading-5">Reviews That Actually Tell You the Truth</div>
+              <div className="w-56 text-center justify-start text-[6px] md:text-[15px] md:w-full md:px-2 lg:text-[25px] lg:w-[72%]">Explore genuine, verified, long-term opinions from users who share how their device performed over time - from durability and battery life to software stability.</div>
+            </div>
+            <div className="px-2.5 py-1.5 rounded inline-flex justify-center items-center gap-[2.50px]">
+              <div className="bg-black rounded-sm text-white text-xs md:text-lg md:p-2.5 font-bold p-2">Browse Products</div>
+            </div>
+        </div>
+      </div>
+    </div>
+    </>
+  )
+}
+
 function Homepage() {
   return (
     <>
       <Navigation />
+      <HeroSection />
     </>
   );
 }
