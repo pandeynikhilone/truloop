@@ -142,35 +142,37 @@ function HeroSection() {
 
 function OurRole() {
   return (
-    <div className="flex justify-center flex-col gap-5 lg:h-80 mb-15 mt-4">
-      <div class="text-center justify-start text-2xl md:text-3xl lg:text-5xl font-bold">
+    <div className="flex justify-center flex-col gap-16 my-15">
+      <div className="text-center justify-start text-2xl md:text-3xl lg:text-5xl font-bold">
         How It Works
       </div>
 
+      {/* Fututure Update: Foreach loop have to be implemented! */}
+
       <div className="md:grid md:grid-cols-2 md:gap-0 place-items-center gap-6 flex flex-col-reverse">
         {/* Text */}
-        <div class="w-80 flex flex-col justify-start items-start gap-4 px-4.5">
-          <div class="flex flex-col justify-start items-start gap-1.5">
-            <div class="px-2 py-1 bg-black text-white rounded-sm text-xs md:text-sm lg:text-lg font-bold">
+        <div className="flex flex-col justify-start items-start gap-4 px-4.5">
+          <div className="flex flex-col justify-start items-start gap-1.5">
+            <div className="px-2 py-1 bg-black text-white rounded-sm text-xs md:text-sm lg:text-lg font-bold">
               Submit
             </div>
-            <div class="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px] whitespace-nowrap">
+            <div className="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px] whitespace-nowrap">
               Add your genuine review with proof - authenticated instantly.
             </div>
           </div>
-          <div class="flex flex-col justify-start items-start gap-1.5">
-            <div class="px-2 py-1 bg-black text-white rounded-sm text-xs md:text-sm lg:text-lg font-bold">
-              Submit
+          <div className="flex flex-col justify-start items-start gap-1.5">
+            <div className="px-2 py-1 bg-black text-white rounded-sm text-xs md:text-sm lg:text-lg font-bold">
+              Earn
             </div>
-            <div class="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px] whitespace-nowrap">
+            <div className="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px] whitespace-nowrap">
               Add your genuine review with proof - authenticated instantly.
             </div>
           </div>
-          <div class="flex flex-col justify-start items-start gap-1.5">
-            <div class="px-2 py-1 bg-black text-white rounded-sm text-xs md:text-sm lg:text-lg font-bold">
-              Submit
+          <div className="flex flex-col justify-start items-start gap-1.5">
+            <div className="px-2 py-1 bg-black text-white rounded-sm text-xs md:text-sm lg:text-lg font-bold">
+              Update
             </div>
-            <div class="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px] whitespace-nowrap">
+            <div className="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px] whitespace-nowrap">
               Add your genuine review with proof - authenticated instantly.
             </div>
           </div>
@@ -182,6 +184,7 @@ function OurRole() {
     </div>
   );
 }
+
 function Homepage() {
   return (
     <>
