@@ -5,7 +5,7 @@ import React, { useState } from "react";
 function Search() {
   return (
     <div className="flex justify-center w-full">
-      <div className="w-[90%] h-9 px-4 rounded-[60px] outline-1 outline-Grey-2 flex items-center gap-2">
+      <div className="w-[90%] lg:w-full h-9 px-4 rounded-[60px] outline-1 outline-Grey-2 flex items-center gap-2">
         {/* Input field */}
         <input
           type="text"
@@ -100,8 +100,16 @@ function Navigation() {
 >
   
   <div className="flex flex-col gap-15">
-    <div>
-      <button
+    <div className="flex items-center justify-between">
+      <div>
+        <img
+            src="/homepage/truloop_icon.svg"
+            className="w-13 aspect-square md:w-14 md:h-14 self-center"
+            alt="truloop"
+          />
+      </div>
+      <div>
+        <button
         className="lg:hidden flex w-full justify-end"
         onClick={toggleMenu}
       >
@@ -111,6 +119,7 @@ function Navigation() {
           className="w-6 h-6 md:w-9 md:h-9"
         />
       </button>
+      </div>
     </div>
 
     <div className="flex flex-col gap-6">
@@ -146,7 +155,7 @@ function Navigation() {
 function HeroSection() {
   return (
     <>
-      <div className="flex justify-center">{<Search />}</div>
+      <div className="flex justify-center lg:hidden">{<Search />}</div>
       <div className="lg:bg-[url(/homepage/background.png)]">
         <div className="self-stretch mt-4 h-45 md:h-100 lg:h-[90vh] items-center flex justify-center bg-white opacity-90">
           <div className="p-3 inline-flex flex-col justify-start items-center gap-2.5">
