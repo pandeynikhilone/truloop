@@ -4,8 +4,8 @@ import React, { useState } from "react";
 
 function Search() {
   return (
-    <div className="text-center">
-      <div className="w-60 h-9 px-4 rounded-[60px] outline-1 outline-Grey-2 flex items-center gap-2">
+    <div className="flex justify-center w-full">
+      <div className="w-[90%] h-9 px-4 rounded-[60px] outline-1 outline-Grey-2 flex items-center gap-2">
         {/* Input field */}
         <input
           type="text"
@@ -38,7 +38,7 @@ function Navigation() {
         <div className="flex gap-8 items-center">
           <button className="lg:hidden" onClick={toggleMenu}>
             <img
-              src={isOpen ? "/homepage/close_ring.svg" : "/homepage/menu.svg"}
+              src={"/homepage/menu.svg"}
               alt="Menu toggle"
               className="w-6 h-6 md:w-9 md:h-9"
             />
@@ -85,28 +85,59 @@ function Navigation() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="mt-4 flex flex-col gap-3 font-medium">
-          <div className="flex justify-center">{<Search />}</div>
-          <button
-            className="rounded-[2.8125rem] w-50 self-center border-2 border-[#1A1A1A] px-5 py-1.5"
-            onClick={() => setIsOpen(false)}
-          >
-            Home
-          </button>
+        <div
+  className={`
+    fixed top-0 left-0
+    max-w-75 h-[80vh] p-[30px] gap-6
+    rounded-tr-[1.5rem] rounded-br-[1.5rem]
+    bg-white shadow-[-2px_0_16px_0_#CCC]
+    z-50 mt-4
+    flex flex-col font-medium
 
-          <button
-            className="rounded-[2.8125rem] w-50 self-center border-2 border-[#1A1A1A] px-5 py-1.5"
-            onClick={() => setIsOpen(false)}
-          >
-            Products
-          </button>
-          <button
-            className="rounded-[2.8125rem] w-50 self-center border-2 border-[#1A1A1A] px-5 py-1.5"
-            onClick={() => setIsOpen(false)}
-          >
-            Profile
-          </button>
-        </div>
+    transform transition-transform duration-500 ease-in-out
+    ${isOpen ? "translate-x-0" : "-translate-x-full"}
+  `}
+>
+  
+  <div className="flex flex-col gap-15">
+    <div>
+      <button
+        className="lg:hidden flex w-full justify-end"
+        onClick={toggleMenu}
+      >
+        <img
+          src={"/homepage/close_ring.svg"}
+          alt="Menu toggle"
+          className="w-6 h-6 md:w-9 md:h-9"
+        />
+      </button>
+    </div>
+
+    <div className="flex flex-col gap-6">
+      <button
+        className="rounded-[2.8125rem] w-50 self-center border-2 border-[#1A1A1A] px-5 py-1.5"
+        onClick={() => setIsOpen(false)}
+      >
+        Home
+      </button>
+
+      <button
+        className="rounded-[2.8125rem] w-50 self-center border-2 border-[#1A1A1A] px-5 py-1.5"
+        onClick={() => setIsOpen(false)}
+      >
+        Products
+      </button>
+
+      <button
+        className="rounded-[2.8125rem] w-50 self-center border-2 border-[#1A1A1A] px-5 py-1.5"
+        onClick={() => setIsOpen(false)}
+      >
+        Profile
+      </button>
+    </div>
+  </div>
+</div>
+
       )}
     </nav>
   );
@@ -115,8 +146,9 @@ function Navigation() {
 function HeroSection() {
   return (
     <>
+      <div className="flex justify-center">{<Search />}</div>
       <div className="lg:bg-[url(/homepage/background.png)]">
-        <div className="self-stretch h-50 md:h-100 lg:h-[90vh] items-center flex justify-center bg-white opacity-90">
+        <div className="self-stretch mt-4 h-45 md:h-100 lg:h-[90vh] items-center flex justify-center bg-white opacity-90">
           <div className="p-3 inline-flex flex-col justify-start items-center gap-2.5">
             <div className="self-stretch flex flex-col justify-start items-center gap-0.75 md:gap-3">
               <div className="self-stretch text-center justify-start text-xl md:text-3xl lg:text-5xl font-bold leading-5">
@@ -216,89 +248,14 @@ const products = [
   },
 ];
 
-function ProductCard({ product }) {
-  return (
-    <div>
-      <div className="w-72 inline-flex flex-col justify-start items-start gap-6">
-        <div className="self-stretch h-96 px-6 py-4 bg-Grey-11 rounded-3xl shadow-[1px_1px_10px_0px_rgba(204,204,204,1.00)] outline outline-4 outline-offset-[-3.50px] outline-Grey-2 flex flex-col justify-center items-center gap-4 overflow-hidden">
-          
-          <div className="flex flex-col justify-start items-center gap-4">
-            <img
-              className="w-64 h-64 rounded-[5px]"
-              src={product.image}
-              alt={product.name}
-            />
-
-            <div className="flex flex-col justify-start items-start gap-2">
-              <div className="w-60 text-Grey-2 text-base font-medium leading-5">
-                {product.name}
-              </div>
-
-              <div className="w-60 inline-flex justify-between items-center">
-                <div className="flex items-center gap-1">
-                  <div className="text-Grey-2 text-lg font-bold leading-8">
-                    {product.price}
-                  </div>
-                </div>
-
-                {/* Rating */}
-                <div className="flex">
-                  {[...Array(product.rating)].map((_, i) => (
-                    <div key={i} className="w-5 h-5 relative">
-                      <div className="w-3.5 h-3.5 absolute left-[2.81px] top-[3.07px] bg-Grey-2 outline outline-1 outline-offset-[-0.50px] outline-Grey-2" />
-                    </div>
-                  ))}
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Button */}
-        <div className="w-72 pl-8 pr-9 py-2.5 bg-Grey-2 rounded-[50px] outline outline-[3px] outline-offset-[-3px] outline-Grey-2 inline-flex justify-center items-center gap-2">
-          <div className="w-4 h-4 bg-Grey-11" />
-          <div className="text-Grey-11 text-base font-medium leading-5">
-            View Reviews
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function FeaturedProducts() {
-  return (
-    <section className="flex flex-col items-center gap-16 my-16 w-full">
-      
-      {/* Heading */}
-      <div className="text-center text-2xl md:text-3xl lg:text-5xl font-bold">
-        Featured Products
-      </div>
-
-      {/* Cards Wrapper (THIS WAS MISSING) */}
-      <div className="flex flex-wrap justify-center gap-10">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-          />
-        ))}
-      </div>
-
-    </section>
-  );
-}
-
-
 function Homepage() {
   return (
-    <>
+    <div className="relative z-0">
       <Navigation />
       <HeroSection />
       <OurRole />
-      <FeaturedProducts />
-    </>
+      {/* <FeaturedProducts /> */}
+    </div>
   );
 }
 
