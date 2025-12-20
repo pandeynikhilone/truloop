@@ -86,9 +86,9 @@ function Navigation() {
       {/* Mobile Menu */}
       {isOpen && (
         <div
-  className={`
+          className={`
     fixed top-0 left-0
-    max-w-75 h-[80vh] p-[30px] gap-6
+    max-w-75 h-[90vh] p-[30px] gap-6
     rounded-tr-[1.5rem] rounded-br-[1.5rem]
     bg-white shadow-[-2px_0_16px_0_#CCC]
     z-50 mt-4
@@ -97,56 +97,54 @@ function Navigation() {
     transform transition-transform duration-500 ease-in-out
     ${isOpen ? "translate-x-0" : "-translate-x-full"}
   `}
->
-  
-  <div className="flex flex-col gap-15">
-    <div className="flex items-center justify-between">
-      <div>
-        <img
-            src="/homepage/truloop_icon.svg"
-            className="w-13 aspect-square md:w-14 md:h-14 self-center"
-            alt="truloop"
-          />
-      </div>
-      <div>
-        <button
-        className="lg:hidden flex w-full justify-end"
-        onClick={toggleMenu}
-      >
-        <img
-          src={"/homepage/close_ring.svg"}
-          alt="Menu toggle"
-          className="w-6 h-6 md:w-9 md:h-9"
-        />
-      </button>
-      </div>
-    </div>
+        >
+          <div className="flex flex-col gap-15">
+            <div className="flex items-center justify-between">
+              <div>
+                <img
+                  src="/homepage/truloop_icon.svg"
+                  className="w-13 aspect-square md:w-14 md:h-14 self-center"
+                  alt="truloop"
+                />
+              </div>
+              <div>
+                <button
+                  className="lg:hidden flex w-full justify-end"
+                  onClick={toggleMenu}
+                >
+                  <img
+                    src={"/homepage/close_ring.svg"}
+                    alt="Menu toggle"
+                    className="w-9 h-9 md:w-9 md:h-9"
+                  />
+                </button>
+              </div>
+            </div>
 
-    <div className="flex flex-col gap-6">
-      <button
-        className="rounded-[2.8125rem] w-50 self-center border-2 border-[#1A1A1A] px-5 py-1.5"
-        onClick={() => setIsOpen(false)}
-      >
-        Home
-      </button>
+            <div className="flex flex-col gap-6">
+              <button
+                className="px-10 w-full py-4 outline outline-[0.60px] outline-Grey-10 inline-flex justify-start items-center gap-2.5"
+                onClick={() => setIsOpen(false)}
+              >
+                Home
+              </button>
 
-      <button
-        className="rounded-[2.8125rem] w-50 self-center border-2 border-[#1A1A1A] px-5 py-1.5"
-        onClick={() => setIsOpen(false)}
-      >
-        Products
-      </button>
+              <button
+                className="px-10 py-4 outline outline-[0.60px] outline-Grey-10 inline-flex justify-start items-center gap-2.5"
+                onClick={() => setIsOpen(false)}
+              >
+                Products
+              </button>
 
-      <button
-        className="rounded-[2.8125rem] w-50 self-center border-2 border-[#1A1A1A] px-5 py-1.5"
-        onClick={() => setIsOpen(false)}
-      >
-        Profile
-      </button>
-    </div>
-  </div>
-</div>
-
+              <button
+                className="px-10 py-4 outline outline-[0.60px] outline-Grey-10 inline-flex justify-start items-center gap-2.5"
+                onClick={() => setIsOpen(false)}
+              >
+                Profile
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </nav>
   );
@@ -159,11 +157,11 @@ function HeroSection() {
       <div className="lg:bg-[url(/homepage/background.png)]">
         <div className="self-stretch mt-4 h-45 md:h-100 lg:h-[90vh] items-center flex justify-center bg-white opacity-90">
           <div className="p-3 inline-flex flex-col justify-start items-center gap-2.5">
-            <div className="self-stretch flex flex-col justify-start items-center gap-0.75 md:gap-3">
-              <div className="self-stretch text-center justify-start text-xl md:text-3xl lg:text-5xl font-bold leading-5">
+            <div className="self-stretch flex flex-col justify-start items-center gap-2 md:gap-3">
+              <div className="w-[250px] md:w-full text-center justify-start text-xl md:text-3xl lg:text-5xl font-bold leading-5">
                 Reviews That Actually Tell You the Truth
               </div>
-              <div className="w-56 text-center justify-start text-[6px] md:text-[15px] md:w-full md:px-2 lg:text-[25px] lg:w-[72%]">
+              <div className="w-[90%] text-center justify-start text-[12px] md:text-[15px] md:w-full md:px-2 lg:text-[25px] lg:w-[72%]">
                 Explore genuine, verified, long-term opinions from users who
                 share how their device performed over time - from durability and
                 battery life to software stability.
@@ -192,7 +190,7 @@ function OurRole() {
 
       <div className="md:grid md:grid-cols-2 md:gap-0 place-items-center gap-6 flex flex-col-reverse">
         {/* Text */}
-        <div className="flex flex-col justify-start items-start gap-4 px-4.5">
+        <div className="flex flex-col justify-start items-start gap-4 px-2">
           <div className="flex flex-col justify-start items-start gap-1.5">
             <div className="px-2 py-1 bg-black text-white rounded-sm text-xs md:text-sm lg:text-lg font-bold">
               Submit
@@ -220,7 +218,7 @@ function OurRole() {
         </div>
 
         {/* Image */}
-        <img class="h-60 rounded-[34px] px-4.5" src="/homepage/img.jpg" />
+        <img class="h-53 w-80 block rounded-2xl lg:w-[38.125rem] lg:h-[17.5rem] px-4.5" src="/homepage/img.svg" />
       </div>
     </div>
   );
@@ -231,31 +229,149 @@ const products = [
     id: 1,
     name: "Xiaomi Redmi Note 15",
     price: "20,000",
-    image: "https://placehold.co/250x250",
+    image: "/homepage/rectangle.svg",
     rating: 5,
   },
   {
     id: 2,
     name: "Xiaomi Redmi Note 14",
     price: "18,500",
-    image: "https://placehold.co/250x250",
+    image: "/homepage/rectangle.svg",
     rating: 4,
   },
   {
     id: 3,
     name: "Xiaomi Redmi Note 13",
     price: "16,999",
-    image: "https://placehold.co/250x250",
+    image: "/homepage/rectangle.svg",
     rating: 4,
   },
   {
     id: 4,
     name: "Xiaomi Redmi Note 12",
     price: "14,999",
-    image: "https://placehold.co/250x250",
+    image: "/homepage/rectangle.svg",
     rating: 3,
   },
 ];
+
+function ProductCard({ product }) {
+  return (
+    <div className="flex flex-col items-center border-3 p-2 rounded-2xl">
+      <div className="h-[200px] lg:w-[250px] lg:h-[325px] flex flex-col justify-center items-center">
+        <div>
+          <img
+            className="aspect-square w-[130px] lg:w-[210px]"
+            src={product.image}
+            alt={product.name}
+          />
+        </div>
+
+        <div className="whitespace-nowrap text-sm lg:text-lg">
+          <div>{product.name}</div>
+          <div className="flex justify-between">
+            <div>{product.price}</div>
+            <div className="self-center">
+              <img src="/homepage/icon/star_light.svg" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex w-[80%] bg-black rounded-[9px] md:mb-3 lg:mb-4.5 hover:bg-white border-2">
+        <span className="text-white text-sm w-full text-center lg:text-lg p-1 hover:text-black hover:cursor-pointer">
+          view product
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function FeaturedProducts() {
+  return (
+    <div className="my-10 md:px-10 flex flex-col gap-8">
+      <div className="flex w-full text-center justify-center mb-4 text-2xl md:text-3xl lg:text-5xl font-bold">
+        Featured Products
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 w-fit mx-auto gap-1.5 gap-y-4 lg:gap-6">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TrustUs() {
+  return (
+    <div className="flex justify-center flex-col gap-12 mb-8 lg:my-15 w-full">
+      <div className="text-center justify-start text-2xl md:text-3xl lg:text-5xl font-bold">
+        Why Trust Us
+      </div>
+
+      {/* Fututure Update: Foreach loop have to be implemented! using array*/}
+
+      <div className="md:grid md:grid-cols-2 md:gap-0 place-items-center mx-auto gap-6 flex flex-col-reverse">
+        {/* Text */}
+        <div className="w-[80%] flex flex-col gap-8">
+          <div className="text-left md:text-left text-[12px]">
+            Our platform is built for transparency and honesty. Every review is
+            verified, updated over time, and shared by people who have genuinely
+            purchased and used the product, ensuring reliable and meaningful
+            information.
+          </div>
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-2">
+              <img src="/homepage/icon/check_ring.png" alt="" />
+              <span>Long-Term Usage Insights</span>
+            </div>
+            <div className="flex gap-2">
+              <img src="/homepage/icon/check_ring.png" alt="" />
+              <span>Long-Term Usage Insights</span>
+            </div>
+            <div className="flex gap-2">
+              <img src="/homepage/icon/check_ring.png" alt="" />
+              <span>Long-Term Usage Insights</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Image */}
+        <img
+          class="h-53 w-80 block rounded-2xl lg:w-[38.125rem] lg:h-[17.5rem]"
+          src="/homepage/trust.svg"
+        />
+      </div>
+    </div>
+  );
+}
+
+function Footer() {
+  return (
+    <div className="w-[320px] mx-auto md:w-full lg:w-full py-4 md:px-20">
+      <div className="flex items-center justify-between">
+        <div>
+          <img
+            src="/homepage/truloop_icon.svg"
+            className="w-8 h-8 md:w-14 md:h-14 self-center"
+            alt="truloop"
+          />
+        </div>
+        <div className="gap-4 flex">
+          <span className="hover:cursor-pointer">Home</span>
+          <span className="hover:cursor-pointer">Terms</span>
+          <span className="hover:cursor-pointer">Socials</span>
+        </div>
+        <div className="flex gap-1 md:gap-3">
+          <img className="w-4 md:w-[2.02681rem] md:h-[2.02681rem]" src="/homepage/icon/insta.svg" alt="" />
+          <img className="w-4 md:w-[2.02681rem] md:h-[2.02681rem]" src="/homepage/icon/insta.svg" alt="" />
+          <img className="w-4 md:w-[2.02681rem] md:h-[2.02681rem]" src="/homepage/icon/insta.svg" alt="" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function Homepage() {
   return (
@@ -263,7 +379,9 @@ function Homepage() {
       <Navigation />
       <HeroSection />
       <OurRole />
-      {/* <FeaturedProducts /> */}
+      <FeaturedProducts />
+      <TrustUs />
+      <Footer />
     </div>
   );
 }
