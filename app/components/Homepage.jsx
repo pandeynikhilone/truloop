@@ -35,17 +35,17 @@ function Navigation() {
     <nav className="max-w-full px-4 py-3 md:px-6 md:py-6 lg:py-2 justify-between items-center">
       <div className="flex items-center w-full justify-between">
         {/* Left side of navigation */}
-        <div className="flex gap-8 items-center">
+        <div className="flex gap-3 items-center">
           <button className="lg:hidden" onClick={toggleMenu}>
             <img
               src={"/homepage/menu.svg"}
               alt="Menu toggle"
-              className="w-6 h-6 md:w-9 md:h-9"
+              className="w-9 aspect-square md:w-9 md:h-9"
             />
           </button>
           <img
             src="/homepage/truloop_icon.svg"
-            className="w-8 h-8 md:w-14 md:h-14 self-center"
+            className="w-12 aspect-square md:w-14 md:h-14 self-center"
             alt="truloop"
           />
 
@@ -85,25 +85,13 @@ function Navigation() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div
-          className={`
-    fixed top-0 left-0
-    max-w-75 h-[90vh] p-[30px] gap-6
-    rounded-tr-[1.5rem] rounded-br-[1.5rem]
-    bg-white shadow-[-2px_0_16px_0_#CCC]
-    z-50 mt-4
-    flex flex-col font-medium
-
-    transform transition-transform duration-500 ease-in-out
-    ${isOpen ? "translate-x-0" : "-translate-x-full"}
-  `}
-        >
+        <div className={`fixed top-0 left-0 max-w-75 h-[90vh] w-[250px]  gap-6 rounded-tr-[1.5rem] rounded-br-[1.5rem] bg-white shadow-[-2px_0_16px_0_#CCC] z-50 mt-4 flex flex-col font-medium transform transition-transform duration-500 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"} `}>
           <div className="flex flex-col gap-15">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-3">
               <div>
                 <img
                   src="/homepage/truloop_icon.svg"
-                  className="w-13 aspect-square md:w-14 md:h-14 self-center"
+                  className="w-13 mt-2 aspect-square md:w-14 md:h-14 self-center"
                   alt="truloop"
                 />
               </div>
@@ -122,26 +110,30 @@ function Navigation() {
             </div>
 
             <div className="flex flex-col gap-6">
+              <hr className="inline-block opacity-30" />
               <button
-                className="px-10 w-full py-4 outline outline-[0.60px] outline-Grey-10 inline-flex justify-start items-center gap-2.5"
+                className="px-10 w-full inline-flex justify-start items-center gap-2.5"
                 onClick={() => setIsOpen(false)}
               >
                 Home
               </button>
 
+              <hr className="inline-block opacity-30" />
               <button
-                className="px-10 py-4 outline outline-[0.60px] outline-Grey-10 inline-flex justify-start items-center gap-2.5"
+                className="px-10 inline-flex justify-start items-center gap-2.5"
                 onClick={() => setIsOpen(false)}
               >
                 Products
               </button>
 
+              <hr className="inline-block opacity-30" />
               <button
-                className="px-10 py-4 outline outline-[0.60px] outline-Grey-10 inline-flex justify-start items-center gap-2.5"
+                className="px-10 inline-flex justify-start items-center gap-2.5"
                 onClick={() => setIsOpen(false)}
               >
                 Profile
               </button>
+              <hr className="inline-block opacity-30" />
             </div>
           </div>
         </div>
@@ -154,21 +146,21 @@ function HeroSection() {
   return (
     <>
       <div className="flex justify-center lg:hidden">{<Search />}</div>
-      <div className="lg:bg-[url(/homepage/background.png)]">
-        <div className="self-stretch mt-4 h-45 md:h-100 lg:h-[90vh] items-center flex justify-center bg-white opacity-90">
+      <div className="lg:bg-[url(/homepage/background.png)] my-4">
+        <div className="self-stretch h-45 md:h-100 lg:h-[90vh] items-center flex justify-center bg-white opacity-90">
           <div className="p-3 inline-flex flex-col justify-start items-center gap-2.5">
             <div className="self-stretch flex flex-col justify-start items-center gap-2 md:gap-3">
-              <div className="w-[250px] md:w-full text-center justify-start text-xl md:text-3xl lg:text-5xl font-bold leading-5">
+              <div className="w-[92%] md:w-full text-center justify-start leading-6 text-[24px] md:text-3xl lg:text-[50px] font-bold">
                 Reviews That Actually Tell You the Truth
               </div>
-              <div className="w-[90%] text-center justify-start text-[12px] md:text-[15px] md:w-full md:px-2 lg:text-[25px] lg:w-[72%]">
+              <div className="w-[88%] mx-auto text-center justify-start text-[12px] md:text-[15px]  md:px-2 lg:text-[25px] lg:w-[62%]">
                 Explore genuine, verified, long-term opinions from users who
                 share how their device performed over time - from durability and
                 battery life to software stability.
               </div>
             </div>
             <div className="px-2.5 py-1.5 rounded inline-flex justify-center items-center gap-[2.50px]">
-              <button className="bg-black rounded-sm text-white text-xs md:text-lg md:p-2.5 font-bold p-2 hover:cursor-pointer hover:bg-white hover:text-black border-2">
+              <button className="bg-black rounded-md text-white text-sm md:text-lg md:p-2.5 font-bold p-2 px-4 hover:cursor-pointer hover:bg-white hover:text-black border-2">
                 Browse Products
               </button>
             </div>
@@ -181,7 +173,7 @@ function HeroSection() {
 
 function OurRole() {
   return (
-    <div className="flex justify-center flex-col gap-12 mb-8 lg:my-15">
+    <div className="flex justify-center flex-col gap-4 lg:my-15">
       <div className="text-center justify-start text-2xl md:text-3xl lg:text-5xl font-bold">
         How It Works
       </div>
@@ -218,7 +210,10 @@ function OurRole() {
         </div>
 
         {/* Image */}
-        <img class="h-53 w-80 block rounded-2xl lg:w-[38.125rem] lg:h-[17.5rem] px-4.5" src="/homepage/img.svg" />
+        <img
+          class="h-53 w-80 block rounded-2xl lg:w-[38.125rem] lg:h-[17.5rem]"
+          src="/homepage/img.svg"
+        />
       </div>
     </div>
   );
@@ -257,28 +252,29 @@ const products = [
 
 function ProductCard({ product }) {
   return (
-    <div className="flex flex-col items-center border-3 p-2 rounded-2xl">
-      <div className="h-[200px] lg:w-[250px] lg:h-[325px] flex flex-col justify-center items-center">
-        <div>
-          <img
-            className="aspect-square w-[130px] lg:w-[210px]"
-            src={product.image}
-            alt={product.name}
-          />
-        </div>
+    <div>
+      <div className="flex flex-col items-center border-3 p-2 rounded-2xl">
+        <div className="h-[180px] lg:w-[250px] lg:h-[325px] flex flex-col justify-center items-center mb-2">
+          <div>
+            <img
+              className="aspect-square w-[130px] lg:w-[210px]"
+              src={product.image}
+              alt={product.name}
+            />
+          </div>
 
-        <div className="whitespace-nowrap text-sm lg:text-lg">
-          <div>{product.name}</div>
-          <div className="flex justify-between">
-            <div>{product.price}</div>
-            <div className="self-center">
-              <img src="/homepage/icon/star_light.svg" alt="" />
+          <div className="whitespace-nowrap text-sm lg:text-lg">
+            <div>{product.name}</div>
+            <div className="flex justify-between">
+              <div>{product.price}</div>
+              <div className="self-center">
+                <img src="/homepage/icon/star_light.svg" alt="" />
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div className="flex w-[80%] bg-black rounded-[9px] md:mb-3 lg:mb-4.5 hover:bg-white border-2">
+      <div className="flex w-[80%] mx-auto bg-black rounded-[9px] hover:bg-white mt-2 border-2">
         <span className="text-white text-sm w-full text-center lg:text-lg p-1 hover:text-black hover:cursor-pointer">
           view product
         </span>
@@ -290,7 +286,7 @@ function ProductCard({ product }) {
 function FeaturedProducts() {
   return (
     <div className="my-10 md:px-10 flex flex-col gap-8">
-      <div className="flex w-full text-center justify-center mb-4 text-2xl md:text-3xl lg:text-5xl font-bold">
+      <div className="flex w-full text-center justify-center text-2xl md:text-3xl lg:text-5xl font-bold">
         Featured Products
       </div>
 
@@ -305,7 +301,7 @@ function FeaturedProducts() {
 
 function TrustUs() {
   return (
-    <div className="flex justify-center flex-col gap-12 mb-8 lg:my-15 w-full">
+    <div className="flex justify-center flex-col gap-12 lg:my-15 w-full">
       <div className="text-center justify-start text-2xl md:text-3xl lg:text-5xl font-bold">
         Why Trust Us
       </div>
@@ -315,22 +311,22 @@ function TrustUs() {
       <div className="md:grid md:grid-cols-2 md:gap-0 place-items-center mx-auto gap-6 flex flex-col-reverse">
         {/* Text */}
         <div className="w-[80%] flex flex-col gap-8">
-          <div className="text-left md:text-left text-[12px]">
+          <div className="text-[13px] md:text-[15px] lg:text-[20px]">
             Our platform is built for transparency and honesty. Every review is
             verified, updated over time, and shared by people who have genuinely
             purchased and used the product, ensuring reliable and meaningful
             information.
           </div>
-          <div className="flex flex-col gap-4">
-            <div className="flex gap-2">
+          <div className="flex flex-col gap-4 text-[13px] md:text-[15px]  md:px-2 lg:text-[20px]">
+            <div className="flex gap-2 items-center">
               <img src="/homepage/icon/check_ring.png" alt="" />
               <span>Long-Term Usage Insights</span>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <img src="/homepage/icon/check_ring.png" alt="" />
               <span>Long-Term Usage Insights</span>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <img src="/homepage/icon/check_ring.png" alt="" />
               <span>Long-Term Usage Insights</span>
             </div>
@@ -354,19 +350,31 @@ function Footer() {
         <div>
           <img
             src="/homepage/truloop_icon.svg"
-            className="w-8 h-8 md:w-14 md:h-14 self-center"
+            className="w-9 aspect-square md:w-14 md:h-14 self-center"
             alt="truloop"
           />
         </div>
-        <div className="gap-4 flex">
+        <div className="gap-2 flex text-[12px] md:text-[14px] lg:text-lg">
           <span className="hover:cursor-pointer">Home</span>
           <span className="hover:cursor-pointer">Terms</span>
           <span className="hover:cursor-pointer">Socials</span>
         </div>
         <div className="flex gap-1 md:gap-3">
-          <img className="w-4 md:w-[2.02681rem] md:h-[2.02681rem]" src="/homepage/icon/insta.svg" alt="" />
-          <img className="w-4 md:w-[2.02681rem] md:h-[2.02681rem]" src="/homepage/icon/insta.svg" alt="" />
-          <img className="w-4 md:w-[2.02681rem] md:h-[2.02681rem]" src="/homepage/icon/insta.svg" alt="" />
+          <img
+            className="w-4 md:w-[2.02681rem] md:h-[2.02681rem]"
+            src="/homepage/icon/insta.svg"
+            alt=""
+          />
+          <img
+            className="w-4 md:w-[2.02681rem] md:h-[2.02681rem]"
+            src="/homepage/icon/insta.svg"
+            alt=""
+          />
+          <img
+            className="w-4 md:w-[2.02681rem] md:h-[2.02681rem]"
+            src="/homepage/icon/insta.svg"
+            alt=""
+          />
         </div>
       </div>
     </div>
@@ -375,7 +383,7 @@ function Footer() {
 
 function Homepage() {
   return (
-    <div className="relative z-0">
+    <div className="relative z-0 flex flex-col gap-4">
       <Navigation />
       <HeroSection />
       <OurRole />
