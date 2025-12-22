@@ -34,10 +34,10 @@ function FeaturedProducts({ product }) {
   return (
     <div>
       <div className="flex flex-col items-center border-3 p-2 rounded-2xl">
-        <div className="h-45 lg:w-[250px] lg:h-[325px] flex flex-col justify-center items-center mb-2">
+        <div className="h-45 lg:w-62.5 lg:h-81.25 flex flex-col justify-center items-center mb-2">
           <div>
             <img
-              className="aspect-square w-[130px] lg:w-[210px]"
+              className="aspect-square w-32.5 lg:w-52.5"
               src={product.image}
               alt={product.name}
             />
