@@ -34,7 +34,7 @@ function FeaturedProducts({ product }) {
   return (
     <div>
       <div className="flex flex-col items-center border-3 p-2 rounded-2xl">
-        <div className="h-[180px] lg:w-[250px] lg:h-[325px] flex flex-col justify-center items-center mb-2">
+        <div className="h-45 lg:w-[250px] lg:h-[325px] flex flex-col justify-center items-center mb-2">
           <div>
             <img
               className="aspect-square w-[130px] lg:w-[210px]"

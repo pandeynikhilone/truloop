@@ -65,7 +65,7 @@ export default function Navigation() {
       {/* Mobile Menu */}
       {isOpen && (
         <div
-          className={`fixed top-0 left-0 max-w-75 h-[90vh] w-[250px]  gap-6 rounded-tr-[1.5rem] rounded-br-[1.5rem] bg-white shadow-[-2px_0_16px_0_#CCC] z-50 mt-4 flex flex-col font-medium transform transition-transform duration-500 ease-in-out ${
+          className={`fixed top-0 left-0 max-w-75 h-[90vh] w-62.5  gap-6 rounded-tr-3xl rounded-br-3xl bg-white shadow-[-2px_0_16px_0_#CCC] z-50 mt-4 flex flex-col font-medium transform transition-transform duration-500 ease-in-out ${
             isOpen ? "translate-x-0" : "-translate-x-full"
           } `}
         >
