@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Search from "./Search";
+import Link from "next/link";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,16 +30,20 @@ export default function Navigation() {
           />
 
           <div className="flex gap-1.75">
-            <div className="hidden self-center px-5 py-1 rounded-[45px] w-25 h-8.5 outline-2 -outline-offset-2 outline-Grey-2 hover:text-white hover:bg-black hover:cursor-pointer transform ease-in duration-150 lg:inline-flex justify-center items-center gap-2.5">
-              <div className="text-center justify-center text-base font-medium leading-5">
-                Home
+            <Link href={"/"}>
+              <div className="hidden self-center px-5 py-1 rounded-[45px] w-25 h-8.5 outline-2 -outline-offset-2 outline-Grey-2 hover:text-white hover:bg-black hover:cursor-pointer transform ease-in duration-150 lg:inline-flex justify-center items-center gap-2.5">
+                <div className="text-center justify-center text-base font-medium leading-5">
+                  Home
+                </div>
               </div>
-            </div>
-            <div className="hidden self-center px-5 py-1 rounded-[45px] w-25 h-8.5 outline-2 -outline-offset-2 outline-Grey-2 hover:text-white hover:bg-black hover:cursor-pointer transform ease-in duration-150 lg:inline-flex justify-center items-center gap-2.5">
-              <div className="text-center justify-center text-Grey-2 text-base font-medium leading-5">
-                Products
+            </Link>
+            <Link href={"/products"}>
+              <div className="hidden self-center px-5 py-1 rounded-[45px] w-25 h-8.5 outline-2 -outline-offset-2 outline-Grey-2 hover:text-white hover:bg-black hover:cursor-pointer transform ease-in duration-150 lg:inline-flex justify-center items-center gap-2.5">
+                <div className="text-center justify-center text-Grey-2 text-base font-medium leading-5">
+                  Products
+                </div>
               </div>
-            </div>
+            </Link>
             {/* Desktop Navbar Search */}
             <div className="hidden lg:flex">
               <Search />
