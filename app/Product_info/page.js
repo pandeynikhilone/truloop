@@ -1,0 +1,142 @@
+import React from "react";
+import Navigation from "../components/Navigation";
+import Footer from "../components/Footer";
+import RatingsReviews from "./RatingsReviews";
+import ReviewsList from "./ReviewsList";
+import Card from "../components/Card";
+
+const products = [
+  {
+    id: 1,
+    name: "Xiaomi Redmi Note 15",
+    price: "20,000",
+    image: "./homepage/rectangle.svg",
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: "Xiaomi Redmi Note 14",
+    price: "18,500",
+    image: "/homepage/rectangle.svg",
+    rating: 4,
+  },
+  {
+    id: 3,
+    name: "Xiaomi Redmi Note 13",
+    price: "16,999",
+    image: "/homepage/rectangle.svg",
+    rating: 4,
+  },
+  {
+    id: 4,
+    name: "Xiaomi Redmi Note 12",
+    price: "14,999",
+    image: "/homepage/rectangle.svg",
+    rating: 3,
+  },
+];
+
+function page() {
+  return (
+    <>
+      <Navigation />
+      <div className="p-10">
+        <div className="flex flex-col justify-around lg:flex-row ">
+          <div className="">
+            <img
+              className="aspect-square h-75 lg:h-115"
+              src="/homepage/rectangle.svg"
+            />
+          </div>
+          <div className="flex flex-col gap-14">
+            {/* Product Info */}
+            {/* <div className="flex flex-col gap-8"> */}
+              <div className="flex flex-col gap-4">
+                {/* Title & Rating */}
+                <div className="flex flex-col gap-2">
+                  <h1 className="text-Grey-2 text-xl font-bold leading-7">
+                    Xiaomi Redmi Note 15
+                  </h1>
+
+                  <div className="flex gap-1.5">
+                    <span className="px-2.5 py-0.5 outline-2 rounded-[55px] text-white bg-black text-xs font-medium">
+                      4.1
+                    </span>
+
+                    <div className="px-2.5 py-0.5 outline-2 rounded-[55px] text-white bg-black text-xs font-medium">
+                      82 Reviews
+                    </div>
+                  </div>
+                </div>
+
+                {/* Price */}
+                <div className="text-Grey-2 text-xl font-bold leading-7">
+                  20,000
+                </div>
+              </div>
+            {/* </div> */}
+
+            {/* Key Specifications */}
+            <div className="flex flex-col gap-4">
+              <div className="px-3 py-1 bg-Grey-2 rounded text-Grey-11 text-sm font-bold w-fit">
+                Key Specifications
+              </div>
+
+              <div className="flex flex-col gap-1 text-xs text-Grey-2">
+                <div className="flex gap-2">
+                  <span className="font-bold flex-1">OS:</span>
+                  <span className="flex-1">Android 15, HyperOS</span>
+                </div>
+
+                <div className="flex gap-2">
+                  <span className="font-bold flex-1">Product Dimensions:</span>
+                  <span className="flex-1">165 × 75.4 × 7.4 mm</span>
+                </div>
+
+                <div className="flex gap-2">
+                  <span className="font-bold flex-1">Display:</span>
+                  <span className="flex-1">6.77″ AMOLED, 120Hz, 3200 nits</span>
+                </div>
+
+                <div className="flex gap-2">
+                  <span className="font-bold flex-1">Processor:</span>
+                  <span className="flex-1">Snapdragon 6 Gen 3 (4 nm)</span>
+                </div>
+
+                <div className="flex gap-2">
+                  <span className="font-bold flex-1">Memory:</span>
+                  <span className="flex-1">128GB 6GB / 8GB RAM</span>
+                </div>
+
+                <div className="flex gap-2">
+                  <span className="font-bold flex-1">Battery:</span>
+                  <span className="flex-1">Li-Ion 5800 mAh</span>
+                </div>
+
+                <div className="flex gap-2">
+                  <span className="font-bold flex-1">Camera:</span>
+                  <span className="flex-1">Rear 50 MP, Front 8 MP</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <RatingsReviews />
+        <ReviewsList />
+        <div className="my-10 md:px-10 flex flex-col gap-8">
+          <div className="flex w-full text-2xl md:text-3xl lg:text-5xl font-bold">
+            Same Brand Products
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 w-fit mx-auto gap-1.5 gap-y-4 lg:gap-6">
+            {products.map((product) => (
+              <Card key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
+}
+
+export default page;
