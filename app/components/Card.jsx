@@ -1,5 +1,6 @@
 import React from "react";
 import { Bars3CenterLeftIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 function Card({ product }) {
   return (
@@ -23,15 +24,14 @@ function Card({ product }) {
           </div>
         </div>
       </div>
-
-      <div className="flex justify-center bg-black rounded-3xl hover:bg-white mt-2 border-2">
-        <div className="flex justify-center gap-2 text-white text-sm w-full text-center lg:text-lg p-1 hover:text-black hover:cursor-pointer">
-          <div className="flex text-white hover:text-black gap-2">
+      <Link href={"../product_info"}>
+        <button className="cursor-pointer group flex justify-center mt-2 w-full rounded-3xl border-2 bg-black p-1 transition-colors hover:bg-white">
+          <span className="flex items-center gap-2 text-sm text-white transition-colors group-hover:text-black lg:text-lg">
             <Bars3CenterLeftIcon className="w-5 aspect-square" />
             View Product
-          </div>
-        </div>
-      </div>
+          </span>
+        </button>
+      </Link>
     </div>
   );
 }
