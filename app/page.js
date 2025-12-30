@@ -3,7 +3,7 @@ import Link from "next/link";
 import Footer from "./components/Footer";
 import Navigation from "./components/Navigation";
 import Search from "./components/Search";
-import ProductCard from "./components/ProductCard";
+import Card from "./components/Card";
 
 function HeroSection() {
   return (
@@ -135,6 +135,52 @@ function TrustUs() {
           class="h-53 w-80 block rounded-2xl lg:w-152.5 lg:h-70"
           src="/homepage/trust.svg"
         />
+      </div>
+    </div>
+  );
+}
+
+const products = [
+  {
+    id: 1,
+    name: "Xiaomi Redmi Note 15",
+    price: "20,000",
+    image: "./homepage/rectangle.svg",
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: "Xiaomi Redmi Note 14",
+    price: "18,500",
+    image: "/homepage/rectangle.svg",
+    rating: 4,
+  },
+  {
+    id: 3,
+    name: "Xiaomi Redmi Note 13",
+    price: "16,999",
+    image: "/homepage/rectangle.svg",
+    rating: 4,
+  },
+  {
+    id: 4,
+    name: "Xiaomi Redmi Note 12",
+    price: "14,999",
+    image: "/homepage/rectangle.svg",
+    rating: 3,
+  },
+];
+
+function ProductCard() {
+  return (
+    <div className="my-10 md:px-10 flex flex-col gap-8">
+        <div className="flex w-full text-center justify-center text-2xl md:text-3xl lg:text-5xl font-bold">
+          Featured Products
+        </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 w-fit mx-auto gap-1.5 gap-y-4 lg:gap-6">
+        {products.map((product) => (
+          <Card key={product.id} product={product} />
+        ))}
       </div>
     </div>
   );
