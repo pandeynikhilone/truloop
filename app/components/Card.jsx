@@ -24,7 +24,7 @@ function Card({ product }) {
           </div>
         </div>
       </div>
-      <Link href={"../product_info"}>
+      <Link href={"/product_info"}>
         <button className="cursor-pointer group flex justify-center mt-2 w-full rounded-3xl border-2 bg-black p-1 transition-colors hover:bg-white">
           <span className="flex items-center gap-2 text-sm text-white transition-colors group-hover:text-black lg:text-lg">
             <Bars3CenterLeftIcon className="w-5 aspect-square" />
