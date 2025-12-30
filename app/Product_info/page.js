@@ -122,7 +122,7 @@ function page() {
                 </div>
               </div>
               <div className="flex gap-3">
-                <Link href={"../submit_review"}>
+                <Link href={"/submit_review"}>
                   <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-2xl text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
                     <img
                       className="w-3.75"
