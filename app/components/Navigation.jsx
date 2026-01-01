@@ -120,12 +120,14 @@ export default function Navigation() {
                 </button>
               </Link>
               <hr className="inline-block opacity-8" />
+              <Link href={"../profile"}>
               <button
                 className="px-10 inline-flex justify-start items-center gap-2.5"
                 onClick={() => setIsOpen(false)}
               >
                 Profile
               </button>
+              </Link>
               <hr className="inline-block opacity-8" />
             </div>
           </div>
