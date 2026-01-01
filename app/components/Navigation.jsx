@@ -63,9 +63,11 @@ export default function Navigation() {
         </div>
 
         {/* Profile icon */}
+        <Link href={"../profile"}>
         <div className="hidden rounded-full lg:inline-flex items-center justify-center bg-black text-white w-12 hover:cursor-pointer aspect-square">
           N
         </div>
+        </Link>
       </div>
 
       {/* Mobile Menu */}
