@@ -19,7 +19,7 @@ function ReviewsList() {
   ];
 
   return (
-    <section className="flex flex-col gap-4 mt-6 lg:p-10">
+    <section className="flex flex-col gap-4 mt-6 lg:p-10 p-5">
       {reviews.map((review, index) => (
         <ReviewCard key={index} {...review} />
       ))}

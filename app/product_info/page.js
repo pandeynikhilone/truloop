@@ -44,8 +44,8 @@ function page() {
     <>
       <Navigation />
       <div>
-        <div className="flex flex-col justify-around lg:flex-row ">
-          <div className="">
+        <div className="flex flex-col justify-around lg:flex-row p-5">
+          <div className="justify-items-center">
             <img
               className="aspect-square h-75 lg:h-115"
               src="/homepage/rectangle.svg"
@@ -53,7 +53,6 @@ function page() {
           </div>
           <div className="flex flex-col gap-14">
             {/* Product Info */}
-            {/* <div className="flex flex-col gap-8"> */}
             <div className="flex flex-col gap-4">
               {/* Title & Rating */}
               <div className="flex flex-col gap-2">
@@ -77,7 +76,6 @@ function page() {
                 20,000
               </div>
             </div>
-            {/* </div> */}
 
             {/* Key Specifications */}
             <div className="flex flex-col gap-4">
