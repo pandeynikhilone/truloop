@@ -43,7 +43,7 @@ function page() {
   return (
     <>
       <Navigation />
-      <div className="p-10">
+      <div>
         <div className="flex flex-col justify-around lg:flex-row ">
           <div className="">
             <img
@@ -142,7 +142,7 @@ function page() {
         <RatingsReviews />
         <ReviewsList />
         <div className="my-10 md:px-10 flex flex-col gap-8 lg:mb-25 lg:mt-12">
-          <div className="flex w-full text-2xl md:text-3xl lg:text-4xl lg:justify-center font-bold">
+          <div className="flex w-full justify-center text-center text-2xl md:text-3xl lg:text-4xl lg:justify-center font-bold">
             Same Brand Products
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 w-fit mx-auto gap-1.5 gap-y-4 lg:gap-6">
