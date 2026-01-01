@@ -23,12 +23,13 @@ export default function Navigation() {
               className="w-9 aspect-square md:w-9 md:h-9"
             />
           </button>
-          <img
-            src="/homepage/truloop_icon.svg"
-            className="w-12 aspect-square md:w-14 md:h-14 self-center"
-            alt="truloop"
-          />
-
+          <Link href={"/"}>
+            <img
+              src="/homepage/truloop_icon.svg"
+              className="w-12 aspect-square md:w-14 md:h-14 self-center"
+              alt="truloop"
+            />
+          </Link>
           <div className="flex gap-1.75">
             <Link href={"/"}>
               <div className="hidden self-center px-5 py-1 rounded-[45px] w-25 h-8.5 outline-2 -outline-offset-2 outline-Grey-2 hover:text-white hover:bg-black hover:cursor-pointer transform ease-in duration-150 lg:inline-flex justify-center items-center gap-2.5">
@@ -99,21 +100,23 @@ export default function Navigation() {
 
             <div className="flex flex-col gap-6">
               <hr className="inline-block opacity-8" />
-              <button
-                className="px-10 w-full inline-flex justify-start items-center gap-2.5"
-                onClick={() => setIsOpen(false)}
-              >
-                Home
-              </button>
-
+              <Link href={"/"}>
+                <button
+                  className="px-10 w-full inline-flex justify-start items-center gap-2.5"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Home
+                </button>
+              </Link>
               <hr className="inline-block opacity-8" />
-              <button
-                className="px-10 inline-flex justify-start items-center gap-2.5"
-                onClick={() => setIsOpen(false)}
-              >
-                Products
-              </button>
-
+              <Link href={"/products"}>
+                <button
+                  className="px-10 inline-flex justify-start items-center gap-2.5"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Products
+                </button>
+              </Link>
               <hr className="inline-block opacity-8" />
               <button
                 className="px-10 inline-flex justify-start items-center gap-2.5"
