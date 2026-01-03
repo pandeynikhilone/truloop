@@ -12,7 +12,7 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="max-w-full px-4 py-3 md:px-6 md:py-6 lg:py-2 justify-between items-center">
+    <nav className="max-w-full px-4 py-3 md:px-20 md:py-6 lg:py-2 justify-between items-center">
       <div className="flex items-center w-full justify-between">
         {/* Left side of navigation */}
         <div className="flex gap-3 items-center">
@@ -20,33 +20,33 @@ export default function Navigation() {
             <img
               src={"/homepage/menu.svg"}
               alt="Menu toggle"
-              className="w-9 aspect-square md:w-9 md:h-9"
+              className="w-9 aspect-square"
             />
           </button>
           <Link href={"/"}>
             <img
               src="/homepage/truloop_icon.svg"
-              className="w-12 aspect-square md:w-14 md:h-14 self-center"
+              className="w-12 aspect-square md:w-14 lg:mr-10.5 self-center"
               alt="truloop"
             />
           </Link>
-          <div className="flex gap-1.75">
+          <div className="flex gap-3">
             <Link href={"/"}>
-              <div className="hidden self-center px-5 py-1 rounded-[45px] w-25 h-8.5 outline-2 -outline-offset-2 outline-Grey-2 hover:text-white hover:bg-black hover:cursor-pointer transform ease-in duration-150 lg:inline-flex justify-center items-center gap-2.5">
+              <div className="hidden self-center px-5 py-1 rounded-[45px] w-25 h-8 outline-2 -outline-offset-2 outline-Grey-2 hover:text-white hover:bg-black hover:cursor-pointer transform ease-in duration-150 lg:inline-flex justify-center items-center gap-2.5">
                 <div className="text-center justify-center text-base font-medium leading-5">
                   Home
                 </div>
               </div>
             </Link>
             <Link href={"/products"}>
-              <div className="hidden self-center px-5 py-1 rounded-[45px] w-25 h-8.5 outline-2 -outline-offset-2 outline-Grey-2 hover:text-white hover:bg-black hover:cursor-pointer transform ease-in duration-150 lg:inline-flex justify-center items-center gap-2.5">
+              <div className="hidden self-center px-5 py-1 rounded-[45px] w-25 h-8 outline-2 -outline-offset-2 outline-Grey-2 hover:text-white hover:bg-black hover:cursor-pointer transform ease-in duration-150 lg:inline-flex justify-center items-center gap-2.5">
                 <div className="text-center justify-center text-Grey-2 text-base font-medium leading-5">
                   Products
                 </div>
               </div>
             </Link>
             {/* Desktop Navbar Search */}
-            <div className="hidden lg:flex">
+            <div className="hidden items-center w-75 lg:flex">
               <Search />
             </div>
           </div>
@@ -64,7 +64,7 @@ export default function Navigation() {
 
         {/* Profile icon */}
         <Link href={"../profile"}>
-        <div className="hidden rounded-full lg:inline-flex items-center justify-center bg-black text-white w-12 hover:cursor-pointer aspect-square">
+        <div className="hidden text-xl font-medium rounded-full lg:inline-flex items-center justify-center bg-black text-white w-12 hover:cursor-pointer aspect-square">
           N
         </div>
         </Link>
