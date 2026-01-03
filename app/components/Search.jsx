@@ -1,7 +1,7 @@
 function Search() {
   return (
-    <div className="flex justify-center w-full">
-      <div className="w-[90%] lg:w-full h-9 px-4 rounded-[60px] outline-1 outline-Grey-2 flex items-center gap-2">
+    <div className="flex justify-center h-7 w-full">
+      <div className="lg:w-full px-4 rounded-[60px] outline-2 outline-Grey-2 flex items-center gap-2">
         {/* Input field */}
         <input
           type="text"
