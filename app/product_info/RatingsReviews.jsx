@@ -12,8 +12,8 @@ function RatingsReviews() {
   const totalRatings = 45;
 
   return (
-    <section className="max-w-xl mx-auto  px-4 py-6 lg:mx-18">
-      <h2 className="text-xl font-semibold mb-6">
+    <section className="max-w-xl mx-auto px-4 py-6 lg:mx-18">
+      <h2 className="text-xl lg:text-3xl font-semibold mb-16">
         Rating & Reviews
       </h2>
 
