@@ -24,7 +24,7 @@ function HeroSection() {
             </div>
             <div className="px-2.5 py-1.5 rounded inline-flex justify-center items-center gap-[2.50px]">
               <Link href="/products">
-                <button className="bg-black rounded-md text-white text-sm md:text-lg md:p-2.5 font-bold p-2 px-4 hover:cursor-pointer hover:bg-white hover:text-black border-2">
+                <button className="bg-black rounded-md text-white text-sm md:text-lg md:p-2.5 font-bold p-2 px-4 lg:px-6 hover:cursor-pointer hover:bg-white hover:text-black border-2">
                   Browse Products
                 </button>
               </Link>
