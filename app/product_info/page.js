@@ -44,14 +44,14 @@ function page() {
     <>
       <Navigation />
       <div>
-        <div className="flex flex-col justify-around lg:flex-row p-5">
-          <div className="justify-items-center">
+        <div className="flex flex-col my-11 justify-around lg:flex-row p-5">
+          <div className="justify-items-center lg:w-[40%]">
             <img
-              className="aspect-square h-75 lg:h-115"
+              className="h-75 lg:h-115 lg:w-130"
               src="/homepage/rectangle.svg"
             />
           </div>
-          <div className="flex flex-col gap-14">
+          <div className="flex flex-col lg:w-[35%] gap-10">
             {/* Product Info */}
             <div className="flex flex-col gap-4">
               {/* Title & Rating */}
@@ -78,50 +78,50 @@ function page() {
             </div>
 
             {/* Key Specifications */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col">
               <button className="px-3 py-1 bg-black text-white rounded text-sm lg:text-md font-bold w-fit">
                 Key Specifications
               </button>
 
-              <div className="flex flex-col gap-1 text-xs lg:text-sm text-Grey-2">
+              <div className="flex flex-col gap-1 text-xs lg:text-sm text-Grey-2 mt-4 mb-10">
                 <div className="flex gap-2">
-                  <span className="font-bold flex-1">OS:</span>
-                  <span className="flex-1">Android 15, HyperOS</span>
+                  <span className="font-bold w-fit">OS:</span>
+                  <span>Android 15, HyperOS</span>
                 </div>
 
                 <div className="flex gap-2">
-                  <span className="font-bold flex-1">Product Dimensions:</span>
-                  <span className="flex-1">165 × 75.4 × 7.4 mm</span>
+                  <span className="font-bold w-fit">Product Dimensions:</span>
+                  <span>165 × 75.4 × 7.4 mm</span>
                 </div>
 
                 <div className="flex gap-2">
-                  <span className="font-bold flex-1">Display:</span>
-                  <span className="flex-1">6.77″ AMOLED, 120Hz, 3200 nits</span>
+                  <span className="font-bold w-fit">Display:</span>
+                  <span>6.77″ AMOLED, 120Hz, 3200 nits</span>
                 </div>
 
                 <div className="flex gap-2">
-                  <span className="font-bold flex-1">Processor:</span>
-                  <span className="flex-1">Snapdragon 6 Gen 3 (4 nm)</span>
+                  <span className="font-bold w-fit">Processor:</span>
+                  <span>Snapdragon 6 Gen 3 (4 nm)</span>
                 </div>
 
                 <div className="flex gap-2">
-                  <span className="font-bold flex-1">Memory:</span>
-                  <span className="flex-1">128GB 6GB / 8GB RAM</span>
+                  <span className="font-bold w-fit">Memory:</span>
+                  <span>128GB 6GB / 8GB RAM</span>
                 </div>
 
                 <div className="flex gap-2">
-                  <span className="font-bold flex-1">Battery:</span>
-                  <span className="flex-1">Li-Ion 5800 mAh</span>
+                  <span className="font-bold w-fit">Battery:</span>
+                  <span>Li-Ion 5800 mAh</span>
                 </div>
 
                 <div className="flex gap-2">
-                  <span className="font-bold flex-1">Camera:</span>
-                  <span className="flex-1">Rear 50 MP, Front 8 MP</span>
+                  <span className="font-bold w-fit">Camera:</span>
+                  <span>Rear 50 MP, Front 8 MP</span>
                 </div>
               </div>
               <div className="flex gap-3">
                 <Link href={"/submit_review"}>
-                  <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-2xl text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
+                  <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
                     <img
                       className="w-3.75"
                       src="/product_info/submit_review.svg"
@@ -129,7 +129,7 @@ function page() {
                     Submit Review
                   </button>
                 </Link>
-                <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-2xl text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
+                <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
                   <img className="w-3.75" src="/product_info/add_update.svg" />
                   Add Update
                 </button>
