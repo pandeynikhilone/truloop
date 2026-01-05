@@ -25,7 +25,7 @@ function ReviewsList() {
       ))}
 
       {/* Read More */}
-      <button className="mt-4 py-3 px-4 bg-black text-white w-fit rounded text-sm font-medium">
+      <button className="mt-4 py-3 px-4 bg-black text-white w-fit rounded-md cursor-pointer text-sm font-medium">
         Read More
       </button>
     </section>
