@@ -31,10 +31,10 @@ function CouponCard() {
 
           <button
             onClick={handleCopy}
-            className="text-xs underline"
+            className="text-xs underline cursor-pointer"
             type="button"
           >
-            {copied ? "Copied!" : "Copy"}
+            {copied ? "Copied!" : <img src="/user_profile/copy.svg" />}
           </button>
         </div>
       </div>
