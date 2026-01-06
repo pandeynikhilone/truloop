@@ -30,8 +30,9 @@ function page() {
               </label>
               <input
                 type="text"
-                placeholder="Nikhil Pandey"
+                value="Nikhil Pandey"
                 className="w-full px-3 py-2 rounded border border-black text-sm outline-none"
+                disabled
               />
             </div>
             {/* Email */}
@@ -39,8 +40,9 @@ function page() {
               <label className="text-xs font-medium text-black">Email</label>
               <input
                 type="text"
-                placeholder="nikhilpandey@gmail.com"
+                value="nikhilpandey@gmail.com"
                 className="w-full px-3 py-2 rounded border border-black text-sm outline-none"
+                disabled
               />
             </div>
             {/* Points Card */}
@@ -58,13 +60,13 @@ function page() {
               {/* Header */}
               <button
                 onClick={() => setOpen(!open)}
-                className="w-full bg-black text-white px-4 py-3 rounded-lg flex justify-between items-center"
+                className="w-full bg-black text-white cursor-pointer px-4 py-3 rounded-lg flex justify-between items-center"
               >
                 <span className="text-sm font-semibold">Your Coupons</span>
                 <span
                   className={`transition-transform ${open ? "rotate-180" : ""}`}
                 >
-                  ▲
+                  <img src="/user_profile/dropdown.svg"/>
                 </span>
               </button>
 
@@ -78,8 +80,8 @@ function page() {
             </div>
             
             {/* Sign Out */}
-            <button className="self-start bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-semibold">
-              <span>⎋</span>
+            <button className="self-start cursor-pointer bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-semibold">
+              <img src="/user_profile/sign_out.svg" />
               Sign out
             </button>
           </div>
