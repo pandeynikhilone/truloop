@@ -22,7 +22,7 @@ function RatingsReviews() {
         <div className="flex flex-col items-start">
           <div className="flex items-center gap-2">
             <span className="text-4xl font-semibold">4.1</span>
-            <span className="text-2xl">★</span>
+            <span className="text-2xl"><img src="/product_info/star.svg" /></span>
           </div>
 
           <p className="text-sm text-gray-500 mt-1">

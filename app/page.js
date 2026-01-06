@@ -76,7 +76,7 @@ function OurRole() {
 
         {/* Image */}
         <img
-          class="h-53 w-80 block rounded-2xl lg:w-152.5 lg:h-70"
+          className="h-53 w-80 block rounded-2xl lg:w-152.5 lg:h-70"
           src="/homepage/img.svg"
         />
       </div>

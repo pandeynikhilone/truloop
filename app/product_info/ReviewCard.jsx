@@ -12,13 +12,13 @@ function ReviewCard({ rating, name, date, text, verified }) {
           {/* Name */}
           <div className="flex items-center gap-1 text-sm font-medium">
             {name}
-            {verified && <span className="text-gray-400 text-xs">✔</span>}
+            {verified && <span className="text-gray-400 text-xs"><img src="/product_info/verified.svg" /></span>}
           </div>
         </div>
 
         {/* Date */}
         <div className="flex items-center gap-1 text-xs text-gray-500">
-          <span>📅</span>
+          <img src="/product_info/calendar.svg" />
           {date}
         </div>
       </div>

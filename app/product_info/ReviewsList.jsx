@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ReviewCard from "./ReviewCard";
 
 function ReviewsList() {

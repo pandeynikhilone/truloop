@@ -6,7 +6,7 @@ function RatingBar({ star, count, total }) {
       {/* Star label */}
       <div className="flex items-center gap-1 w-10">
         <span className="text-sm">{star}</span>
-        <span>★</span>
+        <img src="/product_info/star.svg" className="h-2.5 aspect-square"/>
       </div>
 
       {/* Bar */}
