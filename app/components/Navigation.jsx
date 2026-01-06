@@ -53,21 +53,23 @@ export default function Navigation() {
         </div>
 
         {/* Right side of navigation */}
-        <div className="flex py-1 justify-center items-center gap-2.5 text-center font-roboto text-base font-medium md:text-xl lg:hidden">
-          <button className="rounded-[2.8125rem] border-2 border-[#1A1A1A] px-3 py-1.5 md:px-4 md:py-2">
-            Login
-          </button>
-          <button className="rounded-[2.8125rem] border-2 border-[#1A1A1A] bg-black text-white px-3 py-1.5 md:px-4 md:py-2">
-            Signup
-          </button>
-        </div>
+        <div className="flex justify-end">
+          <div className="flex py-1 justify-center items-center gap-2.5 text-center font-roboto text-base font-medium md:text-xl lg:hidden">
+            <button className="rounded-[2.8125rem] border-2 border-[#1A1A1A] px-3 py-1.5 md:px-4 md:py-2">
+              Login
+            </button>
+            <button className="rounded-[2.8125rem] border-2 border-[#1A1A1A] bg-black text-white px-3 py-1.5 md:px-4 md:py-2">
+              Signup
+            </button>
+          </div>
 
-        {/* Profile icon */}
-        <Link href={"../profile"}>
-        <div className="hidden text-xl font-medium rounded-full lg:inline-flex items-center justify-center bg-black text-white w-12 hover:cursor-pointer aspect-square">
-          N
+          {/* Profile icon */}
+          <Link href={"../profile"}>
+            <div className="hidden text-xl font-medium rounded-full lg:inline-flex items-center justify-center bg-black text-white w-12 hover:cursor-pointer aspect-square">
+              N
+            </div>
+          </Link>
         </div>
-        </Link>
       </div>
 
       {/* Mobile Menu */}
@@ -121,12 +123,12 @@ export default function Navigation() {
               </Link>
               <hr className="inline-block opacity-8" />
               <Link href={"../profile"}>
-              <button
-                className="px-10 inline-flex justify-start items-center gap-2.5"
-                onClick={() => setIsOpen(false)}
-              >
-                Profile
-              </button>
+                <button
+                  className="px-10 inline-flex justify-start items-center gap-2.5"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Profile
+                </button>
               </Link>
               <hr className="inline-block opacity-8" />
             </div>
