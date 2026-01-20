@@ -4,93 +4,7 @@ import Card from "../components/Card";
 import Search from "../components/Search";
 import Footer from "../components/Footer";
 
-import React, { useState } from "react";
-const products = [
-  {
-    id: 1,
-    name: "Xiaomi Redmi Note 15",
-    price: "20,000",
-    image: "./homepage/rectangle.svg",
-    rating: 5,
-  },
-  {
-    id: 2,
-    name: "Xiaomi Redmi Note 14",
-    price: "18,500",
-    image: "/homepage/rectangle.svg",
-    rating: 4,
-  },
-  {
-    id: 3,
-    name: "Xiaomi Redmi Note 13",
-    price: "16,999",
-    image: "/homepage/rectangle.svg",
-    rating: 4,
-  },
-  {
-    id: 4,
-    name: "Xiaomi Redmi Note 12",
-    price: "14,999",
-    image: "/homepage/rectangle.svg",
-    rating: 3,
-  },
-  {
-    id: 5,
-    name: "Xiaomi Redmi Note 12",
-    price: "14,999",
-    image: "/homepage/rectangle.svg",
-    rating: 3,
-  },
-  {
-    id: 6,
-    name: "Xiaomi Redmi Note 12",
-    price: "14,999",
-    image: "/homepage/rectangle.svg",
-    rating: 3,
-  },
-  {
-    id: 7,
-    name: "Xiaomi Redmi Note 12",
-    price: "14,999",
-    image: "/homepage/rectangle.svg",
-    rating: 3,
-  },
-  {
-    id: 8,
-    name: "Xiaomi Redmi Note 12",
-    price: "14,999",
-    image: "/homepage/rectangle.svg",
-    rating: 3,
-  },
-  {
-    id: 9,
-    name: "Xiaomi Redmi Note 12",
-    price: "14,999",
-    image: "/homepage/rectangle.svg",
-    rating: 3,
-  },
-  {
-    id: 10,
-    name: "Xiaomi Redmi Note 12",
-    price: "14,999",
-    image: "/homepage/rectangle.svg",
-    rating: 3,
-  },
-  {
-    id: 11,
-    name: "Xiaomi Redmi Note 12",
-    price: "14,999",
-    image: "/homepage/rectangle.svg",
-    rating: 3,
-  },
-  {
-    id: 12,
-    name: "Xiaomi Redmi Note 12",
-    price: "14,999",
-    image: "/homepage/rectangle.svg",
-    rating: 3,
-  },
-];
+import React, { useEffect, useState } from "react";
 
 const sortOptions = [
   "Most Reviewed",
@@ -129,7 +43,38 @@ const priceRanges = [
 ];
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch products");
+
+        const data = await res.json();
+
+        // 🔁 Normalize backend → frontend shape
+        const normalized = data.map((item) => ({
+          id: item._id,
+          name: item.name,
+          price: item.price, // until you add price in DB
+          image: item.imageUrl,
+          rating: Math.round(item.averageRating || 0),
+        }));
+
+        setProducts(normalized);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProducts();
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);

@@ -3,6 +3,7 @@ import { Bars3CenterLeftIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 function Card({ product }) {
+  const rating  = product.rating;
   return (
     <div>
       <Link href={"/product_info"}>
@@ -18,9 +19,15 @@ function Card({ product }) {
           <div className="whitespace-nowrap text-sm lg:text-lg">
             <div>{product.name}</div>
             <div className="flex justify-between">
-              <div>{product.price}</div>
-              <div className="self-center">
-                <img src="/homepage/icon/star_light.svg" alt="" />
+              <div>₹{product.price}</div>
+              <div className="self-center flex">
+                {[...Array(rating)].map((_, index) => (
+                  <img
+                    key={index}
+                    src="/homepage/icon/star_light.svg"
+                    alt="star"
+                  />
+                ))}
               </div>
             </div>
           </div>
