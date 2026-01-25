@@ -49,14 +49,17 @@ export const createReview = async (req, res) => {
 // GET /api/reviews/:productId
 export const getReviewsByProduct = async (req, res) => {
   try {
-    const productObjectId = new mongoose.Types.ObjectId(req.params.productId);
+    const { productId } = req.params;
 
-    const reviews = await Review.find({
-      productId: productObjectId,
-    }).sort({ createdAt: -1 });
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(400).json({ message: "Invalid productId" });
+    }
+
+    const reviews = await Review.find({ productId }).sort({ createdAt: -1 });
 
     res.status(200).json(reviews);
   } catch (error) {
+    console.error("FETCH REVIEWS ERROR:", error.message);
     res.status(500).json({ message: "Failed to fetch reviews" });
   }
 };

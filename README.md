@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Truloop: Real Reviews from Real People
+
+Tired of sifting through sponsored posts and fake reviews? Truloop is here to change that. We're building a community-driven platform dedicated to providing honest, unbiased, and real-world product reviews. Our mission is to empower consumers to make informed decisions based on authentic user experiences.
+
+## The Problem
+
+In today's saturated online market, it's increasingly difficult to find trustworthy information about products. Marketing fluff and incentivized reviews often drown out the voices of genuine users, making it a challenge to know what you're *really* buying.
+
+## Our Solution
+
+Truloop cuts through the noise. We provide a platform where you can:
+
+1. Discover Products: Browse a growing catalog of products.
+2. Get the Specs: View detailed product information and specifications.
+3. Read Honest Reviews: Access in-depth reviews from real users who share their genuine experiences—the good, the bad, and the buggy.
+4. Share Your Voice: Contribute to the community by writing your own detailed reviews and sharing your unique perspective.
+
+We believe in the power of authentic feedback. That's why we encourage our users to share their "real usage experience," focusing on everything from battery life to software stability.
 
 ## Getting Started
 
-First, run the development server:
+To get the Truloop platform running locally, you'll need to start both the frontend and backend services.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[Node.js](https://nodejs.org/) (v18.x or later recommended)
+A package manager: [npm](https://www.npmjs.com/), [yarn](https://yarnpkg.com/), [pnpm](https://pnpm.io/), or [bun](https://bun.sh/)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Running the Application
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1.  Start the Backend:
+- Open a terminal and navigate to the `truloop-backend` directory.
+- Install dependencies: `npm install` (or your package manager's install command).
+- Start the backend server: `npm run dev`.
+- The backend will be running on port 8080 by default.
 
-## Learn More
+2.  Start the Frontend:
+- Open a *new* terminal and navigate to the root directory of the project.
+- Install dependencies: `npm install` (or your package manager's install command).
+- Start the frontend server: `npm run dev`.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Once both services are running, open [http://localhost:3000](http://localhost:3000) in your browser to see the Truloop application.
