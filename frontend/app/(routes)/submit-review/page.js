@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import SubmitReviewClient from "./SubmitReviewClient";
+import SubmitReviewClient from "@/app/components/review/SubmitReviewClient";
 
 export default function Page() {
   return (

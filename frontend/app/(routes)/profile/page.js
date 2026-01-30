@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { useState } from "react";
-import Navigation from "../components/Navigation";
-import Footer from "../components/Footer";
-import CouponCard from "./CouponCard";
+import Navigation from "@/app/components/common/Navigation";
+import Footer from "@/app/components/common/Footer";
+import CouponCard from "@/app/components/profile/CouponCard";
 
 function page() {
   const [open, setOpen] = useState(false);
@@ -66,19 +66,19 @@ function page() {
                 <span
                   className={`transition-transform ${open ? "rotate-180" : ""}`}
                 >
-                  <img src="/user_profile/dropdown.svg"/>
+                  <img src="/user_profile/dropdown.svg" />
                 </span>
               </button>
 
               {/* Coupons */}
               {open && (
                 <div className="mt-4 flex flex-col gap-4">
-                  <CouponCard/>
+                  <CouponCard />
                   <CouponCard />
                 </div>
               )}
             </div>
-            
+
             {/* Sign Out */}
             <button className="self-start cursor-pointer bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-semibold">
               <img src="/user_profile/sign_out.svg" />

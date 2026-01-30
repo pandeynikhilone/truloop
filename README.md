@@ -17,26 +17,57 @@ Truloop cuts through the noise. We provide a platform where you can:
 
 We believe in the power of authentic feedback. That's why we encourage our users to share their "real usage experience," focusing on everything from battery life to software stability.
 
-## Getting Started
+## Project Structure
 
-To get the Truloop platform running locally, you'll need to start both the frontend and backend services.
+```
+truloop/
+├── frontend/          # Next.js frontend application
+├── backend/           # Express backend API
+├── package.json       # Workspace configuration
+└── README.md
+```
+
+## Getting Started
 
 ### Prerequisites
 
-[Node.js](https://nodejs.org/) (v18.x or later recommended)
-A package manager: [npm](https://www.npmjs.com/), [yarn](https://yarnpkg.com/), [pnpm](https://pnpm.io/), or [bun](https://bun.sh/)
+- [Node.js](https://nodejs.org/) (v18.x or later recommended)
+- A package manager: [npm](https://www.npmjs.com/), [yarn](https://yarnpkg.com/), [pnpm](https://pnpm.io/), or [bun](https://bun.sh/)
 
-### Running the Application
+### Option 1: Run Both Services Together (Recommended)
 
-1.  Start the Backend:
-- Open a terminal and navigate to the `truloop-backend` directory.
-- Install dependencies: `npm install` (or your package manager's install command).
-- Start the backend server: `npm run dev`.
-- The backend will be running on port 8080 by default.
+Install workspace dependencies and run both frontend and backend concurrently:
 
-2.  Start the Frontend:
-- Open a *new* terminal and navigate to the root directory of the project.
-- Install dependencies: `npm install` (or your package manager's install command).
-- Start the frontend server: `npm run dev`.
+```bash
+npm install
+npm run dev
+```
+
+### Option 2: Run Services Separately
+
+**Backend:**
+```bash
+cd backend
+npm install
+npm run dev
+```
+The backend will be running on port 8080 by default.
+
+**Frontend:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 Once both services are running, open [http://localhost:3000](http://localhost:3000) in your browser to see the Truloop application.
+
+## Available Scripts
+
+From the root directory:
+- `npm run dev` - Run both frontend and backend concurrently
+- `npm run dev:frontend` - Run only the frontend
+- `npm run dev:backend` - Run only the backend
+- `npm run build:frontend` - Build the frontend for production
+- `npm run start:frontend` - Start the frontend production server
+

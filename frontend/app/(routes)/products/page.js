@@ -1,8 +1,8 @@
 "use client";
-import Navigation from "../components/Navigation";
-import Card from "../components/Card";
-import Search from "../components/Search";
-import Footer from "../components/Footer";
+import Navigation from "@/app/components/common/Navigation";
+import Card from "@/app/components/common/Card";
+import Search from "@/app/components/common/Search";
+import Footer from "@/app/components/common/Footer";
 
 import React, { useEffect, useState } from "react";
 
@@ -87,9 +87,8 @@ export default function ProductsPage() {
       <Navigation />
       {isOpen && (
         <div
-          className={`fixed overflow-y-scroll overflow-x-hidden top-30 right-0 max-w-75 h-[75vh] rounded-bl-3xl rounded-tl-3xl bg-white shadow-[-2px_0_16px_0_#CCC] z-50 mt-4 flex flex-col font-medium transform transition-transform duration-500 ease-in-out ${
-            isOpen ? "translate-x-0" : "-translate-x-full"
-          } `}
+          className={`fixed overflow-y-scroll overflow-x-hidden top-30 right-0 max-w-75 h-[75vh] rounded-bl-3xl rounded-tl-3xl bg-white shadow-[-2px_0_16px_0_#CCC] z-50 mt-4 flex flex-col font-medium transform transition-transform duration-500 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+            } `}
         >
           <button className="lg:hidden p-3 flex w-full" onClick={toggleMenu}>
             <img

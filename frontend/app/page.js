@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
-import Footer from "./components/Footer";
-import Navigation from "./components/Navigation";
-import Search from "./components/Search";
-import Card from "./components/Card";
+import Footer from "./components/common/Footer";
+import Navigation from "./components/common/Navigation";
+import Search from "./components/common/Search";
+import Card from "./components/common/Card";
 
 function HeroSection() {
   return (
@@ -174,9 +174,9 @@ const products = [
 function ProductCard() {
   return (
     <div className="my-10 md:px-10 flex flex-col gap-8">
-        <div className="flex w-full text-center justify-center text-2xl md:text-3xl lg:text-5xl font-bold">
-          Featured Products
-        </div>
+      <div className="flex w-full text-center justify-center text-2xl md:text-3xl lg:text-5xl font-bold">
+        Featured Products
+      </div>
       <div className="grid grid-cols-2 md:grid-cols-4 w-fit mx-auto gap-1.5 gap-y-4 lg:gap-6">
         {products.map((product) => (
           <Card key={product.id} product={product} />
