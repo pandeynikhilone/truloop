@@ -87,14 +87,17 @@ export default function ProductClient({ id }) {
                                     {product.name}
                                 </h1>
 
-                                <div className="flex gap-1.5">
-                                    <span className="px-2.5 py-0.5 outline-2 rounded-[55px] text-white bg-black text-xs lg:text-sm lg:px-3 lg:py-1 font-medium">
-                                        {product.rating}
-                                    </span>
-
-                                    <div className="px-2.5 py-0.5 outline-2 rounded-[55px] text-white bg-black text-xs lg:text-sm lg:px-3 lg:py-1 font-medium">
-                                        {product.reviewCount}
+                                <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-1">
+                                        <img src="/product_info/star.svg" alt="star" className="h-4 w-4" />
+                                        <span className="font-bold text-sm lg:text-base">
+                                            {product.rating}
+                                        </span>
                                     </div>
+                                    <span className="h-1 w-1 rounded-full bg-Grey-2"></span>
+                                    <span className="text-xs font-medium text-Grey-2 lg:text-sm">
+                                        {product.reviewCount} Ratings
+                                    </span>
                                 </div>
                             </div>
 
@@ -139,7 +142,16 @@ export default function ProductClient({ id }) {
                     </div>
                 </div>
                 <RatingsReviews reviews={reviews} />
-                <ReviewsList reviews={reviews} />
+                <ReviewsList reviews={reviews.slice(0, 4)} />
+                {reviews.length > 4 && (
+                    <div className="mt-4 px-5 lg:px-10">
+                        <Link href={`/product-info/${id}/reviews`}>
+                            <button className="cursor-pointer py-3 px-6 bg-black text-white rounded-md text-sm font-bold">
+                                Read More
+                            </button>
+                        </Link>
+                    </div>
+                )}
 
                 <div className="my-10 md:px-10 flex flex-col gap-8 lg:mb-25 lg:mt-12">
                     <div className="flex w-full justify-center text-center text-2xl md:text-3xl lg:text-4xl lg:justify-center font-bold">
