@@ -8,7 +8,7 @@ function Card({ product }) {
 
   return (
     <div>
-      <Link href={`/product_info/${product.id}`}>
+      <Link href={`/product-info/${product.id}`}>
         <div className="h-45 lg:w-58.5 lg:h-75.25 flex flex-col justify-center items-center mb-2 border-3 rounded-2xl px-2">
           <div>
             <img
@@ -38,7 +38,7 @@ function Card({ product }) {
         </div>
       </Link>
 
-      <Link href={`/product_info/${product.id}`}>
+      <Link href={`/product-info/${product.id}`}>
         <button className="cursor-pointer group flex justify-center mt-2 w-full rounded-3xl border-2 bg-black p-1 transition-colors hover:bg-white">
           <span className="flex items-center gap-2 text-sm text-white transition-colors group-hover:text-black lg:text-lg">
             <Bars3CenterLeftIcon className="w-5 aspect-square" />
