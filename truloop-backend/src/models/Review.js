@@ -5,7 +5,8 @@ const reviewSchema = new mongoose.Schema(
     productId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product",
-      required: true
+      required: true,
+      index: true
     },
 
     rating: {
@@ -21,7 +22,7 @@ const reviewSchema = new mongoose.Schema(
       trim: true
     },
 
-    reviewer: {
+    reviewerName: {
       type: String,
       default: "Anonymous User"
     }

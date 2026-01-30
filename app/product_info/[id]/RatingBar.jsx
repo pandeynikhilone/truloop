@@ -1,12 +1,12 @@
 function RatingBar({ star, count, total }) {
-  const percentage = (count / total) * 100;
+  const percentage = total === 0 ? 0 : (count / total) * 100;
 
   return (
     <div className="flex items-center gap-3">
       {/* Star label */}
       <div className="flex items-center gap-1 w-10">
         <span className="text-sm">{star}</span>
-        <img src="/product_info/star.svg" className="h-2.5 aspect-square"/>
+        <img src="/product_info/star.svg" className="h-2.5 aspect-square" />
       </div>
 
       {/* Bar */}

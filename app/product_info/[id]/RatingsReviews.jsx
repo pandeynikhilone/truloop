@@ -1,15 +1,11 @@
 import RatingBar from "./RatingBar";
 
-function RatingsReviews() {
-  const ratings = [
-    { star: 5, count: 13 },
-    { star: 4, count: 10 },
-    { star: 3, count: 7 },
-    { star: 2, count: 5 },
-    { star: 1, count: 5 },
-  ];
+function RatingsReviews({ reviews=[] }) {
+  const totalReviews = reviews.length;
 
-  const totalRatings = 45;
+  const averageRating = totalReviews === 0 ? 0 : (reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1);
+
+  const ratings = [5, 4, 3, 2, 1].map((star) => ({ star, count: reviews.filter((r) => r.rating === star).length,}));
 
   return (
     <section className="max-w-xl mx-auto px-4 py-6 lg:mx-18">
@@ -21,12 +17,16 @@ function RatingsReviews() {
         {/* Left side */}
         <div className="flex flex-col items-start">
           <div className="flex items-center gap-2">
-            <span className="text-4xl font-semibold">4.1</span>
-            <span className="text-2xl"><img src="/product_info/star.svg" /></span>
+            <span className="text-4xl font-semibold">
+              {averageRating}
+            </span>
+            <span className="text-2xl">
+              <img src="/product_info/star.svg" alt="star" />
+            </span>
           </div>
 
           <p className="text-sm text-gray-500 mt-1">
-            45 Ratings & <br /> 20 Reviews
+            {totalReviews} Ratings
           </p>
         </div>
 
@@ -37,7 +37,7 @@ function RatingsReviews() {
               key={item.star}
               star={item.star}
               count={item.count}
-              total={totalRatings}
+              total={totalReviews}
             />
           ))}
         </div>

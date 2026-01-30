@@ -1,4 +1,10 @@
-function ReviewCard({ rating, name, date, text, verified }) {
+function ReviewCard({
+  rating = 0,
+  name = "Anonymous User",
+  date = "",
+  text = "",
+  verified = false,
+}) {
   return (
     <div className="flex flex-col gap-3 py-4 border-b border-gray-200 lg:p-10">
       {/* Header */}
@@ -12,7 +18,11 @@ function ReviewCard({ rating, name, date, text, verified }) {
           {/* Name */}
           <div className="flex items-center gap-1 text-sm font-medium">
             {name}
-            {verified && <span className="text-gray-400 text-xs"><img src="/product_info/verified.svg" /></span>}
+            {verified && (
+              <span className="text-gray-400 text-xs">
+                <img src="/product_info/verified.svg" />
+              </span>
+            )}
           </div>
         </div>
 

@@ -68,9 +68,12 @@ export default function ProductsPage() {
         setProducts(normalized);
       } catch (err) {
         console.error(err);
-      } finally {
-        setLoading(false);
       }
+
+      // Currently didn't need loading state.
+      // finally {
+      //   setLoading(false);
+      // }
     }
 
     fetchProducts();
