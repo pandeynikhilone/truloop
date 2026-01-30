@@ -34,3 +34,23 @@ export const createProduct = async (req, res) => {
     res.status(400).json({ message: "Failed to create product" });
   }
 };
+
+// PUT /api/products/:id
+export const updateProduct = async (req, res) => {
+  try {
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(200).json(product);
+  } catch (error) {
+    console.error("UPDATE PRODUCT ERROR:", error.message);
+    res.status(400).json({ message: "Failed to update product" });
+  }
+};
