@@ -1,0 +1,10 @@
+import { Suspense } from "react";
+import SubmitReviewClient from "@/app/components/review/SubmitReviewClient";
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div className="p-10 text-center">Loading…</div>}>
+      <SubmitReviewClient />
+    </Suspense>
+  );
+}

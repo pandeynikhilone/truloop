@@ -1,23 +1,30 @@
 {
-  "name": "truloop",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "@heroicons/react": "^2.2.0",
-    "next": "16.0.10",
-    "react": "19.2.1",
-    "react-dom": "19.2.1"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "16.0.10",
-    "tailwindcss": "^4"
-  }
+    "name": "truloop",
+    "version": "1.0.0",
+    "description": "Truloop - Reviews That Actually Tell You the Truth",
+    "private": true,
+    "workspaces": [
+        "frontend",
+        "backend"
+    ],
+    "scripts": {
+        "dev:frontend": "npm run dev --workspace=frontend",
+        "dev:backend": "npm run dev --workspace=backend",
+        "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+        "build:frontend": "npm run build --workspace=frontend",
+        "build:backend": "npm run build --workspace=backend",
+        "start:frontend": "npm run start --workspace=frontend",
+        "start:backend": "npm run start --workspace=backend"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    },
+    "keywords": [
+        "reviews",
+        "products",
+        "nextjs",
+        "express"
+    ],
+    "author": "",
+    "license": "ISC"
 }
