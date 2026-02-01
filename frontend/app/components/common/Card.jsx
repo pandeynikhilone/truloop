@@ -4,7 +4,7 @@ import Link from "next/link";
 
 function Card({ product }) {
   const rating = product.rating;
-  const imageSrc = product?.images || "/homepage/rectangle.svg";
+  const imageSrc = product?.images?.[0] || "/homepage/rectangle.svg";
 
   return (
     <div>
