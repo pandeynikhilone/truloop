@@ -15,13 +15,27 @@ export default function AddProductClient() {
         name: "",
         brand: "",
         price: "",
-        description: "",
         images: [],
+    });
+
+    // Specifications state
+    const [specifications, setSpecifications] = useState({
+        os: "",
+        display: "",
+        processor: "",
+        memory: "",
+        battery: "",
+        camera: ""
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleSpecChange = (e) => {
+        const { name, value } = e.target;
+        setSpecifications((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleImageUploadSuccess = (url, data) => {
@@ -48,7 +62,7 @@ export default function AddProductClient() {
             return;
         }
 
-        if (!formData.name || !formData.brand || !formData.price || !formData.description) {
+        if (!formData.name || !formData.brand || !formData.price) {
             alert("Please fill in all required fields");
             return;
         }
@@ -57,13 +71,22 @@ export default function AddProductClient() {
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
             const url = `${apiUrl}/api/products`;
 
+            // Convert specifications to Map object (only include non-empty values)
+            const specsMap = {};
+            if (specifications.os) specsMap['OS'] = specifications.os;
+            if (specifications.display) specsMap['Display'] = specifications.display;
+            if (specifications.processor) specsMap['Processor'] = specifications.processor;
+            if (specifications.memory) specsMap['Memory'] = specifications.memory;
+            if (specifications.battery) specsMap['Battery'] = specifications.battery;
+            if (specifications.camera) specsMap['Camera'] = specifications.camera;
+
             // Format data to match Product model
             const productData = {
                 name: formData.name,
                 brand: formData.brand,
                 price: parseFloat(formData.price), // Convert to number
-                description: formData.description,
                 images: formData.images, // Already an array
+                specifications: specsMap, // Add specifications
             };
 
             console.log('Submitting to:', url);
@@ -184,20 +207,101 @@ export default function AddProductClient() {
                     />
                 </div>
 
-                {/* Description */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Description *
-                    </label>
-                    <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        rows="4"
-                        className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                        placeholder="Enter product description"
-                        required
-                    />
+                {/* Specifications Section */}
+                <div className="border-t pt-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Key Specifications</h3>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* OS */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                OS
+                            </label>
+                            <input
+                                type="text"
+                                name="os"
+                                value={specifications.os}
+                                onChange={handleSpecChange}
+                                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                placeholder="e.g., Android 15, HypertOS"
+                            />
+                        </div>
+
+                        {/* Display */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Display
+                            </label>
+                            <input
+                                type="text"
+                                name="display"
+                                value={specifications.display}
+                                onChange={handleSpecChange}
+                                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                placeholder="e.g., 6.77 AMOLED, 120Hz, 3200 nits"
+                            />
+                        </div>
+
+                        {/* Processor */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Processor
+                            </label>
+                            <input
+                                type="text"
+                                name="processor"
+                                value={specifications.processor}
+                                onChange={handleSpecChange}
+                                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                placeholder="e.g., Snapdragon 6 Gen 3"
+                            />
+                        </div>
+
+                        {/* Memory */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Memory
+                            </label>
+                            <input
+                                type="text"
+                                name="memory"
+                                value={specifications.memory}
+                                onChange={handleSpecChange}
+                                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                placeholder="e.g., 8GB RAM, 128GB Storage"
+                            />
+                        </div>
+
+                        {/* Battery */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Battery
+                            </label>
+                            <input
+                                type="text"
+                                name="battery"
+                                value={specifications.battery}
+                                onChange={handleSpecChange}
+                                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                placeholder="e.g., 5800 mAh"
+                            />
+                        </div>
+
+                        {/* Camera */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Camera
+                            </label>
+                            <input
+                                type="text"
+                                name="camera"
+                                value={specifications.camera}
+                                onChange={handleSpecChange}
+                                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                placeholder="e.g., Rear 50MP, Front 8MP"
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 {/* Submit Button */}

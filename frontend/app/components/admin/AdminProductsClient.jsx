@@ -24,6 +24,29 @@ export default function AdminProductsClient() {
         fetchProducts();
     }, []);
 
+    const handleDelete = async (productId, productName) => {
+        if (!confirm(`Are you sure you want to delete "${productName}"?`)) {
+            return;
+        }
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`, {
+                method: "DELETE",
+            });
+
+            if (res.ok) {
+                // Remove product from state
+                setProducts(products.filter(p => p._id !== productId));
+                alert("Product deleted successfully!");
+            } else {
+                alert("Failed to delete product");
+            }
+        } catch (error) {
+            console.error("Error deleting product:", error);
+            alert("Error deleting product");
+        }
+    };
+
     if (loading) return <div>Loading products...</div>;
 
     return (
@@ -53,7 +76,7 @@ export default function AdminProductsClient() {
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-3">
                                         <img
-                                            src={product.images || "/homepage/rectangle.svg"}
+                                            src={product.images?.[0] || "/homepage/rectangle.svg"}
                                             alt={product.name}
                                             className="w-10 h-10 rounded-md object-cover bg-gray-100"
                                         />
@@ -69,9 +92,17 @@ export default function AdminProductsClient() {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <Link href={`/admin/products/${product._id}/edit`}>
-                                        <button className="text-gray-400 hover:text-black hover:underline text-sm font-medium">Edit</button>
-                                    </Link>
+                                    <div className="flex items-center gap-3">
+                                        <Link href={`/admin/products/${product._id}/edit`}>
+                                            <button className="text-gray-400 hover:text-black hover:underline text-sm font-medium">Edit</button>
+                                        </Link>
+                                        <button
+                                            onClick={() => handleDelete(product._id, product.name)}
+                                            className="text-gray-400 hover:text-red-600 hover:underline text-sm font-medium"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

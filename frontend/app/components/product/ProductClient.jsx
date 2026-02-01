@@ -32,7 +32,7 @@ export default function ProductClient({ id }) {
                     id: data._id,
                     name: data.name,
                     price: data.price,
-                    image: data.images || "/homepage/rectangle.svg",
+                    image: data.images?.[0] || "/homepage/rectangle.svg",
                     rating: Math.round(data.averageRating ?? 0),
                     reviewCount: data.reviewCount ?? 0,
                     specs: data.specifications ?? {},

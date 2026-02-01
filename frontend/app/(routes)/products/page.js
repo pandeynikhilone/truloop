@@ -61,7 +61,7 @@ export default function ProductsPage() {
           id: item._id,
           name: item.name,
           price: item.price, // until you add price in DB
-          image: item.imageUrl,
+          images: item.images, // Use images array for Cloudinary URLs
           rating: Math.round(item.averageRating || 0),
         }));
 
