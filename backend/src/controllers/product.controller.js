@@ -28,10 +28,13 @@ export const getProductById = async (req, res) => {
 // POST /api/products
 export const createProduct = async (req, res) => {
   try {
+    console.log('Creating product with data:', req.body);
     const product = await Product.create(req.body);
     res.status(201).json(product);
   } catch (error) {
-    res.status(400).json({ message: "Failed to create product" });
+    console.error('CREATE PRODUCT ERROR:', error.message);
+    console.error('Error details:', error);
+    res.status(400).json({ message: "Failed to create product", error: error.message });
   }
 };
 
