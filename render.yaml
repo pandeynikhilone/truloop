@@ -30,8 +30,9 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: npm ci && npm run build --workspace=frontend
-    startCommand: npm run start --workspace=frontend
+    rootDirectory: frontend
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
     envVars:
       - key: NODE_VERSION
         value: 18.17.0
