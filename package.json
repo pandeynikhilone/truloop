@@ -4,7 +4,6 @@
     "description": "Truloop - Reviews That Actually Tell You the Truth",
     "private": true,
     "workspaces": [
-        "frontend",
         "backend"
     ],
     "scripts": {
