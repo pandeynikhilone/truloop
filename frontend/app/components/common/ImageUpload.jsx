@@ -98,10 +98,11 @@ export default function ImageUpload({
                 });
             }, 200);
 
-            const response = await fetch('http://localhost:5000/api/upload/image', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upload/image`, {
                 method: 'POST',
                 body: formData,
             });
+
 
             clearInterval(progressInterval);
             setUploadProgress(100);
