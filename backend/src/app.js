@@ -16,6 +16,11 @@ app.get("/", (req, res) => {
   res.send("TruLoop API is running");
 });
 
+// Health check route for uptime monitoring
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok", timestamp: new Date() });
+});
+
 app.use("/api/products", productRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/admin", adminRoutes);
