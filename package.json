@@ -14,7 +14,8 @@
         "build:backend": "npm run build --workspace=backend",
         "start:frontend": "npm run start --workspace=frontend",
         "start:backend": "npm run start --workspace=backend",
-        "build": "echo 'ROOT BUILD STARTING' && npm run build --workspace=backend"
+        "build": "cd frontend && npm install && npm run build",
+        "start": "cd frontend && npm start"
     },
     "devDependencies": {
         "concurrently": "^8.2.2",
