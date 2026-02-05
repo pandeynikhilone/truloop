@@ -4,7 +4,8 @@
     "description": "Truloop - Reviews That Actually Tell You the Truth",
     "private": true,
     "workspaces": [
-        "backend"
+        "backend",
+        "frontend"
     ],
     "scripts": {
         "dev:frontend": "npm run dev --workspace=frontend",

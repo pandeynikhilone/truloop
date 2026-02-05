@@ -1,12 +1,31 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 import Navigation from "@/app/components/common/Navigation";
 import Footer from "@/app/components/common/Footer";
 import CouponCard from "@/app/components/profile/CouponCard";
 
 function page() {
   const [open, setOpen] = useState(false);
+  const { user, logout, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/auth/login");
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <Navigation />
@@ -19,7 +38,9 @@ function page() {
             <div className="flex justify-center">
               <div className="w-30 aspect-square rounded-full border-2 border-black flex items-center justify-center">
                 <div className="w-22 aspect-square rounded-full bg-black flex items-center justify-center">
-                  <span className="text-white text-4xl font-bold">N</span>
+                  <span className="text-white text-4xl font-bold">
+                    {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -30,7 +51,7 @@ function page() {
               </label>
               <input
                 type="text"
-                value="Nikhil Pandey"
+                value={user.name}
                 className="w-full px-3 py-2 rounded border border-black text-sm outline-none"
                 disabled
               />
@@ -40,7 +61,7 @@ function page() {
               <label className="text-xs font-medium text-black">Email</label>
               <input
                 type="text"
-                value="nikhilpandey@gmail.com"
+                value={user.email}
                 className="w-full px-3 py-2 rounded border border-black text-sm outline-none"
                 disabled
               />
@@ -80,7 +101,10 @@ function page() {
             </div>
 
             {/* Sign Out */}
-            <button className="self-start cursor-pointer bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-semibold">
+            <button
+              onClick={logout}
+              className="self-start cursor-pointer bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-semibold"
+            >
               <img src="/user_profile/sign_out.svg" />
               Sign out
             </button>

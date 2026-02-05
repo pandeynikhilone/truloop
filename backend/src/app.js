@@ -3,6 +3,7 @@ import cors from "cors";
 import productRoutes from "./routes/product.routes.js";
 import reviewRoutes from "./routes/review.routes.js";
 
+import authRoutes from "./routes/auth.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
 
@@ -21,6 +22,7 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok", timestamp: new Date() });
 });
 
+app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/admin", adminRoutes);
