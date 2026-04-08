@@ -18,10 +18,10 @@ function Card({ product }) {
             />
           </div>
 
-          <div className="whitespace-nowrap text-sm lg:text-lg">
-            <div>{product?.name}</div>
+          <div className="w-11/12 text-sm lg:text-lg">
+            <div className="whitespace-nowrap overflow-hidden text-ellipsis">{product?.name}</div>
 
-            <div className="flex justify-between">
+            <div className="flex justify-between mt-1">
               <div>₹{product?.price}</div>
 
               <div className="self-center flex">
