@@ -3,9 +3,11 @@
 import React, { useState } from "react";
 import Search from "./Search";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
-export default function Navigation() {
+export default function Navigation({ searchQuery, onSearchQueryChange }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth() || {};
 
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
@@ -47,7 +49,7 @@ export default function Navigation() {
             </Link>
             {/* Desktop Navbar Search */}
             <div className="hidden items-center w-75 lg:flex">
-              <Search />
+              <Search value={searchQuery} onChange={onSearchQueryChange} />
             </div>
           </div>
         </div>
@@ -64,9 +66,9 @@ export default function Navigation() {
           </div>
 
           {/* Profile icon */}
-          <Link href={"../profile"}>
-            <div className="hidden text-xl font-medium rounded-full lg:inline-flex items-center justify-center bg-black text-white w-12 hover:cursor-pointer aspect-square">
-              N
+          <Link href={user ? "../profile" : "../auth/login"}>
+            <div className="hidden text-xl uppercase font-medium rounded-full lg:inline-flex items-center justify-center bg-black text-white w-12 hover:cursor-pointer aspect-square">
+              {user?.name ? user.name.charAt(0) : "U"}
             </div>
           </Link>
         </div>
