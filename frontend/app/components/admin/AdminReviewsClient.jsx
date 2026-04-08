@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Loader from "@/app/components/common/Loader";
 
 export default function AdminReviewsClient() {
     const [reviews, setReviews] = useState([]);
@@ -42,7 +43,7 @@ export default function AdminReviewsClient() {
         }
     };
 
-    if (loading) return <div>Loading reviews...</div>;
+    if (loading) return <Loader text="Loading reviews..." />;
 
     return (
         <div>

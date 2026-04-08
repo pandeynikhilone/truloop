@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import ImageUpload from "@/app/components/common/ImageUpload";
+import Loader from "@/app/components/common/Loader";
 
 export default function EditProductClient({ id }) {
     const router = useRouter();
@@ -64,7 +66,7 @@ export default function EditProductClient({ id }) {
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loader text="Loading product details..." />;
     if (error) return <div>Error: {error}</div>;
 
     return (

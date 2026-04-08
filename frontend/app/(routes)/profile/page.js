@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import Navigation from "@/app/components/common/Navigation";
 import Footer from "@/app/components/common/Footer";
 import CouponCard from "@/app/components/profile/CouponCard";
+import Loader from "@/app/components/common/Loader";
 
 function page() {
   const [open, setOpen] = useState(false);
@@ -20,8 +21,10 @@ function page() {
 
   if (loading || !user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p>Loading...</p>
+      <div className="flex flex-col min-h-screen">
+        <Navigation />
+        <Loader text="Loading profile..." />
+        <div className="mt-auto"><Footer /></div>
       </div>
     );
   }

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Loader from "@/app/components/common/Loader";
 
 export default function AdminProductsClient() {
     const [products, setProducts] = useState([]);
@@ -47,7 +48,7 @@ export default function AdminProductsClient() {
         }
     };
 
-    if (loading) return <div>Loading products...</div>;
+    if (loading) return <Loader text="Loading products..." />;
 
     return (
         <div>

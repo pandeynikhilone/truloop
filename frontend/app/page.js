@@ -1,9 +1,11 @@
 "use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Footer from "./components/common/Footer";
 import Navigation from "./components/common/Navigation";
 import Search from "./components/common/Search";
 import Card from "./components/common/Card";
+import Loader from "./components/common/Loader";
 
 function HeroSection() {
   return (
@@ -172,16 +174,56 @@ const products = [
 ];
 
 function ProductCard() {
+  const [featuredProducts, setFeaturedProducts] = useState(products);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchFeatured() {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
+        if (!res.ok) throw new Error("Failed to fetch products");
+        
+        const data = await res.json();
+        
+        // Sort by average rating descending, then take top 4
+        const topProducts = [...data]
+          .sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0))
+          .slice(0, 4)
+          .map((item) => ({
+            id: item._id,
+            name: item.name,
+            price: item.price,
+            images: item.images,
+            rating: Math.round(item.averageRating || 0)
+          }));
+        
+        if (topProducts.length > 0) {
+          setFeaturedProducts(topProducts);
+        }
+      } catch (err) {
+        console.error("Failed to load featured products:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    
+    fetchFeatured();
+  }, []);
+
   return (
-    <div className="my-10 md:px-10 flex flex-col gap-8">
+    <div className="my-10 md:px-10 flex flex-col gap-8 min-h-[45vh]">
       <div className="flex w-full text-center justify-center text-2xl md:text-3xl lg:text-5xl font-bold">
         Featured Products
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 w-fit mx-auto gap-1.5 gap-y-4 lg:gap-6">
-        {products.map((product) => (
-          <Card key={product.id} product={product} />
-        ))}
-      </div>
+      {isLoading ? (
+        <Loader text="Loading featured products..." />
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-4 w-fit mx-auto gap-1.5 gap-y-4 lg:gap-6">
+          {featuredProducts.map((product) => (
+            <Card key={product.id} product={product} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

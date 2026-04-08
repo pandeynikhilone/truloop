@@ -6,6 +6,7 @@ import Footer from "@/app/components/common/Footer";
 import ReviewsList from "./ReviewsList";
 import RatingsReviews from "./RatingsReviews";
 import { useRouter } from "next/navigation";
+import Loader from "@/app/components/common/Loader";
 
 export default function AllReviewsClient({ id }) {
     const [reviews, setReviews] = useState([]);
@@ -35,7 +36,13 @@ export default function AllReviewsClient({ id }) {
         fetchReviews();
     }, [id]);
 
-    if (loading) return <div className="p-10 text-center">Loading reviews...</div>;
+    if (loading) return (
+        <div className="flex flex-col min-h-screen">
+            <Navigation />
+            <Loader text="Loading reviews..." />
+            <div className="mt-auto"><Footer /></div>
+        </div>
+    );
 
     return (
         <div>

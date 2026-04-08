@@ -3,6 +3,7 @@ import Navigation from "@/app/components/common/Navigation";
 import Card from "@/app/components/common/Card";
 import Search from "@/app/components/common/Search";
 import Footer from "@/app/components/common/Footer";
+import Loader from "@/app/components/common/Loader";
 
 import React, { useEffect, useState, useMemo } from "react";
 
@@ -44,11 +45,22 @@ const priceRanges = [
 
 export default function ProductsPage() {
   const [allProducts, setAllProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
   const [selectedSort, setSelectedSort] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedPriceLabel, setSelectedPriceLabel] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has("q")) {
+        setSearchQuery(params.get("q"));
+      }
+    }
+  }, []);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -77,6 +89,8 @@ export default function ProductsPage() {
         setAllProducts(normalized);
       } catch (err) {
         console.error(err);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -91,10 +105,18 @@ export default function ProductsPage() {
     setSelectedSort("");
     setSelectedBrand("");
     setSelectedPriceLabel("");
+    setSearchQuery("");
   };
 
   const displayedProducts = useMemo(() => {
     let result = [...allProducts];
+
+    // Filter by search query
+    if (searchQuery) {
+      result = result.filter(
+        (p) => p.name && p.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
 
     // Filter by brand
     if (selectedBrand) {
@@ -133,7 +155,7 @@ export default function ProductsPage() {
     }
 
     return result;
-  }, [allProducts, selectedSort, selectedBrand, selectedPriceLabel]);
+  }, [allProducts, selectedSort, selectedBrand, selectedPriceLabel, searchQuery]);
 
   // Unified component so modifications are automatically reflected in both mobile and desktop views
   const FilterContent = () => (
@@ -142,7 +164,7 @@ export default function ProductsPage() {
         <span className="flex text-md md:text-lg lg:text-xl font-bold py-6 px-3 md:px-5">
           Sort By
         </span>
-        {(selectedSort || selectedBrand || selectedPriceLabel) && (
+        {(selectedSort || selectedBrand || selectedPriceLabel || searchQuery) && (
           <button onClick={clearFilters} className="text-sm underline cursor-pointer hover:text-gray-600 font-medium">
             Clear All
           </button>
@@ -217,7 +239,7 @@ export default function ProductsPage() {
 
   return (
     <div className="flex flex-col">
-      <Navigation />
+      <Navigation searchQuery={searchQuery} onSearchQueryChange={setSearchQuery} />
       {isOpen && (
         <div
           className={`fixed overflow-y-auto overflow-x-hidden top-30 right-0 max-w-75 w-full h-[75vh] rounded-bl-3xl rounded-tl-3xl bg-white shadow-[-2px_0_16px_0_#CCC] z-50 mt-4 flex flex-col font-medium transform transition-transform duration-500 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
@@ -239,7 +261,9 @@ export default function ProductsPage() {
           </div>
         </div>
       )}
-      <div className="flex justify-center lg:hidden">{<Search />}</div>
+      <div className="flex justify-center lg:hidden mt-4">
+        <Search value={searchQuery} onChange={setSearchQuery} />
+      </div>
       <div className="lg:w-[90%] mx-auto flex flex-col min-h-[60vh]">
         <div className="w-full flex md:justify-between">
           <div className="xl:w-[30%] hidden xl:block">
@@ -261,7 +285,9 @@ export default function ProductsPage() {
               </button>
             </div>
             
-            {displayedProducts.length > 0 ? (
+            {isLoading ? (
+              <Loader text="Loading amazing products..." />
+            ) : displayedProducts.length > 0 ? (
               <div className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-fit lg:w-full mx-auto md:mx-0 gap-1.5 gap-y-4 lg:gap-3">
                 {displayedProducts.map((product) => (
                   <Card key={product.id} product={product} />
