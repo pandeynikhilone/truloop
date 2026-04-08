@@ -1,23 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SubmitReviewClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { user } = useAuth() || {};
   const productId = searchParams.get("productId");
+
+  const queryModel = searchParams.get("model") || "";
 
   const [rating, setRating] = useState("4");
   const [comment, setComment] = useState("");
   const [recommend, setRecommend] = useState("Yes");
-  const [productModel, setProductModel] = useState("");
+  const [productModel, setProductModel] = useState(queryModel);
   const [usageDuration, setUsageDuration] = useState("");
   const [fileName, setFileName] = useState("");
   const [proof, setProof] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Fallback: if model isn't in query params but we have a productId, fetch it
+    if (productId && !productModel) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch product");
+          return res.json();
+        })
+        .then((data) => {
+          if (data && data.name) {
+            setProductModel(data.name);
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [productId, productModel]);
 
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
@@ -69,7 +90,7 @@ export default function SubmitReviewClient() {
           productModel,
           usageDuration,
           proof,
-          reviewer: "Anonymous User", // Hardcoded for now per requirements context
+          reviewer: user?.name || "Anonymous User",
         }),
       });
 
@@ -136,18 +157,28 @@ export default function SubmitReviewClient() {
         </div>
 
         <div className="flex w-full flex-col gap-2 self-start lg:gap-4">
+          <div className="text-[10px] lg:text-xs text-gray-500 bg-black/5 p-2 rounded-md flex items-center justify-between mb-2">
+            <span>Reviewing as: <strong className="text-black">{user?.name || "Anonymous User"}</strong></span>
+            {user && (
+              <span className="flex items-center gap-1 text-green-600 font-medium">
+                <img src="/product_info/verified.svg" className="w-3.5 h-3.5" alt="Verified" />
+                Verified
+              </span>
+            )}
+          </div>
+
           {/* Model */}
           <span className="text-[8px] font-bold leading-3 text-Grey-2 lg:text-[12px]">
             Model
           </span>
 
-          <label className="inline-flex items-center rounded px-2 py-1.5 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2">
+          <label className="inline-flex items-center rounded px-2 py-1.5 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2 bg-gray-50/5">
             <input
               type="text"
               value={productModel}
-              onChange={(e) => setProductModel(e.target.value)}
-              placeholder="Redmi Note 15"
-              className="w-full text-[10px] text-Grey-2 outline-none lg:text-[14px] lg:placeholder:text-[14px]"
+              readOnly
+              placeholder={productModel ? "" : "Loading model..."}
+              className="w-full cursor-not-allowed bg-transparent text-[10px] text-Grey-2 outline-none lg:text-[14px] lg:placeholder:text-[14px]"
             />
           </label>
 

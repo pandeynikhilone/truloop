@@ -7,6 +7,7 @@ import RatingsReviews from "@/app/components/review/RatingsReviews";
 import ReviewsList from "@/app/components/review/ReviewsList";
 import Card from "@/app/components/common/Card";
 import Link from "next/link";
+import Loader from "@/app/components/common/Loader";
 
 export default function ProductClient({ id }) {
     const [product, setProduct] = useState(null);
@@ -68,7 +69,13 @@ export default function ProductClient({ id }) {
         fetchReviews();
     }, [id]);
 
-    if (loading) return <div className="p-10">Loading...</div>;
+    if (loading) return (
+        <div className="flex flex-col min-h-screen">
+            <Navigation />
+            <Loader text="Loading product details..." />
+            <div className="mt-auto"><Footer /></div>
+        </div>
+    );
     if (error) return <div className="p-10 text-red-500">{error}</div>;
     return (
         <div>
@@ -123,7 +130,7 @@ export default function ProductClient({ id }) {
                             </div>
 
                             <div className="flex gap-3">
-                                <Link href={`/submit-review?productId=${product.id}`}>
+                                <Link href={`/submit-review?productId=${product.id}&model=${encodeURIComponent(product.name)}`}>
                                     <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
                                         <img
                                             className="w-3.75"

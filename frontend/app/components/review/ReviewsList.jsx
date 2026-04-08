@@ -20,7 +20,7 @@ function ReviewsList({ reviews }) {
                     name={review.reviewerName}
                     text={review.comment}
                     date={new Date(review.createdAt).toLocaleDateString()}
-                    verified={true}
+                    verified={review.reviewerName !== "Anonymous User"}
                 />
             ))}
         </section>
