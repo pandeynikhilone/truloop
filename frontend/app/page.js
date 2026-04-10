@@ -63,7 +63,7 @@ function OurRole() {
               Earn
             </div>
             <div className="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px] whitespace-nowrap">
-              Add your genuine review with proof - authenticated instantly.
+              Get your reward coupon instantly once your review passes verification.
             </div>
           </div>
           <div className="flex flex-col justify-start items-start gap-1.5">
@@ -71,7 +71,7 @@ function OurRole() {
               Update
             </div>
             <div className="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px] whitespace-nowrap">
-              Add your genuine review with proof - authenticated instantly.
+              Return after months of use, post your update, and earn more points.
             </div>
           </div>
         </div>
@@ -119,7 +119,7 @@ function TrustUs() {
                 src="/homepage/icon/check_ring.png"
                 alt=""
               />
-              <span>Long-Term Usage Insights</span>
+              <span>Reward-Based Engagement</span>
             </div>
             <div className="flex gap-2 items-center">
               <img
@@ -127,7 +127,7 @@ function TrustUs() {
                 src="/homepage/icon/check_ring.png"
                 alt=""
               />
-              <span>Long-Term Usage Insights</span>
+              <span>Reliable Long-Term Data</span>
             </div>
           </div>
         </div>

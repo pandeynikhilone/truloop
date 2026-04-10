@@ -104,15 +104,23 @@ export default function EditProductClient({ id }) {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
-                    <input
-                        type="text"
-                        name="images"
-                        value={formData.images}
-                        onChange={handleChange}
-                        className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
+                    {(typeof formData.images === 'string' && formData.images !== '') || (Array.isArray(formData.images) && formData.images.length > 0) ? (
+                        <div className="mb-4">
+                            <p className="text-xs text-gray-500 mb-2">Current Image:</p>
+                            <img 
+                                src={Array.isArray(formData.images) ? formData.images[0] : formData.images} 
+                                alt="Current product image" 
+                                className="h-32 object-contain border border-gray-200 rounded-lg p-2"
+                            />
+                        </div>
+                    ) : null}
+                    
+                    <ImageUpload
+                        onUploadSuccess={(url) => setFormData(prev => ({ ...prev, images: [url] }))}
+                        onUploadError={(err) => alert('Image upload failed: ' + err.message)}
+                        buttonText="Upload New Image"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Currently supports URL strings.</p>
                 </div>
 
                 <button

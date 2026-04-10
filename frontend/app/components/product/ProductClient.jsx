@@ -37,7 +37,31 @@ export default function ProductClient({ id }) {
                     rating: Math.round(data.averageRating ?? 0),
                     reviewCount: data.reviewCount ?? 0,
                     specs: data.specifications ?? {},
+                    brand: data.brand,
                 });
+
+                // Fetch same brand products
+                if (data.brand) {
+                    try {
+                        const brandRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
+                        if (brandRes.ok) {
+                            const allProducts = await brandRes.json();
+                            const sameBrand = allProducts
+                                .filter(p => p.brand === data.brand && p._id !== data._id)
+                                .slice(0, 4)
+                                .map(p => ({
+                                    id: p._id,
+                                    name: p.name,
+                                    price: p.price,
+                                    images: p.images,
+                                    rating: Math.round(p.averageRating ?? 0),
+                                }));
+                            setProducts(sameBrand);
+                        }
+                    } catch (err) {
+                        console.error("Failed to fetch same brand products", err);
+                    }
+                }
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -160,16 +184,18 @@ export default function ProductClient({ id }) {
                     </div>
                 )}
 
-                <div className="my-10 md:px-10 flex flex-col gap-8 lg:mb-25 lg:mt-12">
-                    <div className="flex w-full justify-center text-center text-2xl md:text-3xl lg:text-4xl lg:justify-center font-bold">
-                        Same Brand Products
+                {products && products.length > 0 && (
+                    <div className="my-10 md:px-10 flex flex-col gap-8 lg:mb-25 lg:mt-12">
+                        <div className="flex w-full justify-center text-center text-2xl md:text-3xl lg:text-4xl lg:justify-center font-bold">
+                            Same Brand Products
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 w-fit mx-auto gap-1.5 gap-y-4 lg:gap-6">
+                            {products.map((product) => (
+                                <Card key={product.id} product={product} />
+                            ))}
+                        </div>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 w-fit mx-auto gap-1.5 gap-y-4 lg:gap-6">
-                        {products.map((product) => (
-                            <Card key={product.id} product={product} />
-                        ))}
-                    </div>
-                </div>
+                )}
             </div>
             <Footer />
         </div>

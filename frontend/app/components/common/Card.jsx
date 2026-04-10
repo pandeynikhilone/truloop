@@ -24,12 +24,13 @@ function Card({ product }) {
             <div className="flex justify-between mt-1">
               <div>₹{product?.price}</div>
 
-              <div className="self-center flex">
+              <div className="self-center flex gap-0.5">
                 {[...Array(rating)].map((_, index) => (
                   <img
                     key={index}
                     src="/homepage/icon/star_light.svg"
                     alt="star"
+                    className="w-3 lg:w-[14px] aspect-square"
                   />
                 ))}
               </div>

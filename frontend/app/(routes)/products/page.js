@@ -53,6 +53,13 @@ export default function ProductsPage() {
   const [selectedPriceLabel, setSelectedPriceLabel] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedBrand, selectedSort, selectedPriceLabel, itemsPerPage]);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
@@ -157,6 +164,12 @@ export default function ProductsPage() {
     return result;
   }, [allProducts, selectedSort, selectedBrand, selectedPriceLabel, searchQuery]);
 
+  const totalPages = Math.ceil(displayedProducts.length / itemsPerPage);
+  const paginatedProducts = displayedProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   // Unified component so modifications are automatically reflected in both mobile and desktop views
   const FilterContent = () => (
     <>
@@ -182,6 +195,9 @@ export default function ProductsPage() {
               className="accent-black"
               checked={selectedSort === option}
               onChange={() => setSelectedSort(option)}
+              onClick={() => {
+                if (selectedSort === option) setSelectedSort("");
+              }}
             />
             {option}
           </label>
@@ -207,6 +223,9 @@ export default function ProductsPage() {
               className="accent-black"
               checked={selectedBrand === item}
               onChange={() => setSelectedBrand(item)}
+              onClick={() => {
+                if (selectedBrand === item) setSelectedBrand("");
+              }}
             />
             <span>{item}</span>
           </label>
@@ -228,6 +247,9 @@ export default function ProductsPage() {
               className="accent-black"
               checked={selectedPriceLabel === range.label}
               onChange={() => setSelectedPriceLabel(range.label)}
+              onClick={() => {
+                if (selectedPriceLabel === range.label) setSelectedPriceLabel("");
+              }}
             />
             {range.label}
           </label>
@@ -270,29 +292,72 @@ export default function ProductsPage() {
             <FilterContent />
           </div>
           <div className="flex flex-col w-full xl:w-[70%] lg:gap-4 my-5 px-3 sm:px-4 md:px-2">
-            <div className="flex items-center justify-between lg:justify-start">
-              <span className="flex items-end gap-3 text-lg md:text-xl lg:text-2xl font-bold mt-5 mb-3">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between mt-5 mb-3 gap-2 lg:gap-0">
+              <span className="flex items-end gap-3 text-lg md:text-xl lg:text-2xl font-bold">
                 Products
                 {displayedProducts.length > 0 && (
                   <span className="text-sm text-gray-500 font-normal mb-1 hidden sm:inline-block">({displayedProducts.length} results)</span>
                 )}
               </span>
-              <button
-                onClick={() => setIsOpen(true)}
-                className="rounded-[2.8125rem] border-2 border-[#1A1A1A] px-3 py-0.5 md:px-4 md:py-2 lg:hidden font-bold h-fit mt-2"
-              >
-                Filter
-              </button>
+              <div className="flex items-center justify-between lg:justify-end gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium">Items per page:</span>
+                  <select
+                    value={itemsPerPage}
+                    onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                    className="border-2 border-gray-300 rounded-lg p-1 px-2 cursor-pointer focus:outline-none focus:border-black font-medium"
+                  >
+                    <option value={12}>12</option>
+                    <option value={24}>24</option>
+                    <option value={36}>36</option>
+                  </select>
+                </div>
+                <button
+                  onClick={() => setIsOpen(true)}
+                  className="rounded-[2.8125rem] border-2 border-[#1A1A1A] px-3 py-0.5 md:px-4 md:py-2 lg:hidden font-bold h-fit"
+                >
+                  Filter
+                </button>
+              </div>
             </div>
             
             {isLoading ? (
               <Loader text="Loading amazing products..." />
             ) : displayedProducts.length > 0 ? (
-              <div className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-fit lg:w-full mx-auto md:mx-0 gap-1.5 gap-y-4 lg:gap-3">
-                {displayedProducts.map((product) => (
-                  <Card key={product.id} product={product} />
-                ))}
-              </div>
+              <>
+                <div className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-fit lg:w-full mx-auto md:mx-0 gap-1.5 gap-y-4 lg:gap-3">
+                  {paginatedProducts.map((product) => (
+                    <Card key={product.id} product={product} />
+                  ))}
+                </div>
+                {totalPages > 1 && (
+                  <div className="flex justify-center items-center gap-4 mt-10 mb-4 text-sm md:text-base">
+                    <button
+                      onClick={() => {
+                        setCurrentPage((p) => Math.max(1, p - 1));
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      disabled={currentPage === 1}
+                      className="px-4 py-2 border-2 border-black rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-black hover:text-white transition-colors cursor-pointer font-semibold"
+                    >
+                      Previous
+                    </button>
+                    <span className="font-semibold text-lg">
+                      {currentPage} <span className="font-normal text-gray-500">/ {totalPages}</span>
+                    </span>
+                    <button
+                      onClick={() => {
+                        setCurrentPage((p) => Math.min(totalPages, p + 1));
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      disabled={currentPage === totalPages}
+                      className="px-4 py-2 border-2 border-black rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-black hover:text-white transition-colors cursor-pointer font-semibold"
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="flex flex-col items-center justify-center py-20 text-gray-500">
                 <p className="text-xl font-semibold mb-2 text-black">No products found</p>

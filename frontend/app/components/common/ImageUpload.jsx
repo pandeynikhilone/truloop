@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 /**
  * ImageUpload Component
@@ -22,6 +22,8 @@ export default function ImageUpload({
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [error, setError] = useState(null);
+
+    const fileInputRef = useRef(null);
 
     // Handle file selection
     const handleFileSelect = (e) => {
@@ -153,6 +155,11 @@ export default function ImageUpload({
                 className="drop-zone"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
+                onClick={(e) => {
+                    if (e.target.tagName.toLowerCase() !== 'button') {
+                        if (fileInputRef.current) fileInputRef.current.click();
+                    }
+                }}
                 style={{
                     border: '2px dashed #4F46E5',
                     borderRadius: '12px',
@@ -214,6 +221,7 @@ export default function ImageUpload({
                     onChange={handleFileSelect}
                     style={{ display: 'none' }}
                     id="image-upload-input"
+                    ref={fileInputRef}
                 />
             </div>
 
