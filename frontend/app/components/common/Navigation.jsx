@@ -57,20 +57,34 @@ export default function Navigation({ searchQuery, onSearchQueryChange }) {
         {/* Right side of navigation */}
         <div className="flex justify-end">
           <div className="flex py-1 justify-center items-center gap-2.5 text-center font-roboto text-base font-medium md:text-xl lg:hidden">
-            <button className="rounded-[2.8125rem] border-2 border-[#1A1A1A] px-3 py-1.5 md:px-4 md:py-2">
-              Login
-            </button>
-            <button className="rounded-[2.8125rem] border-2 border-[#1A1A1A] bg-black text-white px-3 py-1.5 md:px-4 md:py-2">
-              Signup
-            </button>
+            <Link href="/auth/login">
+              <button className="rounded-[2.8125rem] border-2 border-[#1A1A1A] px-3 py-1.5 md:px-4 md:py-2">
+                Login
+              </button>
+            </Link>
+            <Link href="/auth/signup">
+              <button className="rounded-[2.8125rem] border-2 border-[#1A1A1A] bg-black text-white px-3 py-1.5 md:px-4 md:py-2">
+                Signup
+              </button>
+            </Link>
           </div>
 
-          {/* Profile icon */}
-          <Link href={user ? "../profile" : "../auth/login"}>
-            <div className="hidden text-xl uppercase font-medium rounded-full lg:inline-flex items-center justify-center bg-black text-white w-12 hover:cursor-pointer aspect-square">
-              {user?.name ? user.name.charAt(0) : "U"}
-            </div>
-          </Link>
+          {/* Connect Desktop user states */}
+          {user ? (
+            <Link href="/profile">
+              <div className="hidden text-xl uppercase font-medium rounded-full lg:inline-flex items-center justify-center bg-black text-white w-12 hover:cursor-pointer aspect-square">
+                {user.name.charAt(0)}
+              </div>
+            </Link>
+          ) : (
+            <Link href="/auth/login">
+              <div className="hidden self-center px-5 py-1 rounded-[45px] w-25 h-8 bg-black text-white hover:cursor-pointer transform ease-in duration-150 lg:inline-flex justify-center items-center gap-2.5">
+                <div className="text-center justify-center text-base font-medium leading-5">
+                  Login
+                </div>
+              </div>
+            </Link>
+          )}
         </div>
       </div>
 

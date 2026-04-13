@@ -19,6 +19,9 @@ backend/.env
 *.swo
 .idx/
 
+# Environment files
+.env
+
 # OS
 .DS_Store
 Thumbs.db
