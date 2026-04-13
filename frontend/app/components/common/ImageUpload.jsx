@@ -199,7 +199,7 @@ export default function ImageUpload({
                                     fontSize: '18px',
                                 }}
                             >
-                                ×
+                                x
                             </button>
                         )}
                     </div>
