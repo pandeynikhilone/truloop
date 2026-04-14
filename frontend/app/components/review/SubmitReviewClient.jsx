@@ -7,9 +7,8 @@ import { useAuth } from "@/context/AuthContext";
 export default function SubmitReviewClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user } = useAuth() || {};
+  const { user, setUser } = useAuth() || {};   
   const productId = searchParams.get("productId");
-
   const queryModel = searchParams.get("model") || "";
 
   const [rating, setRating] = useState("4");
@@ -22,9 +21,10 @@ export default function SubmitReviewClient() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pointsAwarded, setPointsAwarded] = useState(false);  
+  const [newPoints, setNewPoints] = useState(0);               
 
   useEffect(() => {
-    // Fallback: if model isn't in query params but we have a productId, fetch it
     if (productId && !productModel) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`)
         .then((res) => {
@@ -32,9 +32,7 @@ export default function SubmitReviewClient() {
           return res.json();
         })
         .then((data) => {
-          if (data && data.name) {
-            setProductModel(data.name);
-          }
+          if (data && data.name) setProductModel(data.name);
         })
         .catch((err) => console.error(err));
     }
@@ -44,11 +42,8 @@ export default function SubmitReviewClient() {
     const file = e.target.files?.[0];
     if (file) {
       setFileName(file.name);
-      // Convert to Base64
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setProof(reader.result);
-      };
+      reader.onloadend = () => setProof(reader.result);
       reader.readAsDataURL(file);
     }
   };
@@ -58,30 +53,14 @@ export default function SubmitReviewClient() {
     setSuccess(false);
     setLoading(true);
 
-    if (!productId) {
-      setError("Product ID missing");
-      setLoading(false);
-      return;
-    }
-
-    if (!usageDuration) {
-      setError("Please specify how long you have used this product");
-      setLoading(false);
-      return;
-    }
-
-    if (!comment || comment.length < 50) {
-      setError("Comment must be at least 50 characters");
-      setLoading(false);
-      return;
-    }
+    if (!productId) { setError("Product ID missing"); setLoading(false); return; }
+    if (!usageDuration) { setError("Please specify how long you have used this product"); setLoading(false); return; }
+    if (!comment || comment.length < 50) { setError("Comment must be at least 50 characters"); setLoading(false); return; }
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           productId,
           rating: Number(rating),
@@ -91,18 +70,22 @@ export default function SubmitReviewClient() {
           usageDuration,
           proof,
           reviewer: user?.name || "Anonymous User",
+          userId: user?._id || null,
         }),
       });
 
-
       const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to submit review");
 
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to submit review");
+      if (data.pointsAwarded && user && setUser) {
+        const updatedUser = { ...user, points: data.updatedPoints };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        setUser(updatedUser);
+        setPointsAwarded(true);
+        setNewPoints(data.updatedPoints);
       }
 
       setSuccess(true);
-      // Optional: reset form
       setComment("");
       setProductModel("");
       setUsageDuration("");
@@ -118,9 +101,22 @@ export default function SubmitReviewClient() {
   if (success) {
     return (
       <div className="flex min-h-screen items-center justify-center px-4">
-        <div className="rounded-3xl bg-Grey-11 px-8 py-10 shadow-lg outline outline-Grey-2 text-center">
-          <h2 className="text-xl font-bold mb-4">Review Submitted!</h2>
-          <p className="text-Grey-2 mb-6">Thank you for sharing your experience.</p>
+        <div className="rounded-3xl bg-Grey-11 px-8 py-10 shadow-lg outline outline-Grey-2 text-center max-w-sm w-full">
+          <h2 className="text-xl font-bold mb-2">Review Submitted!</h2>
+          <p className="text-Grey-2 mb-4">Thank you for sharing your experience.</p>
+
+          {/* ✅ ADDED: Points banner */}
+          {pointsAwarded ? (
+            <div className="mb-6 bg-black text-white rounded-xl px-5 py-4 flex flex-col items-center gap-1">
+              <span className="text-2xl font-extrabold">+50 Points Earned!</span>
+              <span className="text-sm text-gray-300">Total Points: <strong>{newPoints}</strong></span>
+            </div>
+          ) : user ? (
+            <div className="mb-6 bg-gray-100 text-gray-500 rounded-xl px-5 py-3 text-sm">
+              You already earned points for this product.
+            </div>
+          ) : null}
+
           <div className="flex gap-4 justify-center">
             <button
               onClick={() => router.back()}
@@ -129,7 +125,7 @@ export default function SubmitReviewClient() {
               Go Back
             </button>
             <button
-              onClick={() => setSuccess(false)}
+              onClick={() => { setSuccess(false); setPointsAwarded(false); }}
               className="cursor-pointer rounded bg-black px-6 py-2 text-white font-bold"
             >
               Submit Another
@@ -143,7 +139,6 @@ export default function SubmitReviewClient() {
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="inline-flex w-72 flex-col items-center justify-center gap-6 rounded-3xl bg-Grey-11 px-4 py-6 outline-2 outline-offset-2 outline-Grey-2 shadow-[0px_0px_16px_0px_rgba(0,0,0,0.25)] lg:w-120 lg:gap-8 lg:px-8 lg:py-10 relative">
-        {/* Back Button */}
         <div className="w-full flex justify-start">
           <button
             onClick={() => router.back()}
@@ -167,11 +162,7 @@ export default function SubmitReviewClient() {
             )}
           </div>
 
-          {/* Model */}
-          <span className="text-[8px] font-bold leading-3 text-Grey-2 lg:text-[12px]">
-            Model
-          </span>
-
+          <span className="text-[8px] font-bold leading-3 text-Grey-2 lg:text-[12px]">Model</span>
           <label className="inline-flex items-center rounded px-2 py-1.5 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2 bg-gray-50/5">
             <input
               type="text"
@@ -182,12 +173,9 @@ export default function SubmitReviewClient() {
             />
           </label>
 
-          {/* Usage */}
           <span className="text-[8px] font-bold leading-3 text-Grey-2 lg:text-[12px]">
-            How long have you used this product?
-            <span className="text-red-600">*</span>
+            How long have you used this product?<span className="text-red-600">*</span>
           </span>
-
           <label className="inline-flex items-center rounded px-2 py-1.5 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2">
             <input
               type="text"
@@ -198,35 +186,25 @@ export default function SubmitReviewClient() {
             />
           </label>
 
-          {/* Rating */}
           <label className="flex flex-col gap-1 lg:gap-2">
             <span className="text-[8px] font-bold leading-3 text-Grey-2 lg:text-[12px]">
-              Rate (1-5)
-              <span className="text-red-600">*</span>
+              Rate (1-5)<span className="text-red-600">*</span>
             </span>
-
             <select
               value={rating}
               onChange={(e) => setRating(e.target.value)}
               className="cursor-pointer w-full rounded-md bg-white px-3 py-2 text-[10px] text-Grey-2 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2 focus:outline-black lg:text-[14px]"
             >
-              <option value="" disabled>
-                Select rating
-              </option>
+              <option value="" disabled>Select rating</option>
               {[1, 2, 3, 4, 5].map((num) => (
-                <option key={num} value={num}>
-                  {num}
-                </option>
+                <option key={num} value={num}>{num}</option>
               ))}
             </select>
           </label>
 
-          {/* Comment */}
           <span className="text-[8px] font-bold leading-3 text-Grey-2 lg:text-[12px]">
-            Comment (Minimum 50 characters)
-            <span className="text-red-600">*</span>
+            Comment (Minimum 50 characters)<span className="text-red-600">*</span>
           </span>
-
           <label className="inline-flex rounded px-2 py-1.5 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2">
             <textarea
               rows={2}
@@ -237,58 +215,37 @@ export default function SubmitReviewClient() {
             />
           </label>
 
-          {/* Recommend */}
           <label className="flex flex-col gap-1 lg:gap-2">
             <span className="text-[8px] font-bold leading-3 text-Grey-2 lg:text-[12px]">
-              Would you recommend this product?
-              <span className="text-red-600">*</span>
+              Would you recommend this product?<span className="text-red-600">*</span>
             </span>
-
             <select
               value={recommend}
               onChange={(e) => setRecommend(e.target.value)}
               className="cursor-pointer w-full rounded-md bg-white px-3 py-2 text-[10px] text-Grey-2 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2 lg:text-[14px]"
             >
-              <option value="" disabled>
-                Select option
-              </option>
+              <option value="" disabled>Select option</option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
             </select>
           </label>
 
-          {/* Upload */}
           <label className="flex flex-col gap-1 lg:gap-2">
             <span className="text-[10px] font-medium text-Grey-2 lg:text-[12px]">
               Upload (Receipt or any proof)*
             </span>
-
-            <input
-              id="upload-proof"
-              type="file"
-              className="hidden"
-              onChange={handleFileUpload}
-            />
-
+            <input id="upload-proof" type="file" className="hidden" onChange={handleFileUpload} />
             <label
               htmlFor="upload-proof"
               className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-md bg-white px-3 py-2 text-[10px] text-Grey-2 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2 lg:text-[14px]"
             >
-              <img
-                src="/product_info/upload.svg"
-                alt="upload"
-                className="h-4 w-4"
-              />
+              <img src="/product_info/upload.svg" alt="upload" className="h-4 w-4" />
               {fileName || "Upload your file"}
             </label>
           </label>
 
-          {/* Error */}
-          {error && (
-            <p className="text-xs text-red-600">{error}</p>
-          )}
+          {error && <p className="text-xs text-red-600">{error}</p>}
 
-          {/* Submit */}
           <button
             onClick={handleSubmit}
             disabled={loading}

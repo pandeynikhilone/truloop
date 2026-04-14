@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Review from "../models/Review.js";
 import Product from "../models/Product.js";
+import User from "../models/user.model.js";  
 
 // POST /api/reviews
 export const createReview = async (req, res) => {
@@ -13,11 +14,10 @@ export const createReview = async (req, res) => {
       productModel,
       usageDuration,
       recommend,
-      proof
+      proof,
+      userId,                                  
     } = req.body;
 
-    // Validate required fields (including new ones)
-    // Note: proof and productModel are optional in schema but logic might require them if needed
     if (!productId || rating === undefined || !comment || !reviewer || !usageDuration || !recommend) {
       return res.status(400).json({ message: "All required fields are required" });
     }
@@ -33,31 +33,56 @@ export const createReview = async (req, res) => {
       productId: productObjectId,
       rating,
       comment,
-      reviewerName: reviewer, // Map 'reviewer' from body to 'reviewerName' in model
+      reviewerName: reviewer,
       productModel,
       usageDuration,
       recommend,
-      proof
+      proof,
     });
 
+    // Recalculate product rating
     const reviews = await Review.find({ productId: productObjectId });
-
     const averageRating =
       reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
-
     product.averageRating = Number(averageRating.toFixed(1));
     product.reviewCount = reviews.length;
-
     await product.save();
 
-    res.status(201).json(review);
+    // ✅ ADDED: Award 50 points if this is the user's first review of this product
+    let pointsAwarded = false;
+    let updatedPoints = null;
+
+    if (userId && mongoose.Types.ObjectId.isValid(userId)) {
+      const userObjectId = new mongoose.Types.ObjectId(userId);
+      const currentUser = await User.findById(userObjectId).select("points reviewedProducts");
+
+      if (currentUser) {
+        const alreadyReviewed = currentUser.reviewedProducts.some(
+          (pid) => pid.toString() === productObjectId.toString()
+        );
+
+        if (!alreadyReviewed) {
+          const updated = await User.findByIdAndUpdate(
+            userObjectId,
+            {
+              $inc: { points: 50 },
+              $addToSet: { reviewedProducts: productObjectId },
+            },
+            { new: true, select: "points reviewedProducts" }
+          );
+          pointsAwarded = true;
+          updatedPoints = updated.points;
+        } else {
+          updatedPoints = currentUser.points;
+        }
+      }
+    }
+
+    res.status(201).json({ review, pointsAwarded, updatedPoints });
+
   } catch (error) {
-    console.error("CREATE REVIEW ERROR");
-    console.error(error);
-    res.status(500).json({
-      message: "Failed to add review",
-      error: error.message,
-    });
+    console.error("CREATE REVIEW ERROR", error);
+    res.status(500).json({ message: "Failed to add review", error: error.message });
   }
 };
 
@@ -71,7 +96,6 @@ export const getReviewsByProduct = async (req, res) => {
     }
 
     const reviews = await Review.find({ productId }).sort({ createdAt: -1 });
-
     res.status(200).json(reviews);
   } catch (error) {
     console.error("FETCH REVIEWS ERROR:", error.message);
@@ -101,18 +125,14 @@ export const deleteReview = async (req, res) => {
     }
 
     const productId = review.productId;
-
     await Review.findByIdAndDelete(id);
 
-    // Recalculate average rating and review count for the product
     const product = await Product.findById(productId);
     if (product) {
       const reviews = await Review.find({ productId });
-
       const averageRating = reviews.length > 0
         ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
         : 0;
-
       product.averageRating = Number(averageRating.toFixed(1));
       product.reviewCount = reviews.length;
       await product.save();

@@ -10,7 +10,6 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
-    // Load user from localStorage on mount
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
@@ -19,7 +18,6 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
     }, []);
 
-    // Login Function
     const login = async (email, password) => {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/auth/login`, {
@@ -29,7 +27,6 @@ export const AuthProvider = ({ children }) => {
             });
 
             const data = await res.json();
-
             if (!res.ok) throw new Error(data.message || "Login failed");
 
             localStorage.setItem("user", JSON.stringify(data));
@@ -41,7 +38,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Register Function
     const register = async (name, email, password) => {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/auth/register`, {
@@ -51,7 +47,6 @@ export const AuthProvider = ({ children }) => {
             });
 
             const data = await res.json();
-
             if (!res.ok) throw new Error(data.message || "Registration failed");
 
             localStorage.setItem("user", JSON.stringify(data));
@@ -63,7 +58,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Logout Function
     const logout = () => {
         localStorage.removeItem("user");
         setUser(null);
@@ -71,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+        <AuthContext.Provider value={{ user, setUser, login, register, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );

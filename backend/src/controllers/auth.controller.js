@@ -1,7 +1,6 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
-// Generate JWT Token
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: "30d",
@@ -15,24 +14,20 @@ const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
-        // Check if user exists
         const userExists = await User.findOne({ email });
         if (userExists) {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        // Create user
-        const user = await User.create({
-            name,
-            email,
-            password,
-        });
+        const user = await User.create({ name, email, password });
 
         if (user) {
             res.status(201).json({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                points: user.points,                      
+                reviewedProducts: user.reviewedProducts,  
                 token: generateToken(user._id),
             });
         } else {
@@ -50,15 +45,15 @@ const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Find user by email
         const user = await User.findOne({ email });
 
-        // Check password
         if (user && (await user.matchPassword(password))) {
             res.json({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                points: user.points,                      
+                reviewedProducts: user.reviewedProducts,  
                 token: generateToken(user._id),
             });
         } else {
@@ -73,7 +68,6 @@ const loginUser = async (req, res) => {
 // @route   GET /api/auth/me
 // @access  Private
 const getProfile = async (req, res) => {
-    // req.user is set by authMiddleware
     const user = await User.findById(req.user._id);
 
     if (user) {
@@ -81,6 +75,8 @@ const getProfile = async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            points: user.points,                          
+            reviewedProducts: user.reviewedProducts,      
         });
     } else {
         res.status(404).json({ message: "User not found" });
