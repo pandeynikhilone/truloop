@@ -41,6 +41,117 @@ const priceRanges = [
   { label: "₹50,000+", min: 50000, max: Infinity },
 ];
 
+// Separate stable component for filters to prevent unmounting issues on state changes
+const FilterContent = ({
+  selectedSort,
+  setSelectedSort,
+  selectedBrand,
+  setSelectedBrand,
+  selectedPriceLabel,
+  setSelectedPriceLabel,
+  searchQuery,
+  clearFilters,
+  sortOptions,
+  brand,
+  priceRanges
+}) => {
+  // Helper to handle radio selection with deselection support
+  const handleRadioClick = (current, selected, setter, value) => {
+    if (current === value) {
+      setter("");
+    } else {
+      setter(value);
+    }
+  };
+
+  return (
+    <>
+      <div className="flex items-center justify-between lg:pe-6">
+        <span className="flex text-lg font-bold py-6 px-3 md:px-5">
+          Sort By
+        </span>
+        {(selectedSort || selectedBrand || selectedPriceLabel || searchQuery) && (
+          <button onClick={clearFilters} className="text-sm underline cursor-pointer hover:text-gray-600 font-medium px-4">
+            Clear All
+          </button>
+        )}
+      </div>
+      <div className="flex flex-col mx-auto px-5 lg:px-10 gap-2">
+        {sortOptions.map((option) => (
+          <div
+            key={option}
+            className="flex gap-3 items-center w-full cursor-pointer group select-none relative py-1"
+            onClick={() => handleRadioClick(selectedSort, selectedSort === option, setSelectedSort, option)}
+          >
+            <div className="relative flex items-center justify-center pointer-events-none">
+              <div className={`w-5 h-5 border-2 rounded-full transition-colors duration-200 flex items-center justify-center ${selectedSort === option ? "border-black bg-white" : "border-gray-300"}`}>
+                {selectedSort === option && (
+                  <div className="w-2.5 h-2.5 bg-black rounded-full" />
+                )}
+              </div>
+            </div>
+            <span className={`text-md transition-all duration-200 pointer-events-none ${selectedSort === option ? "font-bold text-black" : "text-gray-700 font-medium"}`}>
+              {option}
+            </span>
+          </div>
+        ))}
+      </div>
+      <hr className="opacity-20 mt-5 w-[90%] mx-auto border-gray-400" />
+      <span className="flex text-lg font-bold py-3 md:py-6 px-3 md:px-5">
+        Filter
+      </span>
+      <span className="flex text-md font-bold pl-7 pb-3">
+        Brand
+      </span>
+      <div className="flex flex-col mx-auto px-9 lg:px-10 gap-1 mb-4">
+        {brand.map((item) => (
+          <div
+            key={item}
+            className="flex w-full items-center gap-3 cursor-pointer group select-none relative py-1"
+            onClick={() => handleRadioClick(selectedBrand, selectedBrand === item, setSelectedBrand, item)}
+          >
+            <div className="relative flex items-center justify-center pointer-events-none">
+              <div className={`w-5 h-5 border-2 rounded-full transition-colors duration-200 flex items-center justify-center ${selectedBrand === item ? "border-black bg-white" : "border-gray-300"}`}>
+                {selectedBrand === item && (
+                  <div className="w-2.5 h-2.5 bg-black rounded-full" />
+                )}
+              </div>
+            </div>
+            <span className={`text-sm md:text-base transition-all duration-200 pointer-events-none ${selectedBrand === item ? "font-bold text-black" : "text-gray-700 font-medium"}`}>
+              {item}
+            </span>
+          </div>
+        ))}
+      </div>
+      <hr className="opacity-20 mt-5 w-[90%] mx-auto border-gray-400" />
+      <span className="flex text-lg font-bold py-6 px-3 md:px-5">
+        Price Range
+      </span>
+      <div className="flex flex-col mx-auto px-5 lg:px-10 gap-2 mb-4">
+        {priceRanges.map((range) => (
+          <div
+            key={range.label}
+            className="flex items-center gap-3 cursor-pointer w-full group select-none relative py-1"
+            onClick={() => handleRadioClick(selectedPriceLabel, selectedPriceLabel === range.label, setSelectedPriceLabel, range.label)}
+          >
+            <div className="relative flex items-center justify-center pointer-events-none">
+              <div className={`w-5 h-5 border-2 rounded-full transition-colors duration-200 flex items-center justify-center ${selectedPriceLabel === range.label ? "border-black bg-white" : "border-gray-300"}`}>
+                {selectedPriceLabel === range.label && (
+                  <div className="w-2.5 h-2.5 bg-black rounded-full" />
+                )}
+              </div>
+            </div>
+            <span className={`text-sm md:text-base transition-all duration-200 pointer-events-none ${selectedPriceLabel === range.label ? "font-bold text-black" : "text-gray-700 font-medium"}`}>
+              {range.label}
+            </span>
+          </div>
+        ))}
+      </div>
+      <hr className="opacity-20 mt-5 w-[90%] mx-auto pb-6 md:pb-0 border-gray-400" />
+    </>
+  );
+};
+
 export default function ProductsPage() {
   const [allProducts, setAllProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -168,94 +279,19 @@ export default function ProductsPage() {
     currentPage * itemsPerPage
   );
 
-  // Unified component so modifications are automatically reflected in both mobile and desktop views
-  const FilterContent = () => (
-    <>
-      <div className="flex items-center justify-between lg:pe-6">
-        <span className="flex text-md md:text-lg lg:text-xl font-bold py-6 px-3 md:px-5">
-          Sort By
-        </span>
-        {(selectedSort || selectedBrand || selectedPriceLabel || searchQuery) && (
-          <button onClick={clearFilters} className="text-sm underline cursor-pointer hover:text-gray-600 font-medium">
-            Clear All
-          </button>
-        )}
-      </div>
-      <div className="flex flex-col mx-auto px-5 lg:px-10 gap-2">
-        {sortOptions.map((option) => (
-          <label
-            key={option}
-            className="flex gap-2 items-center w-fit cursor-pointer"
-          >
-            <input
-              type="radio"
-              name="sort"
-              className="accent-black"
-              checked={selectedSort === option}
-              onChange={() => setSelectedSort(option)}
-              onClick={() => {
-                if (selectedSort === option) setSelectedSort("");
-              }}
-            />
-            {option}
-          </label>
-        ))}
-      </div>
-      <hr className="opacity-20 mt-5 w-75 mx-auto" />
-      <span className="flex text-md md:text-lg lg:text-xl font-bold py-3 md:py-6 px-3 md:px-5">
-        Filter
-      </span>
-      <span className="flex text-sm md:text-md lg:text-lg font-bold pl-7 pb-3">
-        Brand
-      </span>
-      <div className="flex flex-col mx-auto px-9 lg:px-10 text-sm md:text-base">
-        {brand.map((item) => (
-          <label
-            key={item}
-            className="flex w-fit items-center gap-2 cursor-pointer"
-          >
-            <input
-              type="radio"
-              name="brand"
-              value={item}
-              className="accent-black"
-              checked={selectedBrand === item}
-              onChange={() => setSelectedBrand(item)}
-              onClick={() => {
-                if (selectedBrand === item) setSelectedBrand("");
-              }}
-            />
-            <span>{item}</span>
-          </label>
-        ))}
-      </div>
-      <hr className="opacity-20 mt-5 w-75 mx-auto" />
-      <span className="flex text-md md:text-lg lg:text-xl font-bold py-6 px-3 md:px-5">
-        Price Range
-      </span>
-      <div className="flex flex-col mx-auto px-5 lg:px-10 text-sm md:text-base gap-2">
-        {priceRanges.map((range) => (
-          <label
-            key={range.label}
-            className="flex items-center gap-2 cursor-pointer w-fit"
-          >
-            <input
-              type="radio"
-              name="price"
-              className="accent-black"
-              checked={selectedPriceLabel === range.label}
-              onChange={() => setSelectedPriceLabel(range.label)}
-              onClick={() => {
-                if (selectedPriceLabel === range.label) setSelectedPriceLabel("");
-              }}
-            />
-            {range.label}
-          </label>
-        ))}
-      </div>
-      <hr className="opacity-20 mt-5 w-75 mx-auto pb-6 md:pb-0" />
-    </>
-  );
+  const sharedFilterProps = {
+    selectedSort,
+    setSelectedSort,
+    selectedBrand,
+    setSelectedBrand,
+    selectedPriceLabel,
+    setSelectedPriceLabel,
+    searchQuery,
+    clearFilters,
+    sortOptions,
+    brand,
+    priceRanges
+  };
 
   return (
     <div className="flex flex-col">
@@ -265,7 +301,7 @@ export default function ProductsPage() {
           className={`fixed overflow-y-auto overflow-x-hidden top-30 right-0 max-w-75 w-full h-[75vh] rounded-bl-3xl rounded-tl-3xl bg-white shadow-[-2px_0_16px_0_#CCC] z-50 mt-4 flex flex-col font-medium transform transition-transform duration-500 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
             } `}
         >
-          <button className="lg:hidden p-3 flex w-full justify-start" onClick={toggleMenu}>
+          <button className="p-3 flex w-full justify-start cursor-pointer hover:bg-gray-50 transition-colors" onClick={toggleMenu}>
             <img
               src={"/homepage/close_ring.svg"}
               alt="Menu toggle"
@@ -273,21 +309,21 @@ export default function ProductsPage() {
             />
           </button>
           <div className="flex flex-col">
-            <div className="flex p-3 w-full">
+            <div className="p-3 w-full">
               <div className="lg:hidden w-full">
-                <FilterContent />
+                <FilterContent {...sharedFilterProps} />
               </div>
             </div>
           </div>
         </div>
       )}
-      <div className="flex justify-center lg:hidden mt-4">
+      <div className="flex justify-center lg:hidden mt-4 px-4">
         <Search value={searchQuery} onChange={setSearchQuery} />
       </div>
       <div className="lg:w-[90%] mx-auto flex flex-col min-h-[60vh]">
         <div className="w-full flex md:justify-between">
-          <div className="xl:w-[30%] hidden xl:block">
-            <FilterContent />
+          <div className="xl:w-[30%] hidden xl:block sticky top-30 h-fit">
+            <FilterContent {...sharedFilterProps} />
           </div>
           <div className="flex flex-col w-full xl:w-[70%] lg:gap-4 my-5 px-3 sm:px-4 md:px-2">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between mt-5 mb-3 gap-2 lg:gap-0">
@@ -312,7 +348,7 @@ export default function ProductsPage() {
                 </div>
                 <button
                   onClick={() => setIsOpen(true)}
-                  className="rounded-[2.8125rem] border-2 border-[#1A1A1A] px-3 py-0.5 md:px-4 md:py-2 lg:hidden font-bold h-fit"
+                  className="rounded-full border-2 border-[#1A1A1A] px-5 py-1.5 lg:hidden font-bold h-fit hover:bg-black hover:text-white transition-all cursor-pointer shadow-sm"
                 >
                   Filter
                 </button>
