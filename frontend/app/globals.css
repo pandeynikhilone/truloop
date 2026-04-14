@@ -15,3 +15,18 @@ button, input, select, textarea {
 .font-roboto {
   font-family: var(--font-roboto), sans-serif;
 }
+
+/* Custom Scrollbar for Coupons */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #000;
+}

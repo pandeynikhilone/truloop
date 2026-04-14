@@ -108,7 +108,7 @@ function page() {
                 </span>
               </button>
               {open && (
-                <div className="mt-4 flex flex-col gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="mt-4 flex flex-col gap-4 animate-in fade-in slide-in-from-top-2 duration-300 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
                   {coupons.length > 0 ? (
                     coupons.map((coupon, index) => (
                       <CouponCard 
