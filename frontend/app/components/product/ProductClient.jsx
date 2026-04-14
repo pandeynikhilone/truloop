@@ -154,7 +154,7 @@ export default function ProductClient({ id }) {
                             </div>
 
                             <div className="flex gap-3">
-                                <Link href={`/submit-review?productId=${product.id}&model=${encodeURIComponent(product.name)}`}>
+                                <Link href={`/add-review?productId=${product.id}&model=${encodeURIComponent(product.name)}`}>
                                     <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
                                         <img
                                             className="w-3.75"
@@ -164,10 +164,12 @@ export default function ProductClient({ id }) {
                                     </button>
                                 </Link>
 
-                                <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
-                                    <img className="w-3.75" src="/product_info/add_update.svg" />
-                                    Add Update
-                                </button>
+                                <Link href={`/submit-review?productId=${product.id}&model=${encodeURIComponent(product.name)}`}>
+                                    <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
+                                        <img className="w-3.75" src="/product_info/add_update.svg" />
+                                        Add Update
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
