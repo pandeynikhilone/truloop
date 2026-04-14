@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
             });
 
             const data = await res.json();
-            if (!res.ok) throw new Error(data.message || "Login failed");
+            if (!res.ok) throw new Error(data.error || data.message || "Login failed");
 
             localStorage.setItem("user", JSON.stringify(data));
             setUser(data);
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
             });
 
             const data = await res.json();
-            if (!res.ok) throw new Error(data.message || "Registration failed");
+            if (!res.ok) throw new Error(data.error || data.message || "Registration failed");
 
             localStorage.setItem("user", JSON.stringify(data));
             setUser(data);
