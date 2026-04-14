@@ -16,10 +16,16 @@ export default function ProductClient({ id }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [reviews, setReviews] = useState([]);
-
     const { user } = useAuth() || {};
-    const hasReviewed = user?.reviewedProducts?.some(pid => 
-        pid.toString() === product?.id?.toString() || pid.toString() === id
+    
+    // Robust check: Check user profile, ID match in reviews, AND name match for historical data
+    const hasReviewed = (
+        user?.reviewedProducts?.some(pid => pid.toString() === product?.id?.toString() || pid.toString() === id) ||
+        reviews.some(r => {
+            const idMatch = r.userId && (r.userId === user?._id || r.userId?._id === user?._id);
+            const nameMatch = user?.name && r.reviewerName === user.name && r.reviewerName !== "Anonymous User";
+            return idMatch || nameMatch;
+        })
     );
 
     useEffect(() => {

@@ -18,6 +18,8 @@ export const createReview = async (req, res) => {
       userId,                                  
     } = req.body;
 
+    console.log("CREATE REVIEW BODY:", { productId, reviewer, userId, reviewType: req.body.reviewType });
+
     if (!productId || rating === undefined || !comment || !reviewer || !usageDuration || !recommend) {
       return res.status(400).json({ message: "All required fields are required" });
     }
@@ -53,11 +55,12 @@ export const createReview = async (req, res) => {
     // ✅ ADDED: Award 50 points if this is the user's first review of this product
     let pointsAwarded = false;
     let updatedPoints = null;
+    let updatedUser = null;
 
     if (userId && mongoose.Types.ObjectId.isValid(userId)) {
       const userObjectId = new mongoose.Types.ObjectId(userId);
       
-      const updated = await User.findByIdAndUpdate(
+      updatedUser = await User.findByIdAndUpdate(
         userObjectId,
         {
           $inc: { points: 50 },
@@ -66,9 +69,9 @@ export const createReview = async (req, res) => {
         { new: true, select: "points reviewedProducts" }
       );
 
-      if (updated) {
+      if (updatedUser) {
         pointsAwarded = true;
-        updatedPoints = updated.points;
+        updatedPoints = updatedUser.points;
       }
     }
 
@@ -76,7 +79,7 @@ export const createReview = async (req, res) => {
       review, 
       pointsAwarded, 
       updatedPoints, 
-      updatedReviewedProducts: updated?.reviewedProducts || [] 
+      updatedReviewedProducts: updatedUser?.reviewedProducts || [] 
     });
 
   } catch (error) {

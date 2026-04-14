@@ -125,15 +125,9 @@ export default function SubmitReview() {
           <div className="flex gap-4 justify-center">
             <button
               onClick={() => router.back()}
-              className="cursor-pointer rounded border border-Grey-2 bg-transparent px-6 py-2 text-Grey-2 font-bold hover:bg-white/5"
+              className="cursor-pointer rounded bg-black px-8 py-2 text-white font-bold hover:bg-black/90 transition-colors"
             >
-              Go Back
-            </button>
-            <button
-              onClick={() => { setSuccess(false); setPointsAwarded(false); }}
-              className="cursor-pointer rounded bg-black px-6 py-2 text-white font-bold"
-            >
-              Submit Another
+              Go Back to Product
             </button>
           </div>
         </div>
