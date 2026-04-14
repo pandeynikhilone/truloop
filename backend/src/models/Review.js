@@ -46,6 +46,16 @@ const reviewSchema = new mongoose.Schema(
     reviewerName: {
       type: String,
       default: "Anonymous User"
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false
+    },
+    reviewType: {
+      type: String,
+      enum: ["initial", "update"],
+      default: "initial"
     }
   },
   { timestamps: true }

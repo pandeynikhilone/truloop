@@ -38,6 +38,8 @@ export const createReview = async (req, res) => {
       usageDuration,
       recommend,
       proof,
+      userId: userId && mongoose.Types.ObjectId.isValid(userId) ? userId : null,
+      reviewType: req.body.reviewType || "initial",
     });
 
     // Recalculate product rating
@@ -70,7 +72,12 @@ export const createReview = async (req, res) => {
       }
     }
 
-    res.status(201).json({ review, pointsAwarded, updatedPoints });
+    res.status(201).json({ 
+      review, 
+      pointsAwarded, 
+      updatedPoints, 
+      updatedReviewedProducts: updated?.reviewedProducts || [] 
+    });
 
   } catch (error) {
     console.error("CREATE REVIEW ERROR", error);

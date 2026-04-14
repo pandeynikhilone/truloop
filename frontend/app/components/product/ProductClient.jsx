@@ -8,6 +8,7 @@ import ReviewsList from "@/app/components/review/ReviewsList";
 import Card from "@/app/components/common/Card";
 import Link from "next/link";
 import Loader from "@/app/components/common/Loader";
+import { useAuth } from "@/context/AuthContext";
 
 export default function ProductClient({ id }) {
     const [product, setProduct] = useState(null);
@@ -15,6 +16,11 @@ export default function ProductClient({ id }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [reviews, setReviews] = useState([]);
+
+    const { user } = useAuth() || {};
+    const hasReviewed = user?.reviewedProducts?.some(pid => 
+        pid.toString() === product?.id?.toString() || pid.toString() === id
+    );
 
     useEffect(() => {
         if (!id) return; // 🔥 guard clause
@@ -154,15 +160,28 @@ export default function ProductClient({ id }) {
                             </div>
 
                             <div className="flex gap-3">
-                                <Link href={`/add-review?productId=${product.id}&model=${encodeURIComponent(product.name)}`}>
-                                    <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
+                                {hasReviewed ? (
+                                    <button 
+                                        disabled
+                                        className="cursor-not-allowed px-3 py-1 gap-2 bg-gray-400 text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex opacity-70"
+                                    >
                                         <img
-                                            className="w-3.75"
+                                            className="w-3.75 opacity-50"
                                             src="/product_info/submit_review.svg"
                                         />
-                                        Submit Review
+                                        Review Submitted
                                     </button>
-                                </Link>
+                                ) : (
+                                    <Link href={`/add-review?productId=${product.id}&model=${encodeURIComponent(product.name)}`}>
+                                        <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
+                                            <img
+                                                className="w-3.75"
+                                                src="/product_info/submit_review.svg"
+                                            />
+                                            Submit Review
+                                        </button>
+                                    </Link>
+                                )}
 
                                 <Link href={`/submit-review?productId=${product.id}&model=${encodeURIComponent(product.name)}`}>
                                     <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">

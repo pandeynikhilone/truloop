@@ -71,6 +71,7 @@ export default function SubmitReviewClient() {
           proof,
           reviewer: user?.name || "Anonymous User",
           userId: user?._id || null,
+          reviewType: "update",
         }),
       });
 
@@ -78,7 +79,11 @@ export default function SubmitReviewClient() {
       if (!res.ok) throw new Error(data.message || "Failed to submit review");
 
       if (data.pointsAwarded && user && setUser) {
-        const updatedUser = { ...user, points: data.updatedPoints };
+        const updatedUser = { 
+          ...user, 
+          points: data.updatedPoints,
+          reviewedProducts: data.updatedReviewedProducts || user.reviewedProducts
+        };
         localStorage.setItem("user", JSON.stringify(updatedUser));
         setUser(updatedUser);
         setPointsAwarded(true);
