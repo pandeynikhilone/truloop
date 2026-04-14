@@ -44,20 +44,25 @@ function ReviewsList({ reviews }) {
     }, []);
 
     return (
-        <section className="flex flex-col gap-4 mt-6 lg:p-10 p-5">
+        <section className="flex flex-col mt-6 lg:p-10 p-5">
             {groupedReviews.map((group, groupIdx) => (
                 <div key={groupIdx} className="flex flex-col">
-                    {group.map((review, idx) => (
-                        <ReviewCard
-                            key={review._id}
-                            rating={review.rating}
-                            name={review.reviewerName}
-                            text={review.comment}
-                            date={formatDate(review.createdAt)}
-                            verified={review.reviewerName !== "Anonymous User"}
-                            isUpdate={idx > 0}
-                        />
-                    ))}
+                    <div className="flex flex-col">
+                        {group.map((review, idx) => (
+                            <ReviewCard
+                                key={review._id}
+                                rating={review.rating}
+                                name={review.reviewerName}
+                                text={review.comment}
+                                date={formatDate(review.createdAt)}
+                                verified={review.reviewerName !== "Anonymous User"}
+                                isUpdate={idx > 0}
+                            />
+                        ))}
+                    </div>
+                    {groupIdx < groupedReviews.length - 1 && (
+                        <hr className="border-t border-gray-300 my-4 lg:my-5" />
+                    )}
                 </div>
             ))}
         </section>

@@ -234,7 +234,9 @@ export default function ProductClient({ id }) {
                     </div>
                 )}
             </div>
-            <Footer />
+            <div className="mt-20">
+                <Footer />
+            </div>
         </div>
     );
 }
