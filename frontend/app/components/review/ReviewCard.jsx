@@ -7,7 +7,7 @@ function ReviewCard({
     isUpdate = false,
 }) {
     return (
-        <div className={`flex flex-col gap-3 py-4 border-b border-gray-100 lg:p-10 ${isUpdate ? "ml-6 lg:ml-16 border-l-2 border-gray-200 pl-4 lg:pl-10 -mt-1 bg-gray-50/20" : ""}`}>
+        <div className={`flex flex-col gap-3 py-4 lg:p-10 ${isUpdate ? "ml-6 lg:ml-16 pl-4 lg:pl-10 -mt-1" : ""}`}>
             {/* Header */}
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-3">

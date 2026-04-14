@@ -1,6 +1,14 @@
 import ReviewCard from "./ReviewCard";
 
 function ReviewsList({ reviews }) {
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = date.toLocaleString('default', { month: 'long' });
+        const year = date.getFullYear();
+        return `${day}, ${month}, ${year}`;
+    };
+
     if (!reviews || reviews.length === 0) {
         return (
             <section className="flex flex-col gap-4 mt-6 lg:p-10 p-5">
@@ -45,7 +53,7 @@ function ReviewsList({ reviews }) {
                             rating={review.rating}
                             name={review.reviewerName}
                             text={review.comment}
-                            date={new Date(review.createdAt).toLocaleDateString()}
+                            date={formatDate(review.createdAt)}
                             verified={review.reviewerName !== "Anonymous User"}
                             isUpdate={idx > 0}
                         />
