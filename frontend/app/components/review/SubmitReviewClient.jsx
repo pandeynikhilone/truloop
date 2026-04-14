@@ -82,7 +82,8 @@ export default function SubmitReviewClient() {
         const updatedUser = { 
           ...user, 
           points: data.updatedPoints,
-          reviewedProducts: data.updatedReviewedProducts || user.reviewedProducts
+          reviewedProducts: data.updatedReviewedProducts || user.reviewedProducts,
+          coupons: data.updatedCoupons || user.coupons || []
         };
         localStorage.setItem("user", JSON.stringify(updatedUser));
         setUser(updatedUser);

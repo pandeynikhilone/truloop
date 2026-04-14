@@ -52,26 +52,57 @@ export const createReview = async (req, res) => {
     product.reviewCount = reviews.length;
     await product.save();
 
-    // ✅ ADDED: Award 50 points if this is the user's first review of this product
+    // ✅ NEW REWARD LOGIC: Initial -> Coupon, Update -> Points
+    const reviewType = req.body.reviewType || "initial";
     let pointsAwarded = false;
     let updatedPoints = null;
     let updatedUser = null;
+    let couponGenerated = false;
+    let newCoupon = null;
 
     if (userId && mongoose.Types.ObjectId.isValid(userId)) {
       const userObjectId = new mongoose.Types.ObjectId(userId);
       
-      updatedUser = await User.findByIdAndUpdate(
-        userObjectId,
-        {
-          $inc: { points: 50 },
-          $addToSet: { reviewedProducts: productObjectId },
-        },
-        { new: true, select: "points reviewedProducts" }
-      );
+      if (reviewType === "initial") {
+        // Generate random coupon: 10-70% discount, random TRU code, 1 month expiry
+        const discountPercentage = Math.floor(Math.random() * 61) + 10; 
+        const randomCode = `TRU${Math.floor(1000 + Math.random() * 9000)}`;
+        const expiryDate = new Date();
+        expiryDate.setMonth(expiryDate.getMonth() + 1);
 
-      if (updatedUser) {
-        pointsAwarded = true;
-        updatedPoints = updatedUser.points;
+        newCoupon = {
+          code: randomCode,
+          discount: discountPercentage,
+          expiryDate: expiryDate
+        };
+
+        updatedUser = await User.findByIdAndUpdate(
+          userObjectId,
+          {
+            $push: { coupons: newCoupon },
+            $addToSet: { reviewedProducts: productObjectId },
+          },
+          { new: true, select: "points reviewedProducts coupons" }
+        );
+        
+        if (updatedUser) {
+          couponGenerated = true;
+        }
+      } else {
+        // Add Update -> Award 50 points
+        updatedUser = await User.findByIdAndUpdate(
+          userObjectId,
+          {
+            $inc: { points: 50 },
+            $addToSet: { reviewedProducts: productObjectId },
+          },
+          { new: true, select: "points reviewedProducts coupons" }
+        );
+
+        if (updatedUser) {
+          pointsAwarded = true;
+          updatedPoints = updatedUser.points;
+        }
       }
     }
 
@@ -79,7 +110,10 @@ export const createReview = async (req, res) => {
       review, 
       pointsAwarded, 
       updatedPoints, 
-      updatedReviewedProducts: updatedUser?.reviewedProducts || [] 
+      couponGenerated,
+      newCoupon,
+      updatedReviewedProducts: updatedUser?.reviewedProducts || [],
+      updatedCoupons: updatedUser?.coupons || []
     });
 
   } catch (error) {

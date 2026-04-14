@@ -23,6 +23,7 @@ export default function SubmitReview() {
   const [loading, setLoading] = useState(false);
   const [pointsAwarded, setPointsAwarded] = useState(false);  
   const [newPoints, setNewPoints] = useState(0);               
+  const [couponEarned, setCouponEarned] = useState(null);
 
   useEffect(() => {
     if (productId && !productModel) {
@@ -78,16 +79,24 @@ export default function SubmitReview() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to submit review");
 
-      if (data.pointsAwarded && user && setUser) {
+      if (user && setUser) {
         const updatedUser = { 
           ...user, 
-          points: data.updatedPoints,
-          reviewedProducts: data.updatedReviewedProducts || user.reviewedProducts
+          points: data.updatedPoints ?? user.points,
+          reviewedProducts: data.updatedReviewedProducts || user.reviewedProducts,
+          coupons: data.updatedCoupons || user.coupons || []
         };
         localStorage.setItem("user", JSON.stringify(updatedUser));
         setUser(updatedUser);
-        setPointsAwarded(true);
-        setNewPoints(data.updatedPoints);
+        
+        if (data.pointsAwarded) {
+          setPointsAwarded(true);
+          setNewPoints(data.updatedPoints);
+        }
+
+        if (data.couponGenerated) {
+          setCouponEarned(data.newCoupon);
+        }
       }
 
       setSuccess(true);
@@ -110,15 +119,27 @@ export default function SubmitReview() {
           <h2 className="text-xl font-bold mb-2">Review Submitted!</h2>
           <p className="text-Grey-2 mb-4">Thank you for sharing your experience.</p>
 
-          {/* ✅ ADDED: Points banner */}
-          {pointsAwarded ? (
-            <div className="mb-6 bg-black text-white rounded-xl px-5 py-4 flex flex-col items-center gap-1">
+          {/* New Reward Display: Coupon vs Points */}
+          {couponEarned ? (
+            <div className="mb-6 bg-black text-white rounded-2xl px-5 py-6 flex flex-col items-center gap-3 shadow-2xl border-2 border-dashed border-gray-600">
+              <span className="text-sm font-bold uppercase tracking-widest text-gray-400">Coupon Earned!</span>
+              <div className="flex flex-col items-center">
+                <span className="text-4xl font-black">{couponEarned.discount}% OFF</span>
+                <span className="text-[10px] text-gray-400 mt-1 uppercase">Valid for 30 days</span>
+              </div>
+              <div className="mt-2 bg-white/10 w-full py-2 rounded-lg border border-white/20">
+                <span className="text-lg font-mono font-bold tracking-tighter">{couponEarned.code}</span>
+              </div>
+              <p className="text-[9px] text-gray-400 italic">Check your profile to view all coupons</p>
+            </div>
+          ) : pointsAwarded ? (
+            <div className="mb-6 bg-black text-white rounded-xl px-5 py-4 flex flex-col items-center gap-1 shadow-lg">
               <span className="text-2xl font-extrabold">+50 Points Earned!</span>
               <span className="text-sm text-gray-300">Total Points: <strong>{newPoints}</strong></span>
             </div>
           ) : user ? (
             <div className="mb-6 bg-gray-100 text-gray-500 rounded-xl px-5 py-3 text-sm">
-              You already earned points for this product.
+              Review saved! Check your profile for your rewards.
             </div>
           ) : null}
 

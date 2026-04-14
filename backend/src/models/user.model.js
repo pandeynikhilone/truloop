@@ -35,6 +35,14 @@ const userSchema = new mongoose.Schema(
                 ref: "Product",
             },
         ],
+        coupons: [                                   
+            {
+                code: String,
+                discount: Number,
+                expiryDate: Date,
+                createdAt: { type: Date, default: Date.now },
+            },
+        ],
     },
     { timestamps: true }
 );
