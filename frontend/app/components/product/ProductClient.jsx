@@ -189,12 +189,22 @@ export default function ProductClient({ id }) {
                                     </Link>
                                 )}
 
-                                <Link href={`/submit-review?productId=${product.id}&model=${encodeURIComponent(product.name)}`}>
-                                    <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
-                                        <img className="w-3.75" src="/product_info/add_update.svg" />
+                                {hasReviewed ? (
+                                    <Link href={`/submit-review?productId=${product.id}&model=${encodeURIComponent(product.name)}`}>
+                                        <button className="cursor-pointer px-3 py-1 gap-2 bg-black text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex">
+                                            <img className="w-3.75" src="/product_info/add_update.svg" />
+                                            Add Update
+                                        </button>
+                                    </Link>
+                                ) : (
+                                    <button 
+                                        disabled
+                                        className="cursor-not-allowed px-3 py-1 gap-2 bg-gray-400 text-white rounded-full text-sm lg:text-[15px] lg:px-4 lg:py-2 font-bold w-fit flex opacity-70"
+                                    >
+                                        <img className="w-3.75 opacity-50" src="/product_info/add_update.svg" />
                                         Add Update
                                     </button>
-                                </Link>
+                                )}
                             </div>
                         </div>
                     </div>
