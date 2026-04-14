@@ -54,27 +54,19 @@ export const createReview = async (req, res) => {
 
     if (userId && mongoose.Types.ObjectId.isValid(userId)) {
       const userObjectId = new mongoose.Types.ObjectId(userId);
-      const currentUser = await User.findById(userObjectId).select("points reviewedProducts");
+      
+      const updated = await User.findByIdAndUpdate(
+        userObjectId,
+        {
+          $inc: { points: 50 },
+          $addToSet: { reviewedProducts: productObjectId },
+        },
+        { new: true, select: "points reviewedProducts" }
+      );
 
-      if (currentUser) {
-        const alreadyReviewed = currentUser.reviewedProducts.some(
-          (pid) => pid.toString() === productObjectId.toString()
-        );
-
-        if (!alreadyReviewed) {
-          const updated = await User.findByIdAndUpdate(
-            userObjectId,
-            {
-              $inc: { points: 50 },
-              $addToSet: { reviewedProducts: productObjectId },
-            },
-            { new: true, select: "points reviewedProducts" }
-          );
-          pointsAwarded = true;
-          updatedPoints = updated.points;
-        } else {
-          updatedPoints = currentUser.points;
-        }
+      if (updated) {
+        pointsAwarded = true;
+        updatedPoints = updated.points;
       }
     }
 
