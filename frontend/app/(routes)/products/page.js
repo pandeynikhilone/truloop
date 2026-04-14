@@ -19,7 +19,6 @@ const brand = [
   "Samsung",
   "Apple",
   "OnePlus",
-  "Xiaomi",
   "Redmi",
   "Poco",
   "iQOO",
@@ -29,7 +28,6 @@ const brand = [
   "Google Pixel",
   "Motorola",
   "Nothing",
-  "Asus",
   "Lava",
 ];
 
