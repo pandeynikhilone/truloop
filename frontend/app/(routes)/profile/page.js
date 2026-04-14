@@ -31,6 +31,7 @@ function page() {
             ...user,
             points: data.points ?? 0,
             reviewedProducts: data.reviewedProducts ?? [],
+            coupons: data.coupons ?? [],
           };
           localStorage.setItem("user", JSON.stringify(refreshed));
           setUser(refreshed);

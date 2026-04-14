@@ -28,6 +28,7 @@ const registerUser = async (req, res) => {
                 email: user.email,
                 points: user.points,                      
                 reviewedProducts: user.reviewedProducts,  
+                coupons: user.coupons || [],
                 token: generateToken(user._id),
             });
         } else {
@@ -54,6 +55,7 @@ const loginUser = async (req, res) => {
                 email: user.email,
                 points: user.points,                      
                 reviewedProducts: user.reviewedProducts,  
+                coupons: user.coupons || [],
                 token: generateToken(user._id),
             });
         } else {
@@ -77,6 +79,7 @@ const getProfile = async (req, res) => {
             email: user.email,
             points: user.points,                          
             reviewedProducts: user.reviewedProducts,      
+            coupons: user.coupons || [],
         });
     } else {
         res.status(404).json({ message: "User not found" });
