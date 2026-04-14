@@ -62,7 +62,7 @@ export default function Navigation({ searchQuery, onSearchQueryChange }) {
                 Login
               </button>
             </Link>
-            <Link href="/auth/signup">
+            <Link href="/auth/register">
               <button className="rounded-[2.8125rem] border-2 border-[#1A1A1A] bg-black text-white px-3 py-1.5 md:px-4 md:py-2">
                 Signup
               </button>

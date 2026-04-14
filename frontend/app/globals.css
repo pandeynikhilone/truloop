@@ -1,6 +1,17 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  --font-roboto: "Roboto", sans-serif;
+}
+
+* {
+  font-family: var(--font-roboto), sans-serif;
+}
+
+button, input, select, textarea {
+  font-family: inherit !important;
+}
 
 .font-roboto {
-  font-family: 'Roboto';
+  font-family: var(--font-roboto), sans-serif;
 }

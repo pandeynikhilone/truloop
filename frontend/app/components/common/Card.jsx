@@ -7,9 +7,9 @@ function Card({ product }) {
   const imageSrc = product?.images?.[0] || "/homepage/rectangle.svg";
 
   return (
-    <div>
+    <div className="w-full lg:w-58.5">
       <Link href={`/product-info/${product.id}`}>
-        <div className="h-45 lg:w-58.5 lg:h-75.25 flex flex-col justify-center items-center mb-2 border-3 rounded-2xl px-2">
+        <div className="h-45 w-full lg:h-75.25 flex flex-col justify-center items-center mb-2 border-3 rounded-2xl px-2">
           <div>
             <img
               className="aspect-square w-32.5 lg:w-50"
