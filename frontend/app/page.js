@@ -54,7 +54,7 @@ function OurRole() {
             <div className="px-2 py-1 bg-black text-white rounded-sm text-xs md:text-sm lg:text-lg font-bold">
               Submit
             </div>
-            <div className="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px] whitespace-nowrap">
+            <div className="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px]">
               Add your genuine review with proof - authenticated instantly.
             </div>
           </div>
@@ -62,7 +62,7 @@ function OurRole() {
             <div className="px-2 py-1 bg-black text-white rounded-sm text-xs md:text-sm lg:text-lg font-bold">
               Earn
             </div>
-            <div className="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px] whitespace-nowrap">
+            <div className="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px]">
               Get your reward coupon instantly once your review passes verification.
             </div>
           </div>
@@ -70,7 +70,7 @@ function OurRole() {
             <div className="px-2 py-1 bg-black text-white rounded-sm text-xs md:text-sm lg:text-lg font-bold">
               Update
             </div>
-            <div className="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px] whitespace-nowrap">
+            <div className="justify-start text-Grey-2 text-[12px] md:text-[14px] lg:text-[16px]">
               Return after months of use, post your update, and earn more points.
             </div>
           </div>
@@ -78,7 +78,7 @@ function OurRole() {
 
         {/* Image */}
         <img
-          className="h-53 w-80 block rounded-2xl lg:w-152.5 lg:h-70"
+          className="h-53 w-full max-w-80 block rounded-2xl lg:w-152.5 lg:h-70"
           src="/homepage/img.svg"
         />
       </div>
@@ -134,7 +134,7 @@ function TrustUs() {
 
         {/* Image */}
         <img
-          className="h-53 w-80 block rounded-2xl lg:w-152.5 lg:h-70"
+          className="h-53 w-full max-w-80 block rounded-2xl lg:w-152.5 lg:h-70"
           src="/homepage/trust.svg"
         />
       </div>
@@ -218,7 +218,7 @@ function ProductCard() {
       {isLoading ? (
         <Loader text="Loading featured products..." />
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-4 w-fit mx-auto gap-1.5 gap-y-4 lg:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 w-full max-w-full mx-auto gap-1.5 gap-y-4 lg:gap-6 px-2">
           {featuredProducts.map((product) => (
             <Card key={product.id} product={product} />
           ))}
@@ -230,7 +230,7 @@ function ProductCard() {
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen overflow-x-hidden">
       <div className="relative z-0 flex flex-col gap-4">
         <Navigation />
         <HeroSection />
