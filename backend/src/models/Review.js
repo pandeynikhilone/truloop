@@ -33,13 +33,13 @@ const reviewSchema = new mongoose.Schema(
     },
 
     recommend: {
-      type: String, // "Yes" or "No"
+      type: String, 
       enum: ["Yes", "No"],
       required: true
     },
 
     proof: {
-      type: String, // URL or Base64
+      type: String, 
       required: false
     },
 
