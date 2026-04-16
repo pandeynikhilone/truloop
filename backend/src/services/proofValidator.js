@@ -1,5 +1,7 @@
 import Tesseract from "tesseract.js";
-import pdf from "pdf-parse";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const pdf = require("pdf-parse");
 
 /**
  * Validates if the uploaded proof (base64) is a valid receipt for the given product.
