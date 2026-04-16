@@ -54,6 +54,10 @@ const productSchema = new mongoose.Schema(
       3: { type: Number, default: 0 },
       2: { type: Number, default: 0 },
       1: { type: Number, default: 0 }
+    },
+    releaseDate: {
+      type: Date,
+      required: false
     }
   },
   { timestamps: true }

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ImageUpload from "../common/ImageUpload";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function AddProductClient() {
     const router = useRouter();
@@ -16,6 +18,7 @@ export default function AddProductClient() {
         brand: "",
         price: "",
         images: [],
+        releaseDate: new Date(), // Default to today
     });
 
     // Specifications state
@@ -87,6 +90,7 @@ export default function AddProductClient() {
                 price: parseFloat(formData.price), // Convert to number
                 images: formData.images, // Already an array
                 specifications: specsMap, // Add specifications
+                releaseDate: formData.releaseDate, // Add release date
             };
 
             console.log('Submitting to:', url);
@@ -205,6 +209,24 @@ export default function AddProductClient() {
                         placeholder="e.g., 99.99"
                         required
                     />
+                </div>
+                
+                {/* Release Date */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Release Date *
+                    </label>
+                    <div className="relative">
+                        <DatePicker
+                            selected={formData.releaseDate}
+                            onChange={(date) => setFormData(prev => ({ ...prev, releaseDate: date }))}
+                            className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                            dateFormat="MMMM d, yyyy"
+                            showYearDropdown
+                            scrollableYearDropdown
+                            yearDropdownItemNumber={15}
+                        />
+                    </div>
                 </div>
 
                 {/* Specifications Section */}
