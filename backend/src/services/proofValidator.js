@@ -33,19 +33,8 @@ export const validateProof = async (proofBase64, productName) => {
       extractedText = text;
     } else if (mimeType === "application/pdf") {
       try {
-        let data;
-        // Handle different versions of pdf-parse exports
-        if (typeof pdf === "function") {
-          data = await pdf(buffer);
-        } else if (pdf && typeof pdf.PDFParse === "function") {
-          data = await pdf.PDFParse(buffer);
-        } else if (pdf && pdf.default && typeof pdf.default === "function") {
-          data = await pdf.default(buffer);
-        } else {
-          console.error("PDF-PARSE STRUCTURE:", typeof pdf, Object.keys(pdf || {}));
-          throw new Error("PDF parser library is not configured correctly.");
-        }
-        
+        // Standard usage for pdf-parse 1.1.1
+        const data = await pdf(buffer);
         extractedText = data.text;
         console.log("PDF parsed successfully. Extracted text length:", extractedText?.length);
       } catch (pdfError) {
