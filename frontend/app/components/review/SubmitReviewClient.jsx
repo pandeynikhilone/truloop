@@ -236,7 +236,7 @@ export default function SubmitReviewClient() {
             </select>
           </label>
 
-          {/* <label className="flex flex-col gap-1 lg:gap-2">
+          <label className="flex flex-col gap-1 lg:gap-2">
             <span className="text-[10px] font-medium text-Grey-2 lg:text-[12px]">
               Upload (Receipt or any proof)*
             </span>
@@ -248,7 +248,7 @@ export default function SubmitReviewClient() {
               <img src="/product_info/upload.svg" alt="upload" className="h-4 w-4" />
               {fileName || "Upload your file"}
             </label>
-          </label> */}
+          </label>
 
           {error && <p className="text-xs text-red-600">{error}</p>}
 
