@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Review from "../models/Review.js";
 import Product from "../models/Product.js";
 import User from "../models/user.model.js";  
+import { validateProof } from "../services/proofValidator.js";
 
 // POST /api/reviews
 export const createReview = async (req, res) => {
@@ -29,6 +30,14 @@ export const createReview = async (req, res) => {
     const product = await Product.findById(productObjectId);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
+    }
+
+    // ✅ NEW: Validate Proof (Receipt) content using OCR
+    if (proof) {
+      const validation = await validateProof(proof, product.name);
+      if (!validation.isValid) {
+        return res.status(400).json({ message: validation.message });
+      }
     }
 
     const review = await Review.create({

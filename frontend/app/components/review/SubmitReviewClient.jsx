@@ -41,6 +41,26 @@ export default function SubmitReviewClient() {
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
+      // ✅ Added validation: check file type
+      const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "application/pdf"];
+      if (!allowedTypes.includes(file.type)) {
+        setError("Please upload a valid receipt (Image or PDF only)");
+        e.target.value = null; // Reset input
+        setFileName("");
+        setProof("");
+        return;
+      }
+
+      // ✅ Added validation: check file size (5MB limit)
+      if (file.size > 5 * 1024 * 1024) {
+        setError("File size must be less than 5MB");
+        e.target.value = null;
+        setFileName("");
+        setProof("");
+        return;
+      }
+
+      setError("");
       setFileName(file.name);
       const reader = new FileReader();
       reader.onloadend = () => setProof(reader.result);
@@ -240,7 +260,13 @@ export default function SubmitReviewClient() {
             <span className="text-[10px] font-medium text-Grey-2 lg:text-[12px]">
               Upload (Receipt or any proof)*
             </span>
-            <input id="upload-proof" type="file" className="hidden" onChange={handleFileUpload} />
+            <input 
+              id="upload-proof" 
+              type="file" 
+              className="hidden" 
+              onChange={handleFileUpload} 
+              accept="image/*,.pdf" 
+            />
             <label
               htmlFor="upload-proof"
               className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-md bg-white px-3 py-2 text-[10px] text-Grey-2 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2 lg:text-[14px]"
