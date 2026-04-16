@@ -33,12 +33,24 @@ export const validateProof = async (proofBase64, productName) => {
       extractedText = text;
     } else if (mimeType === "application/pdf") {
       try {
-        const data = await pdf(buffer);
+        let data;
+        // Handle different versions of pdf-parse exports
+        if (typeof pdf === "function") {
+          data = await pdf(buffer);
+        } else if (pdf && typeof pdf.PDFParse === "function") {
+          data = await pdf.PDFParse(buffer);
+        } else if (pdf && pdf.default && typeof pdf.default === "function") {
+          data = await pdf.default(buffer);
+        } else {
+          console.error("PDF-PARSE STRUCTURE:", typeof pdf, Object.keys(pdf || {}));
+          throw new Error("PDF parser library is not configured correctly.");
+        }
+        
         extractedText = data.text;
         console.log("PDF parsed successfully. Extracted text length:", extractedText?.length);
       } catch (pdfError) {
         console.error("PDF-PARSE ERROR:", pdfError);
-        return { isValid: false, message: "Failed to parse PDF content. Please ensure it is a valid PDF file." };
+        return { isValid: false, message: `Failed to parse PDF content: ${pdfError.message}` };
       }
     } else {
       return { isValid: false, message: "Unsupported file type. Please upload an image or PDF." };
