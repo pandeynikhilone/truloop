@@ -32,8 +32,14 @@ export const validateProof = async (proofBase64, productName) => {
       const { data: { text } } = await Tesseract.recognize(buffer, "eng");
       extractedText = text;
     } else if (mimeType === "application/pdf") {
-      const data = await pdf(buffer);
-      extractedText = data.text;
+      try {
+        const data = await pdf(buffer);
+        extractedText = data.text;
+        console.log("PDF parsed successfully. Extracted text length:", extractedText?.length);
+      } catch (pdfError) {
+        console.error("PDF-PARSE ERROR:", pdfError);
+        return { isValid: false, message: "Failed to parse PDF content. Please ensure it is a valid PDF file." };
+      }
     } else {
       return { isValid: false, message: "Unsupported file type. Please upload an image or PDF." };
     }
@@ -74,9 +80,9 @@ export const validateProof = async (proofBase64, productName) => {
     };
 
   } catch (error) {
-    console.error("Proof validation error:", error);
+    console.error("Detailed Proof validation error:", error);
     // If OCR fails for some technical reason, we might want to log it and decide whether to let it pass
     // For now, let's be strict but give a generic message
-    return { isValid: false, message: "Error processing the uploaded file. Please try a different image or PDF." };
+    return { isValid: false, message: `Error processing the uploaded file: ${error.message || "Unknown error"}. Please try a different image or PDF.` };
   }
 };
