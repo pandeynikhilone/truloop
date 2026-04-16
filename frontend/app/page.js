@@ -182,9 +182,9 @@ function ProductCard() {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
         if (!res.ok) throw new Error("Failed to fetch products");
-        
+
         const data = await res.json();
-        
+
         // Sort by average rating descending, then take top 4
         const topProducts = [...data]
           .sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0))
@@ -196,7 +196,7 @@ function ProductCard() {
             images: item.images,
             rating: Math.round(item.averageRating || 0)
           }));
-        
+
         if (topProducts.length > 0) {
           setFeaturedProducts(topProducts);
         }
@@ -206,7 +206,7 @@ function ProductCard() {
         setIsLoading(false);
       }
     }
-    
+
     fetchFeatured();
   }, []);
 
@@ -218,7 +218,7 @@ function ProductCard() {
       {isLoading ? (
         <Loader text="Loading featured products..." />
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-4 w-full max-w-full mx-auto gap-1.5 gap-y-4 lg:gap-6 px-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 w-fit max-w-full mx-auto gap-1.5 gap-y-4 lg:gap-6 px-2">
           {featuredProducts.map((product) => (
             <Card key={product.id} product={product} />
           ))}

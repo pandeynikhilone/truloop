@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ImageUpload from "@/app/components/common/ImageUpload";
 import Loader from "@/app/components/common/Loader";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function EditProductClient({ id }) {
     const router = useRouter();
@@ -16,6 +18,7 @@ export default function EditProductClient({ id }) {
         name: "",
         price: "",
         images: "",
+        releaseDate: new Date(),
         specifications: {} // Will act as a JSON string or simplified
     });
 
@@ -32,6 +35,7 @@ export default function EditProductClient({ id }) {
                     name: data.name || "",
                     price: data.price || "",
                     images: data.images || "",
+                    releaseDate: data.releaseDate ? new Date(data.releaseDate) : new Date(),
                     // Keeping specs read-only or simple for now unless requested
                 });
             } catch (err) {
@@ -104,18 +108,33 @@ export default function EditProductClient({ id }) {
                 </div>
 
                 <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Release Date</label>
+                    <div className="relative">
+                        <DatePicker
+                            selected={formData.releaseDate}
+                            onChange={(date) => setFormData(prev => ({ ...prev, releaseDate: date }))}
+                            className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                            dateFormat="MMMM d, yyyy"
+                            showYearDropdown
+                            scrollableYearDropdown
+                            yearDropdownItemNumber={15}
+                        />
+                    </div>
+                </div>
+
+                <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
                     {(typeof formData.images === 'string' && formData.images !== '') || (Array.isArray(formData.images) && formData.images.length > 0) ? (
                         <div className="mb-4">
                             <p className="text-xs text-gray-500 mb-2">Current Image:</p>
-                            <img 
-                                src={Array.isArray(formData.images) ? formData.images[0] : formData.images} 
-                                alt="Current product image" 
+                            <img
+                                src={Array.isArray(formData.images) ? formData.images[0] : formData.images}
+                                alt="Current product image"
                                 className="h-32 object-contain border border-gray-200 rounded-lg p-2"
                             />
                         </div>
                     ) : null}
-                    
+
                     <ImageUpload
                         onUploadSuccess={(url) => setFormData(prev => ({ ...prev, images: [url] }))}
                         onUploadError={(err) => alert('Image upload failed: ' + err.message)}
