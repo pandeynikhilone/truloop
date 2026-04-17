@@ -30,3 +30,42 @@ button, input, select, textarea {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #000;
 }
+
+/* Premium DatePicker Styling */
+.react-datepicker {
+  background-color: #fcfcfc !important;
+  border: 1.5px solid #e5e7eb !important;
+  border-radius: 1rem !important;
+  font-family: inherit !important;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.react-datepicker__header {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+  padding-top: 1rem !important;
+}
+
+.react-datepicker__day--selected, 
+.react-datepicker__day--keyboard-selected {
+  background-color: #000000 !important;
+  color: white !important;
+  border-radius: 0.5rem !important;
+}
+
+.react-datepicker__day:hover {
+  border-radius: 0.5rem !important;
+  background-color: #f3f4f6 !important;
+}
+
+.react-datepicker__navigation {
+  top: 1rem !important;
+}
+
+.react-datepicker__current-month {
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem !important;
+}

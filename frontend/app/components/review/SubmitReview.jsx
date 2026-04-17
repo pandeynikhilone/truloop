@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { formatDistanceToNow, isBefore, startOfDay } from "date-fns";
 
 export default function SubmitReview() {
   const searchParams = useSearchParams();
@@ -15,6 +18,8 @@ export default function SubmitReview() {
   const [comment, setComment] = useState("");
   const [recommend, setRecommend] = useState("Yes");
   const [productModel, setProductModel] = useState(queryModel);
+  const [releaseDate, setReleaseDate] = useState(null);
+  const [purchaseDate, setPurchaseDate] = useState(null);
   const [usageDuration, setUsageDuration] = useState("");
   const [fileName, setFileName] = useState("");
   const [proof, setProof] = useState("");
@@ -26,7 +31,7 @@ export default function SubmitReview() {
   const [couponEarned, setCouponEarned] = useState(null);
 
   useEffect(() => {
-    if (productId && !productModel) {
+    if (productId) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`)
         .then((res) => {
           if (!res.ok) throw new Error("Failed to fetch product");
@@ -34,10 +39,21 @@ export default function SubmitReview() {
         })
         .then((data) => {
           if (data && data.name) setProductModel(data.name);
+          if (data && data.releaseDate) setReleaseDate(new Date(data.releaseDate));
         })
         .catch((err) => console.error(err));
     }
-  }, [productId, productModel]);
+  }, [productId]);
+
+  // Update usageDuration string whenever purchaseDate changes
+  useEffect(() => {
+    if (purchaseDate) {
+      const duration = formatDistanceToNow(purchaseDate);
+      setUsageDuration(duration);
+    } else {
+      setUsageDuration("");
+    }
+  }, [purchaseDate]);
 
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
@@ -55,7 +71,15 @@ export default function SubmitReview() {
     setLoading(true);
 
     if (!productId) { setError("Product ID missing"); setLoading(false); return; }
-    if (!usageDuration) { setError("Please specify how long you have used this product"); setLoading(false); return; }
+    if (!purchaseDate) { setError("Please specifying your purchase date"); setLoading(false); return; }
+
+    // Final validation check
+    if (releaseDate && isBefore(startOfDay(purchaseDate), startOfDay(releaseDate))) {
+      setError(`Purchase date cannot be before product release date (${releaseDate.toLocaleDateString()})`);
+      setLoading(false);
+      return;
+    }
+
     if (!comment || comment.length < 50) { setError("Comment must be at least 50 characters"); setLoading(false); return; }
 
     try {
@@ -69,6 +93,7 @@ export default function SubmitReview() {
           recommend,
           productModel,
           usageDuration,
+          purchaseDate,
           proof,
           reviewer: user?.name || "Anonymous User",
           userId: user?._id || null,
@@ -102,6 +127,7 @@ export default function SubmitReview() {
       setSuccess(true);
       setComment("");
       setProductModel("");
+      setPurchaseDate(null);
       setUsageDuration("");
       setFileName("");
       setProof("");
@@ -194,17 +220,36 @@ export default function SubmitReview() {
           </label>
 
           <span className="text-[8px] font-bold leading-3 text-Grey-2 lg:text-[12px]">
-            How long have you used this product?<span className="text-red-600">*</span>
+            When did you purchase this product?<span className="text-red-600">*</span>
           </span>
-          <label className="inline-flex items-center rounded px-2 py-1.5 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2">
-            <input
-              type="text"
-              value={usageDuration}
-              onChange={(e) => setUsageDuration(e.target.value)}
-              placeholder="1 month, 3 month, 1 year"
-              className="w-full text-[10px] text-Grey-2 outline-none lg:text-[14px] lg:placeholder:text-[14px]"
+          <div className="relative w-full">
+            <DatePicker
+              selected={purchaseDate}
+              onChange={(date) => {
+                setPurchaseDate(date);
+                setError(""); 
+              }}
+              placeholderText="Select purchase date"
+              maxDate={new Date()}
+              minDate={releaseDate}
+              dateFormat="MMMM d, yyyy"
+              showYearDropdown
+              scrollableYearDropdown
+              yearDropdownItemNumber={10}
+              className="w-full rounded px-2 py-1.5 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2 text-[10px] text-Grey-2 outline-none lg:text-[14px] lg:placeholder:text-[14px] bg-transparent"
+              popperPlacement="bottom-start"
             />
-          </label>
+            {usageDuration && (
+              <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[8px] lg:text-[10px] text-gray-400 pointer-events-none">
+                {usageDuration} ago
+              </span>
+            )}
+          </div>
+          {releaseDate && (
+            <span className="text-[7px] lg:text-[10px] text-gray-400 -mt-1">
+              Note: This product was released on {releaseDate.toLocaleDateString()}
+            </span>
+          )}
 
           <label className="flex flex-col gap-1 lg:gap-2">
             <span className="text-[8px] font-bold leading-3 text-Grey-2 lg:text-[12px]">
@@ -264,7 +309,16 @@ export default function SubmitReview() {
             </label>
           </label>
 
-          {error && <p className="text-xs text-red-600">{error}</p>}
+          {error && (
+            <div className="flex items-center gap-2 p-2 rounded-md bg-red-50 border border-red-100 text-red-600 animate-in fade-in slide-in-from-top-1 duration-300">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+              <p className="text-[10px] lg:text-xs font-medium">{error}</p>
+            </div>
+          )}
 
           <button
             onClick={handleSubmit}
