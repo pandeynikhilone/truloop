@@ -32,6 +32,11 @@ const reviewSchema = new mongoose.Schema(
       required: true
     },
 
+    purchaseDate: {
+      type: Date,
+      required: false
+    },
+
     recommend: {
       type: String, 
       enum: ["Yes", "No"],

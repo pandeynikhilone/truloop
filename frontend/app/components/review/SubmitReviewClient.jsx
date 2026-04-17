@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { formatDistanceToNow, isBefore, startOfDay } from "date-fns";
 
 export default function SubmitReviewClient() {
   const searchParams = useSearchParams();
@@ -15,6 +18,8 @@ export default function SubmitReviewClient() {
   const [comment, setComment] = useState("");
   const [recommend, setRecommend] = useState("Yes");
   const [productModel, setProductModel] = useState(queryModel);
+  const [releaseDate, setReleaseDate] = useState(null);
+  const [purchaseDate, setPurchaseDate] = useState(null);
   const [usageDuration, setUsageDuration] = useState("");
   const [fileName, setFileName] = useState("");
   const [proof, setProof] = useState("");
@@ -25,7 +30,7 @@ export default function SubmitReviewClient() {
   const [newPoints, setNewPoints] = useState(0);               
 
   useEffect(() => {
-    if (productId && !productModel) {
+    if (productId) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`)
         .then((res) => {
           if (!res.ok) throw new Error("Failed to fetch product");
@@ -33,10 +38,21 @@ export default function SubmitReviewClient() {
         })
         .then((data) => {
           if (data && data.name) setProductModel(data.name);
+          if (data && data.releaseDate) setReleaseDate(new Date(data.releaseDate));
         })
         .catch((err) => console.error(err));
     }
-  }, [productId, productModel]);
+  }, [productId]);
+
+  // Update usageDuration string whenever purchaseDate changes
+  useEffect(() => {
+    if (purchaseDate) {
+      const duration = formatDistanceToNow(purchaseDate);
+      setUsageDuration(duration);
+    } else {
+      setUsageDuration("");
+    }
+  }, [purchaseDate]);
 
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
@@ -74,7 +90,15 @@ export default function SubmitReviewClient() {
     setLoading(true);
 
     if (!productId) { setError("Product ID missing"); setLoading(false); return; }
-    if (!usageDuration) { setError("Please specify how long you have used this product"); setLoading(false); return; }
+    if (!purchaseDate) { setError("Please specifying your purchase date"); setLoading(false); return; }
+    
+    // Final validation check (just in case)
+    if (releaseDate && isBefore(startOfDay(purchaseDate), startOfDay(releaseDate))) {
+      setError(`Purchase date cannot be before product release date (${releaseDate.toLocaleDateString()})`);
+      setLoading(false);
+      return;
+    }
+
     if (!comment || comment.length < 50) { setError("Comment must be at least 50 characters"); setLoading(false); return; }
 
     try {
@@ -88,6 +112,7 @@ export default function SubmitReviewClient() {
           recommend,
           productModel,
           usageDuration,
+          purchaseDate,
           proof,
           reviewer: user?.name || "Anonymous User",
           userId: user?._id || null,
@@ -114,6 +139,7 @@ export default function SubmitReviewClient() {
       setSuccess(true);
       setComment("");
       setProductModel("");
+      setPurchaseDate(null);
       setUsageDuration("");
       setFileName("");
       setProof("");
@@ -200,17 +226,36 @@ export default function SubmitReviewClient() {
           </label>
 
           <span className="text-[8px] font-bold leading-3 text-Grey-2 lg:text-[12px]">
-            How long have you used this product?<span className="text-red-600">*</span>
+            When did you purchase this product?<span className="text-red-600">*</span>
           </span>
-          <label className="inline-flex items-center rounded px-2 py-1.5 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2">
-            <input
-              type="text"
-              value={usageDuration}
-              onChange={(e) => setUsageDuration(e.target.value)}
-              placeholder="1 month, 3 month, 1 year"
-              className="w-full text-[10px] text-Grey-2 outline-none lg:text-[14px] lg:placeholder:text-[14px]"
+          <div className="relative w-full">
+            <DatePicker
+              selected={purchaseDate}
+              onChange={(date) => {
+                setPurchaseDate(date);
+                setError(""); // Clear error on change
+              }}
+              placeholderText="Select purchase date"
+              maxDate={new Date()}
+              minDate={releaseDate}
+              dateFormat="MMMM d, yyyy"
+              showYearDropdown
+              scrollableYearDropdown
+              yearDropdownItemNumber={10}
+              className="w-full rounded px-2 py-1.5 outline-[1.26px] outline-offset-[-1.26px] outline-Grey-2 text-[10px] text-Grey-2 outline-none lg:text-[14px] lg:placeholder:text-[14px] bg-transparent"
+              popperPlacement="bottom-start"
             />
-          </label>
+            {usageDuration && (
+              <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[8px] lg:text-[10px] text-gray-400 pointer-events-none">
+                {usageDuration} ago
+              </span>
+            )}
+          </div>
+          {releaseDate && (
+            <span className="text-[7px] lg:text-[10px] text-gray-400 -mt-1">
+              Note: This product was released on {releaseDate.toLocaleDateString()}
+            </span>
+          )}
 
           <label className="flex flex-col gap-1 lg:gap-2">
             <span className="text-[8px] font-bold leading-3 text-Grey-2 lg:text-[12px]">

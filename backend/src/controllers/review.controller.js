@@ -14,6 +14,7 @@ export const createReview = async (req, res) => {
       reviewer,
       productModel,
       usageDuration,
+      purchaseDate,
       recommend,
       proof,
       userId,                                  
@@ -32,11 +33,25 @@ export const createReview = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    // ✅ NEW: Validate Proof (Receipt) content using OCR
     if (proof) {
       const validation = await validateProof(proof, product.name);
       if (!validation.isValid) {
         return res.status(400).json({ message: validation.message });
+      }
+    }
+
+    if (purchaseDate && product.releaseDate) {
+      const pDate = new Date(purchaseDate);
+      const rDate = new Date(product.releaseDate);
+      
+      // Zero out time for date-only comparison
+      pDate.setHours(0, 0, 0, 0);
+      rDate.setHours(0, 0, 0, 0);
+
+      if (pDate < rDate) {
+        return res.status(400).json({ 
+          message: `Purchase date cannot be before product release date (${rDate.toLocaleDateString()})` 
+        });
       }
     }
 
@@ -47,6 +62,7 @@ export const createReview = async (req, res) => {
       reviewerName: reviewer,
       productModel,
       usageDuration,
+      purchaseDate,
       recommend,
       proof,
       userId: userId && mongoose.Types.ObjectId.isValid(userId) ? userId : null,
@@ -61,7 +77,6 @@ export const createReview = async (req, res) => {
     product.reviewCount = reviews.length;
     await product.save();
 
-    // ✅ NEW REWARD LOGIC: Initial -> Coupon, Update -> Points
     const reviewType = req.body.reviewType || "initial";
     let pointsAwarded = false;
     let updatedPoints = null;
