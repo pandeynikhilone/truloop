@@ -38,7 +38,12 @@ export default function SubmitReviewClient() {
         })
         .then((data) => {
           if (data && data.name) setProductModel(data.name);
-          if (data && data.releaseDate) setReleaseDate(new Date(data.releaseDate));
+          // Use releaseDate if available, otherwise fallback to createdAt
+          if (data && data.releaseDate) {
+            setReleaseDate(new Date(data.releaseDate));
+          } else if (data && data.createdAt) {
+            setReleaseDate(new Date(data.createdAt));
+          }
         })
         .catch((err) => console.error(err));
     }
@@ -239,6 +244,7 @@ export default function SubmitReviewClient() {
               maxDate={new Date()}
               minDate={releaseDate}
               dateFormat="MMMM d, yyyy"
+              onKeyDown={(e) => e.preventDefault()} // Disable manual typing
               showYearDropdown
               scrollableYearDropdown
               yearDropdownItemNumber={10}
