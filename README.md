@@ -1,5 +1,7 @@
 # TruLoop: Product Review Platform
 
+[![CI](https://github.com/pandeynikhilone/truloop/actions/workflows/ci.yml/badge.svg)](https://github.com/pandeynikhilone/truloop/actions/workflows/ci.yml)
+
 TruLoop is a full-stack project for browsing products and sharing detailed reviews based on real usage. The goal is to make it easier to compare products using practical feedback instead of relying only on marketing copy.
 
 ## Current features and scope
@@ -58,13 +60,16 @@ npm run dev:frontend
 npm run dev:backend
 ```
 
-## Build
+## Build and test
 
 ```bash
 npm run build
+npm test
 ```
 
-This builds the frontend. The Express backend runs directly on Node.js and does not need a separate compilation step. For a production run, configure the environment variables and start the frontend and backend using your deployment platform's service commands.
+The build command creates the production frontend build. The test command runs focused Node.js tests for receipt-proof validation guardrails that do not require a database, OCR run, or third-party credentials. GitHub Actions also performs clean dependency installs and checks backend JavaScript syntax.
+
+The Express backend runs directly on Node. Receipt text matching is heuristic validation, not proof that a purchase is genuine.js and does not need a separate compilation step. For a production run, configure the environment variables and start the frontend and backend using your deployment platform's service commands.
 
 ## Before deploying
 
