@@ -1,73 +1,80 @@
-# Truloop: Real Reviews from Real People
+# TruLoop: Product Review Platform
 
-Tired of sifting through sponsored posts and fake reviews? Truloop is here to change that. We're building a community-driven platform dedicated to providing honest, unbiased, and real-world product reviews. Our mission is to empower consumers to make informed decisions based on authentic user experiences.
+TruLoop is a full-stack project for browsing products and sharing detailed reviews based on real usage. The goal is to make it easier to compare products using practical feedback instead of relying only on marketing copy.
 
-## The Problem
+## Current features and scope
 
-In today's saturated online market, it's increasingly difficult to find trustworthy information about products. Marketing fluff and incentivized reviews often drown out the voices of genuine users, making it a challenge to know what you're *really* buying.
+- Browse products and their specifications.
+- Read and submit product reviews.
+- Use a component-based Next.js frontend.
+- Use an Express API and MongoDB for application data.
+- Includes receipt-text checks for uploaded proof. These checks are basic validation and should not be treated as proof that a purchase is genuine.
 
-## Our Solution
+## Tech stack
 
-Truloop cuts through the noise. We provide a platform where you can:
+- **Frontend:** Next.js, React, Tailwind CSS
+- **Backend:** Node.js, Express
+- **Database:** MongoDB with Mongoose
+- **Other libraries:** JSON Web Tokens, bcryptjs, Cloudinary, Tesseract.js, pdf-parse
 
-1. Discover Products: Browse a growing catalog of products.
-2. Get the Specs: View detailed product information and specifications.
-3. Read Honest Reviews: Access in-depth reviews from real users who share their genuine experiences—the good, the bad, and the buggy.
-4. Share Your Voice: Contribute to the community by writing your own detailed reviews and sharing your unique perspective.
+## Project structure
 
-We believe in the power of authentic feedback. That's why we encourage our users to share their "real usage experience," focusing on everything from battery life to software stability.
-
-## Project Structure
-
-```
+```text
 truloop/
-├── frontend/          # Next.js frontend application
-├── backend/           # Express backend API
-├── package.json       # Workspace configuration
-└── README.md
+├── frontend/       # Next.js application
+├── backend/        # Express API
+├── package.json    # Root scripts and backend workspace
+└── package-lock.json
 ```
 
-## Getting Started
+## Requirements
 
-### Prerequisites
+- Node.js 20.19 or later is recommended.
+- npm
 
-- [Node.js](https://nodejs.org/) (v18.x or later recommended)
-- A package manager: [npm](https://www.npmjs.com/), [yarn](https://yarnpkg.com/), [pnpm](https://pnpm.io/), or [bun](https://bun.sh/)
+## Run locally
 
-### Option 1: Run Both Services Together (Recommended)
-
-Install workspace dependencies and run both frontend and backend concurrently:
+Install the root/backend dependencies, then install the frontend dependencies:
 
 ```bash
-npm install
+npm ci
+npm run install:frontend
+```
+
+Create local environment files from the example files where available. Do not commit real tokens, database credentials, or provider API keys. The backend and frontend each need their own environment configuration; see `backend/.env.example` and `frontend/.env.example` if present.
+
+Start both services from the repository root:
+
+```bash
 npm run dev
 ```
 
-### Option 2: Run Services Separately
+The frontend normally starts at [http://localhost:3000](http://localhost:3000), and the backend uses port 8080 unless configured otherwise.
 
-**Backend:**
-```bash
-cd backend
-npm install
-npm run dev
-```
-The backend will be running on port 8080 by default.
+You can also run each service separately:
 
-**Frontend:**
 ```bash
-cd frontend
-npm install
-npm run dev
+npm run dev:frontend
+npm run dev:backend
 ```
 
-Once both services are running, open [http://localhost:3000](http://localhost:3000) in your browser to see the Truloop application.
+## Build
 
-## Available Scripts
+```bash
+npm run build
+```
 
-From the root directory:
-- `npm run dev` - Run both frontend and backend concurrently
-- `npm run dev:frontend` - Run only the frontend
-- `npm run dev:backend` - Run only the backend
-- `npm run build:frontend` - Build the frontend for production
-- `npm run start:frontend` - Start the frontend production server
+This builds the frontend. The Express backend runs directly on Node.js and does not need a separate compilation step. For a production run, configure the environment variables and start the frontend and backend using your deployment platform's service commands.
 
+## Before deploying
+
+- Configure allowed frontend origins in the backend CORS settings.
+- Use strong, unique secrets for JWT signing and external services.
+- Validate and limit uploaded files on the server.
+- Test authentication, review submission, and error responses.
+- Do not treat receipt OCR or keyword matching as proof of purchase authenticity.
+
+## Links
+
+- [Source code](https://github.com/pandeynikhilone/truloop)
+- [Live demo](https://truloop.vercel.app/)
