@@ -1,0 +1,55 @@
+name: TruLoop CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "package.json"
+      - "package-lock.json"
+      - "frontend/**"
+      - "backend/**"
+      - ".github/workflows/ci.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "package.json"
+      - "package-lock.json"
+      - "frontend/**"
+      - "backend/**"
+      - ".github/workflows/ci.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: truloop-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+
+      - name: Install backend workspace dependencies
+        run: npm ci
+
+      - name: Install frontend dependencies from lockfile
+        run: npm ci --prefix frontend
+
+      - name: Check backend JavaScript syntax
+        run: find backend/src -name "*.js" -print0 | xargs -0 -n1 node --check
+
+      - name: Build frontend for production
+        run: npm run build
