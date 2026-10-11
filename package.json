@@ -16,7 +16,7 @@
     "start:backend": "npm run start --workspace=backend",
     "build": "npm run build:frontend",
     "start": "npm run start:frontend",
-    "install:frontend": "npm install --prefix frontend"
+    "install:frontend": "npm ci --prefix frontend"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
