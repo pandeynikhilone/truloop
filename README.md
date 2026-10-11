@@ -41,7 +41,7 @@ npm ci
 npm run install:frontend
 ```
 
-Create local environment files from the example files where available. Do not commit real tokens, database credentials, or provider API keys. The backend and frontend each need their own environment configuration; see `backend/.env.example` and `frontend/.env.example` if present.
+Create local environment files from the example files where available. Do not commit real tokens, database credentials, or provider API keys. The backend and frontend each need their own environment configuration. Copy `backend/.env.example` to `backend/.env` and `frontend/.env.example` to `frontend/.env`, then update the values for your setup.
 
 Start both services from the repository root:
 
@@ -49,7 +49,7 @@ Start both services from the repository root:
 npm run dev
 ```
 
-The frontend normally starts at [http://localhost:3000](http://localhost:3000), and the backend uses port 8080 unless configured otherwise.
+The frontend normally starts at [http://localhost:3000](http://localhost:3000), and the backend uses port 5000 unless configured otherwise.
 
 You can also run each service separately:
 
